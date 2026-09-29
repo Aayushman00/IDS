@@ -28,7 +28,7 @@ All of these are also tagged `[paper]` or `[assumed]` in `config.py`.
 | Input features | paper says 45 but does not say which of the 46 CSV features was dropped | the 46 original features, minus columns that are constant on train |
 | Data subset | paper: 1,191,264 train/val rows (80/20) plus a separate 1,175,692-row test subset | 1.4 M random rows, de-duplicated, stratified 70/15/15 split (project brief) |
 | Normalisation, imbalance handling, de-duplication | not mentioned in the paper | MinMax fitted on train, `class_weight="balanced"`, exact duplicates removed before splitting |
-| Paper metrics | only the accuracy (~98.42 %) is confirmed | `config.PAPER_RESULTS`: accuracy 98.42, every other paper metric `None` (TODO: fill from the published paper). Nothing else is compared or plotted for the paper. |
+| Paper metrics | published abstract (DOI 10.1109/PAIS62114.2024.10541178, via OpenAlex/Crossref) confirms accuracy 98.42 %, F1 98.57 %, FPR 9.17 %, loss 0.0275 | used in `config.PAPER_RESULTS`. Precision and recall are only in the full-text Table IV (not accessible), so they stay `None` with a TODO. |
 | Metric convention | unknown whether the paper's P/R/F1 are weighted or attack-positive | we report both, plus benign-class P/R/F1, FPR, FNR, MCC, ROC-AUC, PR-AUC and an always-malicious baseline |
 
 We also save a validation-split classification report (`classification_report_CNN-LSTM_validation.txt`),
@@ -212,7 +212,7 @@ columns, FPR, MCC and PR-AUC show what the models actually learn.
 | MLP | 98.78 | 100.00 | 98.75 | 99.37 | 68.62 | 99.88 | 81.35 | 0.12 | 1.25 | 0.8227 | 0.9980 | 0.9999 |
 | RandomForest | 99.61 | 99.95 | 99.65 | 99.80 | 88.55 | 98.08 | 93.07 | 1.92 | 0.35 | 0.9300 | 0.9995 | 1.0000 |
 | Majority (always malicious) | 97.34 | 97.34 | 100.00 | 98.65 | 0.00 | 0.00 | 0.00 | 100.00 | 0.00 | 0.0000 | 0.5000 | 0.9734 |
-| Paper (Gueriani et al., 2024) | 98.42 | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| Paper (Gueriani et al., 2024) | 98.42 | n/a | n/a | n/a | n/a | n/a | n/a | 9.17 | n/a | n/a | n/a | n/a |
 
 **Key findings (computed from the table):**
 
@@ -222,8 +222,9 @@ columns, FPR, MCC and PR-AUC show what the models actually learn.
 * LSTM branch ablation: CNN-LSTM vs CNN-only MCC difference -0.008 (accuracy -0.07 pp) - no measurable benefit from the LSTM branch on this split.
 * A Random Forest trained on only 300,000 rows is the strongest model (accuracy 99.61%, MCC 0.930), trading a slightly higher FPR (1.92%) for far fewer missed attacks (FNR 0.35% vs 1.29%). The paper did not compare against tree ensembles.
 
-Paper: only the accuracy (98.42%) is used; the paper's other metrics are left as `None` in
-`config.PAPER_RESULTS` until checked against the published paper. Deviation:
+Paper values are from the **published abstract** (DOI 10.1109/PAIS62114.2024.10541178): accuracy
+98.42%, F1 98.57% (averaging not stated), FPR 9.17%, loss 0.0275. Precision/recall appear only in the
+full-text Table IV and stay `None` in `config.PAPER_RESULTS`. The paper's F1 is compared in §7.5. Deviation:
 **+0.32 pp** accuracy
 (see `outputs/metrics/deviation_analysis.txt`).
 
@@ -259,24 +260,24 @@ Validation split (the paper reported its classification report on validation dat
 
 ### 7.5 Our results vs the paper
 
-| metric                                 |   paper |   ours_cnn_lstm |   majority_baseline |   abs_diff_vs_paper |   rel_diff_vs_paper_% |
-|:---------------------------------------|--------:|----------------:|--------------------:|--------------------:|----------------------:|
-| Accuracy (%)                           |   98.42 |         98.7447 |             97.342  |              0.3247 |                  0.33 |
-| Precision, support-weighted (%)        |  nan    |         99.144  |             94.7546 |            nan      |                nan    |
-| Recall, support-weighted (%)           |  nan    |         98.7447 |             97.342  |            nan      |                nan    |
-| F1, support-weighted (%)               |  nan    |         98.8599 |             96.0308 |            nan      |                nan    |
-| Precision, malicious = positive (%)    |  nan    |         99.9955 |             97.342  |            nan      |                nan    |
-| Recall / detection rate, malicious (%) |  nan    |         98.7149 |            100      |            nan      |                nan    |
-| F1, malicious (%)                      |  nan    |         99.351  |             98.6531 |            nan      |                nan    |
-| Benign precision (%)                   |  nan    |         67.9621 |              0      |            nan      |                nan    |
-| Benign recall = specificity (%)        |  nan    |         99.8363 |              0      |            nan      |                nan    |
-| Benign F1 (%)                          |  nan    |         80.8719 |              0      |            nan      |                nan    |
-| False positive rate (%)                |  nan    |          0.1637 |            100      |            nan      |                nan    |
-| False negative rate (%)                |  nan    |          1.2851 |              0      |            nan      |                nan    |
-| Matthews corr. coef.                   |  nan    |          0.8184 |              0      |            nan      |                nan    |
-| ROC-AUC                                |  nan    |          0.9977 |              0.5    |            nan      |                nan    |
-| PR-AUC (average precision)             |  nan    |          0.9999 |              0.9734 |            nan      |                nan    |
-| Cross-entropy loss                     |  nan    |          0.0443 |              0.4238 |            nan      |                nan    |
+| metric                                 |    paper |   ours_cnn_lstm |   majority_baseline |   abs_diff_vs_paper |   rel_diff_vs_paper_% |
+|:---------------------------------------|---------:|----------------:|--------------------:|--------------------:|----------------------:|
+| Accuracy (%)                           |  98.42   |         98.7447 |             97.342  |              0.3247 |                 0.33  |
+| Precision, support-weighted (%)        | n/a      |         99.144  |             94.7546 |            n/a      |               n/a     |
+| Recall, support-weighted (%)           | n/a      |         98.7447 |             97.342  |            n/a      |               n/a     |
+| F1, support-weighted (%)               |  98.57   |         98.8599 |             96.0308 |              0.2899 |                 0.294 |
+| Precision, malicious = positive (%)    | n/a      |         99.9955 |             97.342  |            n/a      |               n/a     |
+| Recall / detection rate, malicious (%) | n/a      |         98.7149 |            100      |            n/a      |               n/a     |
+| F1, malicious (%)                      | n/a      |         99.351  |             98.6531 |            n/a      |               n/a     |
+| Benign precision (%)                   | n/a      |         67.9621 |              0      |            n/a      |               n/a     |
+| Benign recall = specificity (%)        | n/a      |         99.8363 |              0      |            n/a      |               n/a     |
+| Benign F1 (%)                          | n/a      |         80.8719 |              0      |            n/a      |               n/a     |
+| False positive rate (%)                |   9.17   |          0.1637 |            100      |             -9.0063 |               -98.215 |
+| False negative rate (%)                | n/a      |          1.2851 |              0      |            n/a      |               n/a     |
+| Matthews corr. coef.                   | n/a      |          0.8184 |              0      |            n/a      |               n/a     |
+| ROC-AUC                                | n/a      |          0.9977 |              0.5    |            n/a      |               n/a     |
+| PR-AUC (average precision)             | n/a      |          0.9999 |              0.9734 |            n/a      |               n/a     |
+| Cross-entropy loss                     |   0.0275 |          0.0443 |              0.4238 |              0.0168 |                61.091 |
 
 ![Ours vs paper](outputs/figures/18_paper_comparison.png)
 
@@ -304,7 +305,34 @@ Validation split (the paper reported its classification report on validation dat
 
 ![Edge](outputs/figures/23_edge_tflite_benchmark.png)
 
-### 7.8 Where the model errs
+### 7.8 Additional experiments: threshold and class weights
+
+Decision threshold chosen by maximising MCC on the **validation** split (test untouched), class-weighted model (`tools/tune_threshold.py`):
+
+| Threshold (test set) | Accuracy | Attack recall | Benign recall | Benign precision | FPR | FNR | MCC | FP | FN |
+|---|---|---|---|---|---|---|---|---|---|
+| 0.5 (default) | 98.74 | 98.71 | 99.84 | 67.96 | 0.164 | 1.285 | 0.8184 | 8 | 2,300 |
+| 0.0480 (tuned on validation) | 99.08 | 99.19 | 94.74 | 76.25 | 5.259 | 0.806 | 0.8455 | 257 | 1,442 |
+
+![Threshold](outputs/figures/24_threshold_tuning.png)
+
+Same architecture and settings **without class weights** (`--balance none`, `outputs_nobalance/`), closer to the paper's unstated setup:
+
+| Model | Accuracy | F1 (weighted) | Benign R | FPR | FNR | MCC | Loss | FP | FN |
+|---|---|---|---|---|---|---|---|---|---|
+| CNN-LSTM, no class weights | 99.30 | 99.32 | 93.29 | 6.71 | 0.53 | 0.8751 | 0.0162 | 328 | 951 |
+| Paper | 98.42 | 98.57 | n/a | 9.17 | n/a | n/a | 0.0275 | n/a | n/a |
+
+Threshold tuning for the unweighted model:
+
+| Threshold (test set) | Accuracy | Attack recall | Benign recall | Benign precision | FPR | FNR | MCC | FP | FN |
+|---|---|---|---|---|---|---|---|---|---|
+| 0.5 (default) | 99.30 | 99.47 | 93.29 | 82.74 | 6.712 | 0.531 | 0.8751 | 328 | 951 |
+| 0.5430 (tuned on validation) | 99.28 | 99.41 | 94.48 | 81.36 | 5.525 | 0.591 | 0.8731 | 270 | 1,058 |
+
+Without class weights the errors move from missed attacks to false alarms; the FPR and loss land much closer to the paper's, which suggests the paper did not re-weight classes.
+
+### 7.9 Where the model errs
 
 ![Errors per attack type](outputs/figures/20_error_by_attack_type.png)
 

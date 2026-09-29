@@ -15,19 +15,22 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 
 # --------------------------------------------------------------------------
 # Numbers reported by Gueriani, Kheddar & Mazari (PAIS 2024).
-# Only the accuracy (~98.42 %) is confirmed from our project deck. Every other
-# value stays None until someone checks it against the published paper; code
-# that compares with the paper skips None entries instead of inventing them.
+# CONFIRMED values come from the abstract of the PUBLISHED version
+# (DOI 10.1109/PAIS62114.2024.10541178, abstract retrieved via OpenAlex/Crossref
+# metadata for that DOI): accuracy, loss, FPR and F1. Precision and recall only
+# appear in Table IV of the full text, which we could not access; they stay
+# None (the arXiv preprint 2405.18624v1 lists 98.85 / 98.42, unverified against
+# the published text). Code that compares with the paper skips None entries.
 # --------------------------------------------------------------------------
 PAPER_RESULTS: dict[str, Optional[float]] = {
-    "accuracy": 98.42,        # [paper] confirmed (abstract / project deck)
-    "precision": None,        # TODO: fill from the paper (state if weighted or attack-positive)
-    "recall": None,           # TODO: fill from the paper
-    "f1": None,               # TODO: fill from the paper
-    "fpr": None,              # TODO: fill from the paper
-    "loss": None,             # TODO: fill from the paper
-    "roc_auc": None,          # TODO: fill from the paper
-    "benign_precision": None,  # TODO: fill from the paper's classification report
+    "accuracy": 98.42,        # [paper] published abstract (also project deck)
+    "f1": 98.57,              # [paper] published abstract; averaging not stated (preprint: weighted)
+    "fpr": 9.17,              # [paper] published abstract
+    "loss": 0.0275,           # [paper] published abstract
+    "precision": None,        # TODO: Table IV of the published paper (preprint: 98.85, weighted)
+    "recall": None,           # TODO: Table IV of the published paper (preprint: 98.42, weighted)
+    "roc_auc": None,          # not reported numerically (only a ROC figure)
+    "benign_precision": None,  # TODO: published classification report, if needed
     "benign_recall": None,     # TODO
     "benign_f1": None,         # TODO
 }

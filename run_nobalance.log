@@ -1,0 +1,141 @@
+===== 2026-09-29 11:46:52 launching: /home/blackscythe/venvs/ids/bin/python -u main.py --stage prepare --sample 1400000 --balance none --output_dir outputs_nobalance && /home/blackscythe/venvs/ids/bin/python -u main.py --stage train,compare --sample 1400000 --epochs 25 --balance none --output_dir outputs_nobalance
+2026-09-29 11:46:58,912 INFO    main: Stages: ['prepare'] | output: outputs_nobalance
+2026-09-29 11:46:59,942 INFO    train: TensorFlow 2.20.0 | device: /physical_device:GPU:0 | mixed precision: False
+2026-09-29 11:46:59,943 INFO    runtime: ==================== STAGE prepare ====================
+2026-09-29 11:46:59,944 INFO    runtime: [RAM] prepare start: RSS 0.88 GB | system used 1.48 / 8.18 GB, available 6.70 GB
+2026-09-29 11:47:00,054 INFO    data_loader: Found 3 CSV files, label column 'label'
+2026-09-29 11:47:00,059 INFO    data_loader: Loading cached sample sample_1400000_3f_seed42.pkl
+2026-09-29 11:47:01,859 INFO    runtime: [RAM] after CSV load: RSS 1.15 GB | system used 1.74 / 8.18 GB, available 6.44 GB
+2026-09-29 11:47:03,852 INFO    preprocessing: Removed 173,602 exact duplicate rows
+2026-09-29 11:47:06,503 INFO    preprocessing: Dropping 5 constant columns: ['ece_flag_number', 'cwr_flag_number', 'Telnet', 'SMTP', 'IRC']
+2026-09-29 11:47:06,984 INFO    preprocessing: train n=857,995   Benign=22,808, Malicious=835,187
+2026-09-29 11:47:06,985 INFO    preprocessing: val   n=183,857   Benign=4,887, Malicious=178,970
+2026-09-29 11:47:06,986 INFO    preprocessing: test  n=183,857   Benign=4,887, Malicious=178,970
+2026-09-29 11:47:07,164 INFO    preprocessing: Leakage checks passed (disjoint splits, train-only scaler & class weights)
+2026-09-29 11:47:07,194 INFO    runtime: [RAM] after split + scale: RSS 1.40 GB | system used 1.99 / 8.18 GB, available 6.19 GB
+2026-09-29 11:47:14,889 INFO    preprocessing: Cached prepared arrays in outputs_nobalance/cache
+2026-09-29 11:47:15,186 INFO    runtime: [RAM] prepare end: RSS 1.40 GB | system used 1.98 / 8.18 GB, available 6.20 GB
+2026-09-29 11:47:15,189 INFO    runtime: [RAM] prepare peak RSS 2.05 GB, min system available 5.54 GB, 15.2 s
+2026-09-29 11:47:15,289 INFO    main: Done. Figures: outputs_nobalance/figures | metrics: outputs_nobalance/metrics
+2026-09-29 11:47:22,312 INFO    main: Stages: ['train', 'compare'] | output: outputs_nobalance
+2026-09-29 11:47:22,746 INFO    train: TensorFlow 2.20.0 | device: /physical_device:GPU:0 | mixed precision: False
+2026-09-29 11:47:22,747 INFO    runtime: ==================== STAGE train ====================
+2026-09-29 11:47:22,748 INFO    runtime: [RAM] train start: RSS 0.89 GB | system used 1.46 / 8.18 GB, available 6.71 GB
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790682443.689858     418 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5560 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4060 Laptop GPU, pci bus id: 0000:01:00.0, compute capability: 8.9
+2026-09-29 11:47:24,815 INFO    main: CNN-LSTM params: {'total_params': 79902, 'trainable_params': 79774}
+2026-09-29 11:47:24,840 INFO    runtime: [RAM] CNN-LSTM fit start: RSS 1.09 GB | system used 1.62 / 8.18 GB, available 6.56 GB
+Epoch 1/25
+2026-09-29 11:48:16,558 INFO    train: [RAM] epoch 1: RSS 2.05 GB | system used 3.15 / 8.18 GB, available 5.03 GB
+3352/3352 - 50s - 15ms/step - accuracy: 0.9797 - loss: 0.0711 - val_accuracy: 0.9860 - val_loss: 0.0289 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 2/25
+2026-09-29 11:49:02,138 INFO    train: [RAM] epoch 2: RSS 2.06 GB | system used 2.27 / 8.18 GB, available 5.91 GB
+3352/3352 - 46s - 14ms/step - accuracy: 0.9876 - loss: 0.0253 - val_accuracy: 0.9888 - val_loss: 0.0227 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 3/25
+2026-09-29 11:49:45,112 INFO    train: [RAM] epoch 3: RSS 2.08 GB | system used 2.33 / 8.18 GB, available 5.85 GB
+3352/3352 - 43s - 13ms/step - accuracy: 0.9887 - loss: 0.0226 - val_accuracy: 0.9897 - val_loss: 0.0214 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 4/25
+2026-09-29 11:50:34,247 INFO    train: [RAM] epoch 4: RSS 2.08 GB | system used 2.46 / 8.18 GB, available 5.72 GB
+3352/3352 - 49s - 15ms/step - accuracy: 0.9892 - loss: 0.0216 - val_accuracy: 0.9890 - val_loss: 0.0210 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 5/25
+2026-09-29 11:51:18,434 INFO    train: [RAM] epoch 5: RSS 2.10 GB | system used 2.32 / 8.18 GB, available 5.86 GB
+3352/3352 - 44s - 13ms/step - accuracy: 0.9898 - loss: 0.0205 - val_accuracy: 0.9889 - val_loss: 0.0225 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 6/25
+2026-09-29 11:52:01,660 INFO    train: [RAM] epoch 6: RSS 2.10 GB | system used 2.32 / 8.18 GB, available 5.85 GB
+3352/3352 - 43s - 13ms/step - accuracy: 0.9901 - loss: 0.0200 - val_accuracy: 0.9908 - val_loss: 0.0189 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 7/25
+2026-09-29 11:52:47,201 INFO    train: [RAM] epoch 7: RSS 2.12 GB | system used 2.34 / 8.18 GB, available 5.84 GB
+3352/3352 - 46s - 14ms/step - accuracy: 0.9902 - loss: 0.0197 - val_accuracy: 0.9898 - val_loss: 0.0202 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 8/25
+
+Epoch 8: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+2026-09-29 11:53:35,141 INFO    train: [RAM] epoch 8: RSS 2.12 GB | system used 2.35 / 8.18 GB, available 5.83 GB
+3352/3352 - 48s - 14ms/step - accuracy: 0.9906 - loss: 0.0193 - val_accuracy: 0.9904 - val_loss: 0.0197 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 9/25
+2026-09-29 11:54:22,879 INFO    train: [RAM] epoch 9: RSS 2.13 GB | system used 2.35 / 8.18 GB, available 5.83 GB
+3352/3352 - 48s - 14ms/step - accuracy: 0.9912 - loss: 0.0184 - val_accuracy: 0.9915 - val_loss: 0.0179 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 10/25
+2026-09-29 11:55:07,510 INFO    train: [RAM] epoch 10: RSS 2.14 GB | system used 2.36 / 8.18 GB, available 5.82 GB
+3352/3352 - 45s - 13ms/step - accuracy: 0.9913 - loss: 0.0181 - val_accuracy: 0.9917 - val_loss: 0.0177 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 11/25
+2026-09-29 11:55:54,552 INFO    train: [RAM] epoch 11: RSS 2.14 GB | system used 2.36 / 8.18 GB, available 5.82 GB
+3352/3352 - 47s - 14ms/step - accuracy: 0.9915 - loss: 0.0179 - val_accuracy: 0.9919 - val_loss: 0.0174 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 12/25
+2026-09-29 11:56:36,343 INFO    train: [RAM] epoch 12: RSS 2.15 GB | system used 2.37 / 8.18 GB, available 5.81 GB
+3352/3352 - 42s - 12ms/step - accuracy: 0.9915 - loss: 0.0177 - val_accuracy: 0.9920 - val_loss: 0.0174 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 13/25
+
+Epoch 13: ReduceLROnPlateau reducing learning rate to 0.0002500000118743628.
+2026-09-29 11:57:16,126 INFO    train: [RAM] epoch 13: RSS 2.16 GB | system used 2.39 / 8.18 GB, available 5.79 GB
+3352/3352 - 40s - 12ms/step - accuracy: 0.9918 - loss: 0.0175 - val_accuracy: 0.9918 - val_loss: 0.0175 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 14/25
+2026-09-29 11:57:58,659 INFO    train: [RAM] epoch 14: RSS 2.17 GB | system used 2.40 / 8.18 GB, available 5.78 GB
+3352/3352 - 43s - 13ms/step - accuracy: 0.9922 - loss: 0.0169 - val_accuracy: 0.9925 - val_loss: 0.0167 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 15/25
+2026-09-29 11:58:40,902 INFO    train: [RAM] epoch 15: RSS 2.18 GB | system used 2.40 / 8.18 GB, available 5.78 GB
+3352/3352 - 42s - 13ms/step - accuracy: 0.9923 - loss: 0.0166 - val_accuracy: 0.9924 - val_loss: 0.0165 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 16/25
+2026-09-29 11:59:22,356 INFO    train: [RAM] epoch 16: RSS 2.19 GB | system used 2.41 / 8.18 GB, available 5.77 GB
+3352/3352 - 41s - 12ms/step - accuracy: 0.9925 - loss: 0.0164 - val_accuracy: 0.9926 - val_loss: 0.0163 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 17/25
+2026-09-29 12:00:01,307 INFO    train: [RAM] epoch 17: RSS 2.20 GB | system used 2.42 / 8.18 GB, available 5.76 GB
+3352/3352 - 39s - 12ms/step - accuracy: 0.9926 - loss: 0.0162 - val_accuracy: 0.9927 - val_loss: 0.0163 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 18/25
+2026-09-29 12:00:47,923 INFO    train: [RAM] epoch 18: RSS 2.20 GB | system used 2.42 / 8.18 GB, available 5.76 GB
+3352/3352 - 47s - 14ms/step - accuracy: 0.9927 - loss: 0.0161 - val_accuracy: 0.9928 - val_loss: 0.0161 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 19/25
+2026-09-29 12:01:31,627 INFO    train: [RAM] epoch 19: RSS 2.21 GB | system used 2.43 / 8.18 GB, available 5.75 GB
+3352/3352 - 44s - 13ms/step - accuracy: 0.9928 - loss: 0.0159 - val_accuracy: 0.9924 - val_loss: 0.0165 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 20/25
+
+Epoch 20: ReduceLROnPlateau reducing learning rate to 0.0001250000059371814.
+2026-09-29 12:02:17,089 INFO    train: [RAM] epoch 20: RSS 2.22 GB | system used 2.43 / 8.18 GB, available 5.74 GB
+3352/3352 - 45s - 14ms/step - accuracy: 0.9928 - loss: 0.0159 - val_accuracy: 0.9928 - val_loss: 0.0160 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 21/25
+2026-09-29 12:02:58,395 INFO    train: [RAM] epoch 21: RSS 2.23 GB | system used 2.44 / 8.18 GB, available 5.74 GB
+3352/3352 - 41s - 12ms/step - accuracy: 0.9931 - loss: 0.0154 - val_accuracy: 0.9931 - val_loss: 0.0156 - lr: 1.2500e-04 - learning_rate: 1.2500e-04
+Epoch 22/25
+2026-09-29 12:03:40,101 INFO    train: [RAM] epoch 22: RSS 2.23 GB | system used 2.45 / 8.18 GB, available 5.73 GB
+3352/3352 - 42s - 12ms/step - accuracy: 0.9931 - loss: 0.0153 - val_accuracy: 0.9931 - val_loss: 0.0157 - lr: 1.2500e-04 - learning_rate: 1.2500e-04
+Epoch 23/25
+
+Epoch 23: ReduceLROnPlateau reducing learning rate to 6.25000029685907e-05.
+2026-09-29 12:04:21,279 INFO    train: [RAM] epoch 23: RSS 2.25 GB | system used 2.46 / 8.18 GB, available 5.72 GB
+3352/3352 - 41s - 12ms/step - accuracy: 0.9932 - loss: 0.0153 - val_accuracy: 0.9928 - val_loss: 0.0160 - lr: 1.2500e-04 - learning_rate: 1.2500e-04
+Epoch 24/25
+2026-09-29 12:05:03,982 INFO    train: [RAM] epoch 24: RSS 2.25 GB | system used 2.47 / 8.18 GB, available 5.71 GB
+3352/3352 - 43s - 13ms/step - accuracy: 0.9933 - loss: 0.0151 - val_accuracy: 0.9931 - val_loss: 0.0156 - lr: 6.2500e-05 - learning_rate: 6.2500e-05
+Epoch 25/25
+
+Epoch 25: ReduceLROnPlateau reducing learning rate to 3.125000148429535e-05.
+2026-09-29 12:05:48,210 INFO    train: [RAM] epoch 25: RSS 2.26 GB | system used 2.48 / 8.18 GB, available 5.70 GB
+3352/3352 - 44s - 13ms/step - accuracy: 0.9934 - loss: 0.0150 - val_accuracy: 0.9930 - val_loss: 0.0157 - lr: 6.2500e-05 - learning_rate: 6.2500e-05
+Restoring model weights from the end of the best epoch: 24.
+2026-09-29 12:05:48,753 INFO    train: CNN-LSTM: 25 epochs, best epoch 24, 1038.0 s
+2026-09-29 12:05:51,330 INFO    main: CNN-LSTM     acc=0.9930 f1=0.9964 benign_recall=0.9329 mcc=0.8751
+2026-09-29 12:06:12,632 INFO    runtime: [RAM] train end: RSS 2.50 GB | system used 2.68 / 8.18 GB, available 5.49 GB
+2026-09-29 12:06:12,633 INFO    runtime: [RAM] train peak RSS 2.50 GB, min system available 5.01 GB, 1064.2 s
+2026-09-29 12:06:12,771 INFO    runtime: ==================== STAGE compare ====================
+2026-09-29 12:06:12,772 INFO    runtime: [RAM] compare start: RSS 2.36 GB | system used 2.54 / 8.18 GB, available 5.64 GB
+2026-09-29 12:06:13,753 INFO    compare_with_paper: Paper comparison:
+                                metric  paper  ours_cnn_lstm  majority_baseline  abs_diff_vs_paper  rel_diff_vs_paper_%
+                          Accuracy (%)  98.42        99.3044            97.3420             0.8844                0.899
+       Precision, support-weighted (%)    NaN        99.3622            94.7546                NaN                  NaN
+          Recall, support-weighted (%)    NaN        99.3044            97.3420                NaN                  NaN
+              F1, support-weighted (%)    NaN        99.3246            96.0308                NaN                  NaN
+   Precision, malicious = positive (%)    NaN        99.8161            97.3420                NaN                  NaN
+Recall / detection rate, malicious (%)    NaN        99.4686           100.0000                NaN                  NaN
+                     F1, malicious (%)    NaN        99.6421            98.6531                NaN                  NaN
+                  Benign precision (%)    NaN        82.7405             0.0000                NaN                  NaN
+       Benign recall = specificity (%)    NaN        93.2883             0.0000                NaN                  NaN
+                         Benign F1 (%)    NaN        87.6984             0.0000                NaN                  NaN
+               False positive rate (%)    NaN         6.7117           100.0000                NaN                  NaN
+               False negative rate (%)    NaN         0.5314             0.0000                NaN                  NaN
+                  Matthews corr. coef.    NaN         0.8751             0.0000                NaN                  NaN
+                               ROC-AUC    NaN         0.9981             0.5000                NaN                  NaN
+            PR-AUC (average precision)    NaN         0.9999             0.9734                NaN                  NaN
+                    Cross-entropy loss    NaN         0.0162             0.4238                NaN                  NaN
+2026-09-29 12:06:13,754 INFO    runtime: [RAM] compare end: RSS 2.41 GB | system used 2.59 / 8.18 GB, available 5.59 GB
+2026-09-29 12:06:13,755 INFO    runtime: [RAM] compare peak RSS 2.41 GB, min system available 5.59 GB, 1.0 s
+2026-09-29 12:06:13,893 INFO    main: Done. Figures: outputs_nobalance/figures | metrics: outputs_nobalance/metrics
+===== 2026-09-29 12:06:17 exit=0

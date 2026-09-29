@@ -322,8 +322,8 @@ def plot_confusion(y, pred, class_names: list[str], cfg: Config, normalize: bool
         ax.set_xlabel("Predicted label")
         ax.set_ylabel("True label")
         num = 10 if normalize else 9
-        kind = "normalised (% of true class)" if normalize else "raw counts"
-        ax.set_title(f"Fig {num} - CNN-LSTM confusion matrix, {kind} (test set)")
+        kind = "% of true class" if normalize else "counts"
+        ax.set_title(f"Fig {num} - CNN-LSTM confusion matrix\n(test set, {kind})")
         return save(fig, name or f"{num:02d}_confusion_matrix_{'normalized' if normalize else 'counts'}",
                     cfg, slide)
 
@@ -545,8 +545,9 @@ def plot_cv(cv: pd.DataFrame, cfg: Config) -> Path:
             patch.set_alpha(0.6)
         for i, c in enumerate(cols, 1):
             ax.scatter(np.full(len(cv), i), 100 * cv[c], color="black", s=12, zorder=3)
-            ax.text(i, 100 * cv[c].min(), f"{100 * cv[c].mean():.2f}±{100 * cv[c].std():.2f}",
-                    ha="center", va="top", fontsize=9)
+            ax.text(i + 0.3, 100 * cv[c].mean(), f"{100 * cv[c].mean():.2f}\n±{100 * cv[c].std():.2f}",
+                    ha="left", va="center", fontsize=9)
+        ax.set_xlim(0.5, len(cols) + 0.9)
         ax.set_ylabel("Score (%)")
         ax.set_title(f"Fig 22 - {len(cv)}-fold stratified CV of CNN-LSTM (mean ± std)")
         return save(fig, "22_cross_validation", cfg)

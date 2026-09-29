@@ -45,6 +45,8 @@ def headline_table(res: dict) -> str:
                                                       ((c[0], c[2]) for c in COLS)) + " |")
     paper = ["n/a"] * len(COLS)
     paper[0] = f"{PAPER_RESULTS['accuracy']:.2f}"
+    if PAPER_RESULTS.get("fpr") is not None:
+        paper[[c[0] for c in COLS].index("fpr")] = f"{PAPER_RESULTS['fpr']:.2f}"
     rows.append("| Paper (Gueriani et al., 2024) | " + " | ".join(paper) + " |")
     return "\n".join(rows)
 
@@ -133,6 +135,35 @@ def findings(res: dict) -> str:
     return "\n".join(lines)
 
 
+def extra_block(out: Path) -> str:
+    """Threshold tuning (chosen on validation) and the no-class-weight rerun."""
+    parts = []
+    tt = out / "metrics" / "threshold_tuning.md"
+    if tt.exists():
+        parts += ["Decision threshold chosen by maximising MCC on the **validation** split (test untouched), "
+                  "class-weighted model (`tools/tune_threshold.py`):", "", tt.read_text(),
+                  f"![Threshold]({out.name}/figures/24_threshold_tuning.png)", ""]
+    nb = ROOT / "outputs_nobalance" / "metrics"
+    if (nb / "results.json").exists():
+        r = json.loads((nb / "results.json").read_text())
+        if "CNN-LSTM" in r["models"]:
+            m = r["models"]["CNN-LSTM"]
+            parts += ["Same architecture and settings **without class weights** (`--balance none`, "
+                      "`outputs_nobalance/`), closer to the paper's unstated setup:", "",
+                      "| Model | Accuracy | F1 (weighted) | Benign R | FPR | FNR | MCC | Loss | FP | FN |",
+                      "|---|---|---|---|---|---|---|---|---|---|",
+                      f"| CNN-LSTM, no class weights | {100 * m['accuracy']:.2f} | {100 * m['f1_weighted']:.2f} | "
+                      f"{100 * m['benign_recall']:.2f} | {100 * m['fpr']:.2f} | {100 * m['fnr']:.2f} | {m['mcc']:.4f} | "
+                      f"{m['log_loss']:.4f} | {m['fp']:,} | {m['fn']:,} |",
+                      f"| Paper | {PAPER_RESULTS['accuracy']} | {PAPER_RESULTS.get('f1')} | n/a | {PAPER_RESULTS.get('fpr')} | "
+                      f"n/a | n/a | {PAPER_RESULTS.get('loss')} | n/a | n/a |", ""]
+            if (nb / "threshold_tuning.md").exists():
+                parts += ["Threshold tuning for the unweighted model:", "", (nb / "threshold_tuning.md").read_text()]
+            parts.append("Without class weights the errors move from missed attacks to false alarms; the FPR and "
+                         "loss land much closer to the paper's, which suggests the paper did not re-weight classes.")
+    return "\n".join(parts) if parts else "_Not run._"
+
+
 def results_block(res: dict, out: Path) -> str:
     ri, m = res["run_info"], res["models"]["CNN-LSTM"]
     maj = res["models"].get(MAJ, {})
@@ -161,8 +192,9 @@ columns, FPR, MCC and PR-AUC show what the models actually learn.
 
 {findings(res)}
 
-Paper: only the accuracy (98.42%) is used; the paper's other metrics are left as `None` in
-`config.PAPER_RESULTS` until checked against the published paper. Deviation:
+Paper values are from the **published abstract** (DOI 10.1109/PAIS62114.2024.10541178): accuracy
+98.42%, F1 98.57% (averaging not stated), FPR 9.17%, loss 0.0275. Precision/recall appear only in the
+full-text Table IV and stay `None` in `config.PAPER_RESULTS`. The paper's F1 is compared in §7.5. Deviation:
 **{100 * m['accuracy'] - PAPER_RESULTS['accuracy']:+.2f} pp** accuracy
 (see `outputs/metrics/deviation_analysis.txt`).
 
@@ -205,7 +237,11 @@ Validation split (the paper reported its classification report on validation dat
 
 ![Edge]({fig('23_edge_tflite_benchmark')})
 
-### 7.8 Where the model errs
+### 7.8 Additional experiments: threshold and class weights
+
+{extra_block(out)}
+
+### 7.9 Where the model errs
 
 ![Errors per attack type]({fig('20_error_by_attack_type')})
 """

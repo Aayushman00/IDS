@@ -14,7 +14,7 @@ epochs.
 | train | 16.9 min (1016 s) | 2.50 GB | 3.74 GB |
 | baselines | 17.9 min (1071 s) | 2.88 GB | 5.14 GB |
 | cv | 3.9 min (232 s) | 2.19 GB | 5.65 GB |
-| compare | 0.0 min (1 s) | 0.95 GB | 6.65 GB |
+| compare | 0.0 min (1 s) | 0.95 GB | 5.30 GB |
 | edge | 0.3 min (16 s) | 1.72 GB | 5.89 GB |
 
 "Peak RSS" is sampled every 50 ms by a background thread (`runtime.py`). The prepare stage reused

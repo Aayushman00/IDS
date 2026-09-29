@@ -110,9 +110,14 @@ def deviation_analysis(ours: dict, run_info: dict, table: pd.DataFrame,
         "=" * 88,
         f"Accuracy: ours {100 * ours['accuracy']:.2f}% vs paper {PAPER_RESULTS['accuracy']}% "
         f"-> {acc_gap:+.2f} percentage points ({100 * acc_gap / PAPER_RESULTS['accuracy']:+.2f}% relative).",
-        "Only the paper's accuracy is used as a reference; its other metrics are left as None in "
-        "config.PAPER_RESULTS until checked against the published paper.",
+        "Paper values used (published abstract, DOI 10.1109/PAIS62114.2024.10541178): "
+        + ", ".join(f"{k}={v}" for k, v in PAPER_RESULTS.items() if v is not None)
+        + ". Precision/recall appear only in the full-text Table IV and are left as None.",
     ]
+    if PAPER_RESULTS.get("fpr") is not None and "fpr" in ours:
+        lines.append(f"FPR: ours {100 * ours['fpr']:.2f}% vs paper {PAPER_RESULTS['fpr']}%; F1: ours "
+                     f"{100 * ours['f1_weighted']:.2f}% (weighted) / {100 * ours['f1']:.2f}% (malicious) vs "
+                     f"paper {PAPER_RESULTS.get('f1')}% (averaging not stated in the abstract).")
     if majority:
         lines.append(
             f"Context: always predicting 'malicious' already scores {100 * majority['accuracy']:.2f}% "
@@ -153,9 +158,12 @@ def deviation_analysis(ours: dict, run_info: dict, table: pd.DataFrame,
         "re-runs can differ slightly.",
         f"10. Dataset release: {run_info['dataset_release']}. Obtained from a public mirror of the "
         "official CIC files (train/validation/test CSVs pooled and re-split by us).",
-        "11. Metric convention: 'Precision/Recall/F1' in the paper may be weighted or "
-        "attack-positive; we report both so the right one can be compared once the paper values "
-        "are filled in.",
+        "11. Metric convention: the abstract does not say whether F1 is weighted or attack-positive "
+        "(the preprint's Table IV implies weighted, since its recall equals its accuracy); we compare "
+        "with our weighted F1 and report both.",
+        "12. FPR gap: the paper's 9.17% FPR (about 1 in 11 benign flows flagged) suggests no class "
+        "re-weighting; our class-weighted model trades that for missed attacks instead "
+        "(see outputs_nobalance/ for the unweighted run and threshold_tuning.md).",
     ]
     return "\n".join(lines)
 
@@ -164,7 +172,8 @@ def run(ours: dict, run_info: dict, cfg: Config, majority: Optional[dict] = None
     table = comparison_table(ours, majority)
     table.to_csv(cfg.metrics_dir / "paper_comparison.csv", index=False)
     (cfg.metrics_dir / "paper_comparison.md").write_text(
-        table.to_markdown(index=False, missingval="n/a"), encoding="utf-8")
+        table.astype(object).where(table.notna(), None).to_markdown(index=False, missingval="n/a"),
+        encoding="utf-8")
     if cfg.task == "binary":
         plot_paper_comparison(ours, cfg, majority=majority)
         plot_paper_comparison(ours, cfg, slide=True, majority=majority)

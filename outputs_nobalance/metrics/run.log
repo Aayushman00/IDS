@@ -1,0 +1,101 @@
+2026-09-29 11:46:58,912 INFO    main: Stages: ['prepare'] | output: outputs_nobalance
+2026-09-29 11:46:59,942 INFO    train: TensorFlow 2.20.0 | device: /physical_device:GPU:0 | mixed precision: False
+2026-09-29 11:46:59,943 INFO    runtime: ==================== STAGE prepare ====================
+2026-09-29 11:46:59,944 INFO    runtime: [RAM] prepare start: RSS 0.88 GB | system used 1.48 / 8.18 GB, available 6.70 GB
+2026-09-29 11:47:00,054 INFO    data_loader: Found 3 CSV files, label column 'label'
+2026-09-29 11:47:00,059 INFO    data_loader: Loading cached sample sample_1400000_3f_seed42.pkl
+2026-09-29 11:47:01,859 INFO    runtime: [RAM] after CSV load: RSS 1.15 GB | system used 1.74 / 8.18 GB, available 6.44 GB
+2026-09-29 11:47:03,852 INFO    preprocessing: Removed 173,602 exact duplicate rows
+2026-09-29 11:47:06,503 INFO    preprocessing: Dropping 5 constant columns: ['ece_flag_number', 'cwr_flag_number', 'Telnet', 'SMTP', 'IRC']
+2026-09-29 11:47:06,984 INFO    preprocessing: train n=857,995   Benign=22,808, Malicious=835,187
+2026-09-29 11:47:06,985 INFO    preprocessing: val   n=183,857   Benign=4,887, Malicious=178,970
+2026-09-29 11:47:06,986 INFO    preprocessing: test  n=183,857   Benign=4,887, Malicious=178,970
+2026-09-29 11:47:07,164 INFO    preprocessing: Leakage checks passed (disjoint splits, train-only scaler & class weights)
+2026-09-29 11:47:07,194 INFO    runtime: [RAM] after split + scale: RSS 1.40 GB | system used 1.99 / 8.18 GB, available 6.19 GB
+2026-09-29 11:47:14,889 INFO    preprocessing: Cached prepared arrays in outputs_nobalance/cache
+2026-09-29 11:47:15,186 INFO    runtime: [RAM] prepare end: RSS 1.40 GB | system used 1.98 / 8.18 GB, available 6.20 GB
+2026-09-29 11:47:15,189 INFO    runtime: [RAM] prepare peak RSS 2.05 GB, min system available 5.54 GB, 15.2 s
+2026-09-29 11:47:15,289 INFO    main: Done. Figures: outputs_nobalance/figures | metrics: outputs_nobalance/metrics
+2026-09-29 11:47:22,312 INFO    main: Stages: ['train', 'compare'] | output: outputs_nobalance
+2026-09-29 11:47:22,746 INFO    train: TensorFlow 2.20.0 | device: /physical_device:GPU:0 | mixed precision: False
+2026-09-29 11:47:22,747 INFO    runtime: ==================== STAGE train ====================
+2026-09-29 11:47:22,748 INFO    runtime: [RAM] train start: RSS 0.89 GB | system used 1.46 / 8.18 GB, available 6.71 GB
+2026-09-29 11:47:24,815 INFO    main: CNN-LSTM params: {'total_params': 79902, 'trainable_params': 79774}
+2026-09-29 11:47:24,840 INFO    runtime: [RAM] CNN-LSTM fit start: RSS 1.09 GB | system used 1.62 / 8.18 GB, available 6.56 GB
+2026-09-29 11:48:16,558 INFO    train: [RAM] epoch 1: RSS 2.05 GB | system used 3.15 / 8.18 GB, available 5.03 GB
+2026-09-29 11:49:02,138 INFO    train: [RAM] epoch 2: RSS 2.06 GB | system used 2.27 / 8.18 GB, available 5.91 GB
+2026-09-29 11:49:45,112 INFO    train: [RAM] epoch 3: RSS 2.08 GB | system used 2.33 / 8.18 GB, available 5.85 GB
+2026-09-29 11:50:34,247 INFO    train: [RAM] epoch 4: RSS 2.08 GB | system used 2.46 / 8.18 GB, available 5.72 GB
+2026-09-29 11:51:18,434 INFO    train: [RAM] epoch 5: RSS 2.10 GB | system used 2.32 / 8.18 GB, available 5.86 GB
+2026-09-29 11:52:01,660 INFO    train: [RAM] epoch 6: RSS 2.10 GB | system used 2.32 / 8.18 GB, available 5.85 GB
+2026-09-29 11:52:47,201 INFO    train: [RAM] epoch 7: RSS 2.12 GB | system used 2.34 / 8.18 GB, available 5.84 GB
+2026-09-29 11:53:35,141 INFO    train: [RAM] epoch 8: RSS 2.12 GB | system used 2.35 / 8.18 GB, available 5.83 GB
+2026-09-29 11:54:22,879 INFO    train: [RAM] epoch 9: RSS 2.13 GB | system used 2.35 / 8.18 GB, available 5.83 GB
+2026-09-29 11:55:07,510 INFO    train: [RAM] epoch 10: RSS 2.14 GB | system used 2.36 / 8.18 GB, available 5.82 GB
+2026-09-29 11:55:54,552 INFO    train: [RAM] epoch 11: RSS 2.14 GB | system used 2.36 / 8.18 GB, available 5.82 GB
+2026-09-29 11:56:36,343 INFO    train: [RAM] epoch 12: RSS 2.15 GB | system used 2.37 / 8.18 GB, available 5.81 GB
+2026-09-29 11:57:16,126 INFO    train: [RAM] epoch 13: RSS 2.16 GB | system used 2.39 / 8.18 GB, available 5.79 GB
+2026-09-29 11:57:58,659 INFO    train: [RAM] epoch 14: RSS 2.17 GB | system used 2.40 / 8.18 GB, available 5.78 GB
+2026-09-29 11:58:40,902 INFO    train: [RAM] epoch 15: RSS 2.18 GB | system used 2.40 / 8.18 GB, available 5.78 GB
+2026-09-29 11:59:22,356 INFO    train: [RAM] epoch 16: RSS 2.19 GB | system used 2.41 / 8.18 GB, available 5.77 GB
+2026-09-29 12:00:01,307 INFO    train: [RAM] epoch 17: RSS 2.20 GB | system used 2.42 / 8.18 GB, available 5.76 GB
+2026-09-29 12:00:47,923 INFO    train: [RAM] epoch 18: RSS 2.20 GB | system used 2.42 / 8.18 GB, available 5.76 GB
+2026-09-29 12:01:31,627 INFO    train: [RAM] epoch 19: RSS 2.21 GB | system used 2.43 / 8.18 GB, available 5.75 GB
+2026-09-29 12:02:17,089 INFO    train: [RAM] epoch 20: RSS 2.22 GB | system used 2.43 / 8.18 GB, available 5.74 GB
+2026-09-29 12:02:58,395 INFO    train: [RAM] epoch 21: RSS 2.23 GB | system used 2.44 / 8.18 GB, available 5.74 GB
+2026-09-29 12:03:40,101 INFO    train: [RAM] epoch 22: RSS 2.23 GB | system used 2.45 / 8.18 GB, available 5.73 GB
+2026-09-29 12:04:21,279 INFO    train: [RAM] epoch 23: RSS 2.25 GB | system used 2.46 / 8.18 GB, available 5.72 GB
+2026-09-29 12:05:03,982 INFO    train: [RAM] epoch 24: RSS 2.25 GB | system used 2.47 / 8.18 GB, available 5.71 GB
+2026-09-29 12:05:48,210 INFO    train: [RAM] epoch 25: RSS 2.26 GB | system used 2.48 / 8.18 GB, available 5.70 GB
+2026-09-29 12:05:48,753 INFO    train: CNN-LSTM: 25 epochs, best epoch 24, 1038.0 s
+2026-09-29 12:05:51,330 INFO    main: CNN-LSTM     acc=0.9930 f1=0.9964 benign_recall=0.9329 mcc=0.8751
+2026-09-29 12:06:12,632 INFO    runtime: [RAM] train end: RSS 2.50 GB | system used 2.68 / 8.18 GB, available 5.49 GB
+2026-09-29 12:06:12,633 INFO    runtime: [RAM] train peak RSS 2.50 GB, min system available 5.01 GB, 1064.2 s
+2026-09-29 12:06:12,771 INFO    runtime: ==================== STAGE compare ====================
+2026-09-29 12:06:12,772 INFO    runtime: [RAM] compare start: RSS 2.36 GB | system used 2.54 / 8.18 GB, available 5.64 GB
+2026-09-29 12:06:13,753 INFO    compare_with_paper: Paper comparison:
+                                metric  paper  ours_cnn_lstm  majority_baseline  abs_diff_vs_paper  rel_diff_vs_paper_%
+                          Accuracy (%)  98.42        99.3044            97.3420             0.8844                0.899
+       Precision, support-weighted (%)    NaN        99.3622            94.7546                NaN                  NaN
+          Recall, support-weighted (%)    NaN        99.3044            97.3420                NaN                  NaN
+              F1, support-weighted (%)    NaN        99.3246            96.0308                NaN                  NaN
+   Precision, malicious = positive (%)    NaN        99.8161            97.3420                NaN                  NaN
+Recall / detection rate, malicious (%)    NaN        99.4686           100.0000                NaN                  NaN
+                     F1, malicious (%)    NaN        99.6421            98.6531                NaN                  NaN
+                  Benign precision (%)    NaN        82.7405             0.0000                NaN                  NaN
+       Benign recall = specificity (%)    NaN        93.2883             0.0000                NaN                  NaN
+                         Benign F1 (%)    NaN        87.6984             0.0000                NaN                  NaN
+               False positive rate (%)    NaN         6.7117           100.0000                NaN                  NaN
+               False negative rate (%)    NaN         0.5314             0.0000                NaN                  NaN
+                  Matthews corr. coef.    NaN         0.8751             0.0000                NaN                  NaN
+                               ROC-AUC    NaN         0.9981             0.5000                NaN                  NaN
+            PR-AUC (average precision)    NaN         0.9999             0.9734                NaN                  NaN
+                    Cross-entropy loss    NaN         0.0162             0.4238                NaN                  NaN
+2026-09-29 12:06:13,754 INFO    runtime: [RAM] compare end: RSS 2.41 GB | system used 2.59 / 8.18 GB, available 5.59 GB
+2026-09-29 12:06:13,755 INFO    runtime: [RAM] compare peak RSS 2.41 GB, min system available 5.59 GB, 1.0 s
+2026-09-29 12:06:13,893 INFO    main: Done. Figures: outputs_nobalance/figures | metrics: outputs_nobalance/metrics
+2026-09-29 12:06:53,364 INFO    main: Stages: ['compare'] | output: outputs_nobalance
+2026-09-29 12:06:54,027 INFO    train: TensorFlow 2.20.0 | device: /physical_device:GPU:0 | mixed precision: False
+2026-09-29 12:06:54,028 INFO    runtime: ==================== STAGE compare ====================
+2026-09-29 12:06:54,028 INFO    runtime: [RAM] compare start: RSS 0.88 GB | system used 1.48 / 8.18 GB, available 6.70 GB
+2026-09-29 12:06:54,825 INFO    compare_with_paper: Paper comparison:
+                                metric   paper  ours_cnn_lstm  majority_baseline  abs_diff_vs_paper  rel_diff_vs_paper_%
+                          Accuracy (%) 98.4200        99.3044            97.3420             0.8844                0.899
+       Precision, support-weighted (%)     NaN        99.3622            94.7546                NaN                  NaN
+          Recall, support-weighted (%)     NaN        99.3044            97.3420                NaN                  NaN
+              F1, support-weighted (%) 98.5700        99.3246            96.0308             0.7546                0.766
+   Precision, malicious = positive (%)     NaN        99.8161            97.3420                NaN                  NaN
+Recall / detection rate, malicious (%)     NaN        99.4686           100.0000                NaN                  NaN
+                     F1, malicious (%)     NaN        99.6421            98.6531                NaN                  NaN
+                  Benign precision (%)     NaN        82.7405             0.0000                NaN                  NaN
+       Benign recall = specificity (%)     NaN        93.2883             0.0000                NaN                  NaN
+                         Benign F1 (%)     NaN        87.6984             0.0000                NaN                  NaN
+               False positive rate (%)  9.1700         6.7117           100.0000            -2.4583              -26.808
+               False negative rate (%)     NaN         0.5314             0.0000                NaN                  NaN
+                  Matthews corr. coef.     NaN         0.8751             0.0000                NaN                  NaN
+                               ROC-AUC     NaN         0.9981             0.5000                NaN                  NaN
+            PR-AUC (average precision)     NaN         0.9999             0.9734                NaN                  NaN
+                    Cross-entropy loss  0.0275         0.0162             0.4238            -0.0113              -41.091
+2026-09-29 12:06:54,825 INFO    runtime: [RAM] compare end: RSS 0.95 GB | system used 1.54 / 8.18 GB, available 6.64 GB
+2026-09-29 12:06:54,826 INFO    runtime: [RAM] compare peak RSS 0.95 GB, min system available 6.64 GB, 0.8 s
+2026-09-29 12:06:54,909 INFO    main: Done. Figures: outputs_nobalance/figures | metrics: outputs_nobalance/metrics

@@ -24,10 +24,10 @@
     "finished": "2026-09-29 02:07:03"
   },
   "compare": {
-    "seconds": 0.8,
+    "seconds": 0.9,
     "peak_rss_gb": 0.953,
-    "min_system_available_gb": 6.652,
-    "finished": "2026-09-29 02:07:11"
+    "min_system_available_gb": 5.297,
+    "finished": "2026-09-29 11:49:51"
   },
   "edge": {
     "seconds": 16.0,

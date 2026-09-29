@@ -1,0 +1,8 @@
+              precision    recall  f1-score   support
+
+      Benign     0.8274    0.9329    0.8770      4887
+   Malicious     0.9982    0.9947    0.9964    178970
+
+    accuracy                         0.9930    183857
+   macro avg     0.9128    0.9638    0.9367    183857
+weighted avg     0.9936    0.9930    0.9932    183857
