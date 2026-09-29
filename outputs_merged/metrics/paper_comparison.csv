@@ -1,0 +1,17 @@
+metric,paper,ours_cnn_lstm,majority_baseline,abs_diff_vs_paper,rel_diff_vs_paper_%
+Accuracy (%),98.42,97.2248,96.645,-1.1952,-1.214
+"Precision, support-weighted (%)",,98.4738,93.4025,,
+"Recall, support-weighted (%)",,97.2248,96.645,,
+"F1, support-weighted (%)",98.57,97.6092,94.9961,-0.9608,-0.975
+"Precision, malicious = positive (%)",,99.992,96.645,,
+"Recall / detection rate, malicious (%)",,97.1363,100.0,,
+"F1, malicious (%)",,98.5434,98.2939,,
+Benign precision (%),,54.7412,0.0,,
+Benign recall = specificity (%),,99.7763,0.0,,
+Benign F1 (%),,70.6959,0.0,,
+False positive rate (%),9.17,0.2237,100.0,-8.9463,-97.561
+False negative rate (%),,2.8637,0.0,,
+Matthews corr. coef.,,0.7283,0.0,,
+ROC-AUC,,0.995,0.5,,
+PR-AUC (average precision),,0.9998,0.9664,,
+Cross-entropy loss,0.0275,0.0744,0.5349,0.0469,170.545

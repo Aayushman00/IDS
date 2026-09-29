@@ -69,6 +69,11 @@ s.addText([
   { text: "Ashutosh Kumar (231CS113)", options: { breakLine: true } },
   { text: "Sahil Mengji (231CS151)" }], { x: 0.6, y: 3.55, w: 5, h: 1.1, fontFace: BODY, fontSize: 15,
   color: WHITE, margin: 0, paraSpaceAfter: 4, isTextBox: true });
+s.addText([
+  { text: "Internet of Things", options: { breakLine: true } },
+  { text: "Instructor: Mr. Sridhar Sanshi", options: { breakLine: true } },
+  { text: "28 September 2026" }], { x: 5.8, y: 3.55, w: 3.6, h: 1.1, fontFace: BODY, fontSize: 13,
+  color: "C9D3DD", align: "right", margin: 0, paraSpaceAfter: 4, isTextBox: true });
 s.addNotes("Our project reproduces a published CNN-LSTM intrusion detection system for IoT networks and " +
   "checks whether its reported 98.42% accuracy holds up on the CICIoT2023 dataset.");
 

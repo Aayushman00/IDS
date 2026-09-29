@@ -71,6 +71,9 @@ children.push(
   p("Aayushman (231CS105)", { spacing: { after: 40 } }),
   p("Ashutosh Kumar (231CS113)", { spacing: { after: 40 } }),
   p("Sahil Mengji (231CS151)", { spacing: { after: 40 } }),
+  new Paragraph({ spacing: { before: 480, after: 40 }, children: [b("Course: "), new TextRun("Internet of Things")] }),
+  p([b("Course instructor: "), new TextRun("Mr. Sridhar Sanshi")], { spacing: { after: 40 } }),
+  p([b("Date: "), new TextRun("28 September 2026")], { spacing: { after: 40 } }),
   new Paragraph({ children: [new PageBreak()] }),
 );
 
@@ -214,7 +217,7 @@ children.push(h1("8. Conclusion and future work"),
 newList();
 children.push(h1("References"),
   numbered("A. Gueriani, H. Kheddar, A. C. Mazari, \"Enhancing IoT Security with CNN and LSTM-Based Intrusion Detection Systems,\" 2024 6th Int. Conf. on Pattern Analysis and Intelligent Systems (PAIS), IEEE, 2024. DOI: 10.1109/PAIS62114.2024.10541178. Preprint: arXiv:2405.18624."),
-  numbered("E. C. P. Neto et al., \"CICIoT2023: A real-time dataset and benchmark for large-scale attacks in IoT environment,\" Sensors, 23(13), 5941, 2023. Dataset: https://www.unb.ca/cic/datasets/iotdataset-2023.html."));
+  numbered("E. C. P. Neto et al., \"CICIoT2023: A real-time dataset and benchmark for large-scale attacks in IoT environment,\" Sensors, 23(13), 5941, 2023. DOI 10.3390/s23135941. Dataset: https://www.unb.ca/cic/datasets/iotdataset-2023.html."));
 
 // Appendix
 children.push(h1("Appendix: reproducing the results"),

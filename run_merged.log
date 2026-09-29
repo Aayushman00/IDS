@@ -1,0 +1,266 @@
+===== 2026-09-29 18:10:35 launching: /home/blackscythe/venvs/ids/bin/python -u main.py --stage prepare,train,baselines,cv,compare --data_dir data/merged_2024 --output_dir outputs_merged --sample 1400000 --epochs 25 --run_baselines --cv
+2026-09-29 18:10:38,208 INFO    main: Stages: ['prepare', 'train', 'baselines', 'cv', 'compare'] | output: outputs_merged
+2026-09-29 18:10:38,523 INFO    train: TensorFlow 2.20.0 | device: /physical_device:GPU:0 | mixed precision: False
+2026-09-29 18:10:38,524 INFO    runtime: ==================== STAGE prepare ====================
+2026-09-29 18:10:38,524 INFO    runtime: [RAM] prepare start: RSS 0.89 GB | system used 2.10 / 8.18 GB, available 6.08 GB
+2026-09-29 18:10:38,545 INFO    data_loader: Found 63 CSV files, label column 'Label'
+Counting rows:   0%|          | 0/63 [00:00<?, ?file/s]Counting rows:   2%|▏         | 1/63 [00:01<01:04,  1.04s/file]Counting rows:   3%|▎         | 2/63 [00:02<01:15,  1.24s/file]Counting rows:   5%|▍         | 3/63 [00:03<01:21,  1.36s/file]Counting rows:   6%|▋         | 4/63 [00:04<01:11,  1.21s/file]Counting rows:   8%|▊         | 5/63 [00:05<01:02,  1.08s/file]Counting rows:  10%|▉         | 6/63 [00:06<01:02,  1.10s/file]Counting rows:  11%|█         | 7/63 [00:07<01:00,  1.09s/file]Counting rows:  13%|█▎        | 8/63 [00:08<00:57,  1.05s/file]Counting rows:  14%|█▍        | 9/63 [00:10<01:00,  1.12s/file]Counting rows:  16%|█▌        | 10/63 [00:11<01:00,  1.15s/file]Counting rows:  17%|█▋        | 11/63 [00:12<01:05,  1.25s/file]Counting rows:  19%|█▉        | 12/63 [00:13<01:00,  1.19s/file]Counting rows:  21%|██        | 13/63 [00:15<00:58,  1.17s/file]Counting rows:  22%|██▏       | 14/63 [00:16<00:56,  1.14s/file]Counting rows:  24%|██▍       | 15/63 [00:17<00:55,  1.15s/file]Counting rows:  27%|██▋       | 17/63 [00:19<00:48,  1.06s/file]Counting rows:  29%|██▊       | 18/63 [00:20<00:44,  1.01file/s]Counting rows:  30%|███       | 19/63 [00:21<00:46,  1.07s/file]Counting rows:  32%|███▏      | 20/63 [00:22<00:45,  1.05s/file]Counting rows:  33%|███▎      | 21/63 [00:23<00:41,  1.02file/s]Counting rows:  35%|███▍      | 22/63 [00:24<00:42,  1.05s/file]Counting rows:  37%|███▋      | 23/63 [00:25<00:41,  1.04s/file]Counting rows:  38%|███▊      | 24/63 [00:26<00:38,  1.02file/s]Counting rows:  40%|███▉      | 25/63 [00:27<00:36,  1.05file/s]Counting rows:  41%|████▏     | 26/63 [00:28<00:35,  1.05file/s]Counting rows:  43%|████▎     | 27/63 [00:28<00:32,  1.10file/s]Counting rows:  44%|████▍     | 28/63 [00:29<00:33,  1.06file/s]Counting rows:  46%|████▌     | 29/63 [00:30<00:30,  1.12file/s]Counting rows:  48%|████▊     | 30/63 [00:31<00:29,  1.13file/s]Counting rows:  49%|████▉     | 31/63 [00:32<00:28,  1.13file/s]Counting rows:  51%|█████     | 32/63 [00:34<00:36,  1.17s/file]Counting rows:  52%|█████▏    | 33/63 [00:35<00:32,  1.07s/file]Counting rows:  54%|█████▍    | 34/63 [00:36<00:33,  1.15s/file]Counting rows:  56%|█████▌    | 35/63 [00:37<00:34,  1.23s/file]Counting rows:  57%|█████▋    | 36/63 [00:38<00:30,  1.15s/file]Counting rows:  59%|█████▊    | 37/63 [00:39<00:26,  1.00s/file]Counting rows:  60%|██████    | 38/63 [00:40<00:25,  1.03s/file]Counting rows:  62%|██████▏   | 39/63 [00:42<00:29,  1.22s/file]Counting rows:  63%|██████▎   | 40/63 [00:43<00:27,  1.19s/file]Counting rows:  65%|██████▌   | 41/63 [00:44<00:26,  1.19s/file]Counting rows:  67%|██████▋   | 42/63 [00:46<00:28,  1.34s/file]Counting rows:  68%|██████▊   | 43/63 [00:47<00:24,  1.20s/file]Counting rows:  70%|██████▉   | 44/63 [00:47<00:20,  1.09s/file]Counting rows:  71%|███████▏  | 45/63 [00:50<00:25,  1.41s/file]Counting rows:  73%|███████▎  | 46/63 [00:51<00:22,  1.31s/file]Counting rows:  75%|███████▍  | 47/63 [00:51<00:18,  1.16s/file]Counting rows:  76%|███████▌  | 48/63 [00:52<00:16,  1.10s/file]Counting rows:  78%|███████▊  | 49/63 [00:53<00:15,  1.08s/file]Counting rows:  79%|███████▉  | 50/63 [00:54<00:13,  1.03s/file]Counting rows:  81%|████████  | 51/63 [00:55<00:09,  1.28file/s]Counting rows:  83%|████████▎ | 52/63 [00:55<00:06,  1.72file/s]Counting rows:  84%|████████▍ | 53/63 [00:56<00:08,  1.15file/s]Counting rows:  86%|████████▌ | 54/63 [00:57<00:07,  1.17file/s]Counting rows:  87%|████████▋ | 55/63 [00:58<00:07,  1.08file/s]Counting rows:  89%|████████▉ | 56/63 [00:59<00:06,  1.03file/s]Counting rows:  90%|█████████ | 57/63 [01:00<00:06,  1.08s/file]Counting rows:  92%|█████████▏| 58/63 [01:02<00:06,  1.22s/file]Counting rows:  94%|█████████▎| 59/63 [01:03<00:04,  1.20s/file]Counting rows:  95%|█████████▌| 60/63 [01:04<00:03,  1.13s/file]Counting rows:  97%|█████████▋| 61/63 [01:05<00:02,  1.04s/file]Counting rows:  98%|█████████▊| 62/63 [01:06<00:01,  1.03s/file]Counting rows: 100%|██████████| 63/63 [01:07<00:00,  1.13file/s]Counting rows: 100%|██████████| 63/63 [01:07<00:00,  1.06s/file]
+2026-09-29 18:11:45,580 INFO    data_loader: Total rows 45,019,234 -> keep fraction 0.03110
+Reading CSVs:   0%|          | 0/63 [00:00<?, ?file/s]Reading CSVs:   2%|▏         | 1/63 [00:03<03:22,  3.26s/file]Reading CSVs:   3%|▎         | 2/63 [00:05<02:56,  2.90s/file]Reading CSVs:   5%|▍         | 3/63 [00:08<02:53,  2.89s/file]Reading CSVs:   6%|▋         | 4/63 [00:10<02:33,  2.60s/file]Reading CSVs:   8%|▊         | 5/63 [00:16<03:33,  3.68s/file]Reading CSVs:  10%|▉         | 6/63 [00:19<03:11,  3.36s/file]Reading CSVs:  11%|█         | 7/63 [00:21<02:45,  2.95s/file]Reading CSVs:  13%|█▎        | 8/63 [00:23<02:29,  2.72s/file]Reading CSVs:  14%|█▍        | 9/63 [00:25<02:20,  2.59s/file]Reading CSVs:  16%|█▌        | 10/63 [00:28<02:15,  2.55s/file]Reading CSVs:  17%|█▋        | 11/63 [00:30<02:11,  2.53s/file]Reading CSVs:  19%|█▉        | 12/63 [00:33<02:05,  2.46s/file]Reading CSVs:  21%|██        | 13/63 [00:35<01:58,  2.38s/file]Reading CSVs:  22%|██▏       | 14/63 [00:38<02:07,  2.60s/file]Reading CSVs:  24%|██▍       | 15/63 [00:40<01:59,  2.49s/file]Reading CSVs:  25%|██▌       | 16/63 [00:44<02:09,  2.75s/file]Reading CSVs:  27%|██▋       | 17/63 [00:49<02:46,  3.63s/file]Reading CSVs:  29%|██▊       | 18/63 [00:53<02:49,  3.78s/file]Reading CSVs:  30%|███       | 19/63 [00:57<02:41,  3.66s/file]Reading CSVs:  32%|███▏      | 20/63 [01:00<02:36,  3.63s/file]Reading CSVs:  33%|███▎      | 21/63 [01:03<02:25,  3.47s/file]Reading CSVs:  35%|███▍      | 22/63 [01:09<02:44,  4.02s/file]Reading CSVs:  37%|███▋      | 23/63 [01:12<02:32,  3.81s/file]Reading CSVs:  38%|███▊      | 24/63 [01:16<02:28,  3.80s/file]Reading CSVs:  40%|███▉      | 25/63 [01:22<02:49,  4.45s/file]Reading CSVs:  41%|████▏     | 26/63 [01:26<02:40,  4.35s/file]Reading CSVs:  43%|████▎     | 27/63 [01:30<02:36,  4.35s/file]Reading CSVs:  44%|████▍     | 28/63 [01:35<02:34,  4.42s/file]Reading CSVs:  46%|████▌     | 29/63 [01:38<02:18,  4.06s/file]Reading CSVs:  48%|████▊     | 30/63 [01:41<02:05,  3.79s/file]Reading CSVs:  49%|████▉     | 31/63 [01:44<01:54,  3.59s/file]Reading CSVs:  51%|█████     | 32/63 [01:47<01:46,  3.44s/file]Reading CSVs:  52%|█████▏    | 33/63 [01:54<02:11,  4.40s/file]Reading CSVs:  54%|█████▍    | 34/63 [01:58<02:03,  4.24s/file]Reading CSVs:  56%|█████▌    | 35/63 [02:02<01:56,  4.16s/file]Reading CSVs:  57%|█████▋    | 36/63 [02:06<01:50,  4.09s/file]Reading CSVs:  59%|█████▊    | 37/63 [02:09<01:37,  3.75s/file]Reading CSVs:  60%|██████    | 38/63 [02:12<01:27,  3.49s/file]Reading CSVs:  62%|██████▏   | 39/63 [02:15<01:23,  3.49s/file]Reading CSVs:  63%|██████▎   | 40/63 [02:19<01:22,  3.60s/file]Reading CSVs:  65%|██████▌   | 41/63 [02:22<01:18,  3.58s/file]Reading CSVs:  67%|██████▋   | 42/63 [02:30<01:37,  4.64s/file]Reading CSVs:  68%|██████▊   | 43/63 [02:33<01:24,  4.21s/file]Reading CSVs:  70%|██████▉   | 44/63 [02:36<01:12,  3.84s/file]Reading CSVs:  71%|███████▏  | 45/63 [02:38<01:02,  3.47s/file]Reading CSVs:  73%|███████▎  | 46/63 [3:06:21<15:37:36, 3309.20s/file]Reading CSVs:  75%|███████▍  | 47/63 [3:06:26<10:18:05, 2317.83s/file]Reading CSVs:  76%|███████▌  | 48/63 [3:06:28<6:45:48, 1623.25s/file] Reading CSVs:  78%|███████▊  | 49/63 [3:06:31<4:25:20, 1137.18s/file]Reading CSVs:  79%|███████▉  | 50/63 [3:06:33<2:52:36, 796.63s/file] Reading CSVs:  81%|████████  | 51/63 [3:06:34<1:51:34, 557.87s/file]Reading CSVs:  83%|████████▎ | 52/63 [3:06:34<1:11:36, 390.58s/file]Reading CSVs:  84%|████████▍ | 53/63 [3:06:38<45:45, 274.57s/file]  Reading CSVs:  86%|████████▌ | 54/63 [3:06:43<29:01, 193.53s/file]Reading CSVs:  87%|████████▋ | 55/63 [3:06:45<18:08, 136.07s/file]Reading CSVs:  89%|████████▉ | 56/63 [3:06:47<11:11, 95.95s/file] Reading CSVs:  90%|█████████ | 57/63 [3:06:49<06:47, 67.88s/file]Reading CSVs:  92%|█████████▏| 58/63 [3:06:51<04:00, 48.03s/file]Reading CSVs:  94%|█████████▎| 59/63 [3:06:53<02:17, 34.32s/file]Reading CSVs:  95%|█████████▌| 60/63 [3:06:55<01:13, 24.63s/file]Reading CSVs:  97%|█████████▋| 61/63 [3:06:57<00:35, 17.80s/file]Reading CSVs:  98%|█████████▊| 62/63 [3:06:59<00:12, 12.96s/file]Reading CSVs: 100%|██████████| 63/63 [3:07:00<00:00,  9.40s/file]Reading CSVs: 100%|██████████| 63/63 [3:07:00<00:00, 178.10s/file]
+2026-09-29 21:18:46,286 INFO    data_loader: Stratification check: max |sample share - population share| = 0.00059
+2026-09-29 21:18:46,410 INFO    data_loader: Loaded 1,400,246 rows x 40 columns (308.4 MB)
+2026-09-29 21:18:47,389 INFO    runtime: [RAM] after CSV load: RSS 1.52 GB | system used 2.71 / 8.18 GB, available 5.47 GB
+2026-09-29 21:18:47,852 INFO    preprocessing: Dropped 37 rows with NaN/inf (0.0026%)
+2026-09-29 21:18:48,925 INFO    preprocessing: Removed 422,975 exact duplicate rows
+2026-09-29 21:18:51,192 INFO    preprocessing: train n=684,063   Benign=22,951, Malicious=661,112
+2026-09-29 21:18:51,193 INFO    preprocessing: val   n=146,585   Benign=4,918, Malicious=141,667
+2026-09-29 21:18:51,193 INFO    preprocessing: test  n=146,586   Benign=4,918, Malicious=141,668
+2026-09-29 21:18:51,323 INFO    preprocessing: Leakage checks passed (disjoint splits, train-only scaler & class weights)
+2026-09-29 21:18:51,341 INFO    runtime: [RAM] after split + scale: RSS 1.86 GB | system used 3.05 / 8.18 GB, available 5.13 GB
+2026-09-29 21:18:56,000 INFO    preprocessing: Cached prepared arrays in outputs_merged/cache
+2026-09-29 21:18:56,175 INFO    runtime: [RAM] prepare end: RSS 1.28 GB | system used 2.47 / 8.18 GB, available 5.71 GB
+2026-09-29 21:18:56,176 INFO    runtime: [RAM] prepare peak RSS 2.42 GB, min system available 4.49 GB, 264.9 s
+2026-09-29 21:18:56,269 INFO    runtime: ==================== STAGE train ====================
+2026-09-29 21:18:56,270 INFO    runtime: [RAM] train start: RSS 1.28 GB | system used 2.47 / 8.18 GB, available 5.71 GB
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790716736.665479     576 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5560 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4060 Laptop GPU, pci bus id: 0000:01:00.0, compute capability: 8.9
+2026-09-29 21:18:57,804 INFO    main: CNN-LSTM params: {'total_params': 79902, 'trainable_params': 79774}
+2026-09-29 21:18:57,825 INFO    runtime: [RAM] CNN-LSTM fit start: RSS 1.43 GB | system used 2.56 / 8.18 GB, available 5.62 GB
+Epoch 1/25
+2026-09-29 21:19:36,096 INFO    train: [RAM] epoch 1: RSS 2.05 GB | system used 2.90 / 8.18 GB, available 5.28 GB
+2673/2673 - 38s - 14ms/step - accuracy: 0.9661 - loss: 0.1270 - val_accuracy: 0.9670 - val_loss: 0.1063 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 2/25
+2026-09-29 21:20:08,584 INFO    train: [RAM] epoch 2: RSS 2.06 GB | system used 2.91 / 8.18 GB, available 5.27 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9673 - loss: 0.0696 - val_accuracy: 0.9672 - val_loss: 0.1191 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 3/25
+2026-09-29 21:20:40,919 INFO    train: [RAM] epoch 3: RSS 2.07 GB | system used 2.92 / 8.18 GB, available 5.26 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9680 - loss: 0.0657 - val_accuracy: 0.9673 - val_loss: 0.0998 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 4/25
+2026-09-29 21:21:15,387 INFO    train: [RAM] epoch 4: RSS 2.08 GB | system used 2.92 / 8.18 GB, available 5.26 GB
+2673/2673 - 34s - 13ms/step - accuracy: 0.9685 - loss: 0.0641 - val_accuracy: 0.9671 - val_loss: 0.0983 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 5/25
+2026-09-29 21:21:51,041 INFO    train: [RAM] epoch 5: RSS 2.09 GB | system used 2.94 / 8.18 GB, available 5.24 GB
+2673/2673 - 36s - 13ms/step - accuracy: 0.9687 - loss: 0.0622 - val_accuracy: 0.9688 - val_loss: 0.1001 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 6/25
+2026-09-29 21:22:24,031 INFO    train: [RAM] epoch 6: RSS 2.10 GB | system used 2.95 / 8.18 GB, available 5.23 GB
+2673/2673 - 33s - 12ms/step - accuracy: 0.9693 - loss: 0.0612 - val_accuracy: 0.9702 - val_loss: 0.0825 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 7/25
+2026-09-29 21:22:56,852 INFO    train: [RAM] epoch 7: RSS 2.10 GB | system used 2.96 / 8.18 GB, available 5.22 GB
+2673/2673 - 33s - 12ms/step - accuracy: 0.9692 - loss: 0.0603 - val_accuracy: 0.9707 - val_loss: 0.0831 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 8/25
+2026-09-29 21:23:28,495 INFO    train: [RAM] epoch 8: RSS 2.11 GB | system used 2.96 / 8.18 GB, available 5.22 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9700 - loss: 0.0596 - val_accuracy: 0.9708 - val_loss: 0.0806 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 9/25
+2026-09-29 21:23:59,726 INFO    train: [RAM] epoch 9: RSS 2.12 GB | system used 2.98 / 8.18 GB, available 5.20 GB
+2673/2673 - 31s - 12ms/step - accuracy: 0.9698 - loss: 0.0599 - val_accuracy: 0.9706 - val_loss: 0.0873 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 10/25
+
+Epoch 10: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+2026-09-29 21:24:32,438 INFO    train: [RAM] epoch 10: RSS 2.13 GB | system used 2.98 / 8.18 GB, available 5.20 GB
+2673/2673 - 33s - 12ms/step - accuracy: 0.9705 - loss: 0.0587 - val_accuracy: 0.9710 - val_loss: 0.0837 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 11/25
+2026-09-29 21:25:04,109 INFO    train: [RAM] epoch 11: RSS 2.13 GB | system used 2.98 / 8.18 GB, available 5.20 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9710 - loss: 0.0582 - val_accuracy: 0.9707 - val_loss: 0.0865 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 12/25
+
+Epoch 12: ReduceLROnPlateau reducing learning rate to 0.0002500000118743628.
+2026-09-29 21:25:35,977 INFO    train: [RAM] epoch 12: RSS 2.14 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9712 - loss: 0.0574 - val_accuracy: 0.9711 - val_loss: 0.0880 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 13/25
+2026-09-29 21:26:07,285 INFO    train: [RAM] epoch 13: RSS 2.15 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2673/2673 - 31s - 12ms/step - accuracy: 0.9717 - loss: 0.0565 - val_accuracy: 0.9721 - val_loss: 0.0792 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 14/25
+2026-09-29 21:26:38,568 INFO    train: [RAM] epoch 14: RSS 2.15 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2673/2673 - 31s - 12ms/step - accuracy: 0.9718 - loss: 0.0563 - val_accuracy: 0.9721 - val_loss: 0.0788 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 15/25
+2026-09-29 21:27:10,928 INFO    train: [RAM] epoch 15: RSS 2.16 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9720 - loss: 0.0570 - val_accuracy: 0.9721 - val_loss: 0.0786 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 16/25
+2026-09-29 21:27:42,081 INFO    train: [RAM] epoch 16: RSS 2.16 GB | system used 3.09 / 8.18 GB, available 5.09 GB
+2673/2673 - 31s - 12ms/step - accuracy: 0.9717 - loss: 0.0567 - val_accuracy: 0.9721 - val_loss: 0.0826 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 17/25
+2026-09-29 21:28:15,120 INFO    train: [RAM] epoch 17: RSS 2.17 GB | system used 3.02 / 8.18 GB, available 5.16 GB
+2673/2673 - 33s - 12ms/step - accuracy: 0.9719 - loss: 0.0559 - val_accuracy: 0.9724 - val_loss: 0.0736 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 18/25
+2026-09-29 21:28:47,121 INFO    train: [RAM] epoch 18: RSS 2.17 GB | system used 3.02 / 8.18 GB, available 5.16 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9720 - loss: 0.0557 - val_accuracy: 0.9725 - val_loss: 0.0760 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 19/25
+
+Epoch 19: ReduceLROnPlateau reducing learning rate to 0.0001250000059371814.
+2026-09-29 21:29:19,504 INFO    train: [RAM] epoch 19: RSS 2.18 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9722 - loss: 0.0556 - val_accuracy: 0.9724 - val_loss: 0.0824 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 20/25
+2026-09-29 21:29:52,198 INFO    train: [RAM] epoch 20: RSS 2.19 GB | system used 3.04 / 8.18 GB, available 5.14 GB
+2673/2673 - 33s - 12ms/step - accuracy: 0.9725 - loss: 0.0552 - val_accuracy: 0.9729 - val_loss: 0.0775 - lr: 1.2500e-04 - learning_rate: 1.2500e-04
+Epoch 21/25
+
+Epoch 21: ReduceLROnPlateau reducing learning rate to 6.25000029685907e-05.
+2026-09-29 21:30:24,333 INFO    train: [RAM] epoch 21: RSS 2.19 GB | system used 3.05 / 8.18 GB, available 5.13 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9724 - loss: 0.0550 - val_accuracy: 0.9728 - val_loss: 0.0786 - lr: 1.2500e-04 - learning_rate: 1.2500e-04
+Epoch 22/25
+2026-09-29 21:30:58,495 INFO    train: [RAM] epoch 22: RSS 2.20 GB | system used 3.04 / 8.18 GB, available 5.14 GB
+2673/2673 - 34s - 13ms/step - accuracy: 0.9726 - loss: 0.0547 - val_accuracy: 0.9728 - val_loss: 0.0783 - lr: 6.2500e-05 - learning_rate: 6.2500e-05
+Epoch 22: early stopping
+Restoring model weights from the end of the best epoch: 17.
+2026-09-29 21:30:58,826 INFO    train: CNN-LSTM: 22 epochs, best epoch 17, 720.7 s
+2026-09-29 21:31:00,778 INFO    main: CNN-LSTM     acc=0.9722 f1=0.9854 benign_recall=0.9978 mcc=0.7283
+2026-09-29 21:31:21,524 INFO    runtime: [RAM] train end: RSS 2.36 GB | system used 3.17 / 8.18 GB, available 5.01 GB
+2026-09-29 21:31:21,525 INFO    runtime: [RAM] train peak RSS 2.42 GB, min system available 4.85 GB, 745.3 s
+2026-09-29 21:31:21,691 INFO    runtime: ==================== STAGE baselines ====================
+2026-09-29 21:31:21,693 INFO    runtime: [RAM] baselines start: RSS 2.36 GB | system used 3.18 / 8.18 GB, available 5.00 GB
+2026-09-29 21:31:22,227 INFO    runtime: [RAM] CNN fit start: RSS 2.36 GB | system used 3.18 / 8.18 GB, available 5.00 GB
+Epoch 1/25
+I0000 00:00:1790717486.473133     732 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2026-09-29 21:31:45,569 INFO    train: [RAM] epoch 1: RSS 2.69 GB | system used 3.34 / 8.18 GB, available 4.84 GB
+2673/2673 - 23s - 9ms/step - accuracy: 0.9682 - loss: 0.0679 - val_accuracy: 0.9675 - val_loss: 0.1134 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 2/25
+2026-09-29 21:31:52,492 INFO    train: [RAM] epoch 2: RSS 2.69 GB | system used 3.35 / 8.18 GB, available 4.83 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9691 - loss: 0.0624 - val_accuracy: 0.9698 - val_loss: 0.0814 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 3/25
+2026-09-29 21:31:59,746 INFO    train: [RAM] epoch 3: RSS 2.69 GB | system used 3.35 / 8.18 GB, available 4.82 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9696 - loss: 0.0603 - val_accuracy: 0.9702 - val_loss: 0.0891 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 4/25
+2026-09-29 21:32:07,459 INFO    train: [RAM] epoch 4: RSS 2.69 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2673/2673 - 8s - 3ms/step - accuracy: 0.9703 - loss: 0.0586 - val_accuracy: 0.9728 - val_loss: 0.0654 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 5/25
+2026-09-29 21:32:14,798 INFO    train: [RAM] epoch 5: RSS 2.69 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9708 - loss: 0.0577 - val_accuracy: 0.9706 - val_loss: 0.0979 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 6/25
+
+Epoch 6: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+2026-09-29 21:32:22,183 INFO    train: [RAM] epoch 6: RSS 2.69 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9712 - loss: 0.0568 - val_accuracy: 0.9714 - val_loss: 0.0830 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 7/25
+2026-09-29 21:32:29,648 INFO    train: [RAM] epoch 7: RSS 2.70 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9719 - loss: 0.0553 - val_accuracy: 0.9717 - val_loss: 0.0845 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 8/25
+
+Epoch 8: ReduceLROnPlateau reducing learning rate to 0.0002500000118743628.
+2026-09-29 21:32:37,299 INFO    train: [RAM] epoch 8: RSS 2.70 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2673/2673 - 8s - 3ms/step - accuracy: 0.9720 - loss: 0.0549 - val_accuracy: 0.9721 - val_loss: 0.0824 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 9/25
+2026-09-29 21:32:45,219 INFO    train: [RAM] epoch 9: RSS 2.70 GB | system used 3.54 / 8.18 GB, available 4.64 GB
+2673/2673 - 8s - 3ms/step - accuracy: 0.9724 - loss: 0.0539 - val_accuracy: 0.9725 - val_loss: 0.0778 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 9: early stopping
+Restoring model weights from the end of the best epoch: 4.
+2026-09-29 21:32:45,335 INFO    train: CNN: 9 epochs, best epoch 4, 75.2 s
+WARNING:tensorflow:5 out of the last 76 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x78e03c498860> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 21:32:46,451 WARNING tensorflow: 5 out of the last 76 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x78e03c498860> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 21:32:47,803 INFO    main: CNN          acc=0.9728 f1=0.9857 benign_recall=0.9967 mcc=0.7313
+2026-09-29 21:32:48,045 INFO    runtime: [RAM] after baseline CNN: RSS 2.76 GB | system used 3.39 / 8.18 GB, available 4.79 GB
+2026-09-29 21:32:48,303 INFO    runtime: [RAM] LSTM fit start: RSS 2.76 GB | system used 3.48 / 8.18 GB, available 4.70 GB
+Epoch 1/25
+2026-09-29 21:33:17,436 INFO    train: [RAM] epoch 1: RSS 2.60 GB | system used 3.24 / 8.18 GB, available 4.94 GB
+2673/2673 - 29s - 11ms/step - accuracy: 0.9510 - loss: 0.0956 - val_accuracy: 0.9656 - val_loss: 0.1124 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 2/25
+2026-09-29 21:33:49,715 INFO    train: [RAM] epoch 2: RSS 2.60 GB | system used 3.25 / 8.18 GB, available 4.93 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9648 - loss: 0.0741 - val_accuracy: 0.9635 - val_loss: 0.1070 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 3/25
+2026-09-29 21:34:18,966 INFO    train: [RAM] epoch 3: RSS 2.62 GB | system used 3.26 / 8.18 GB, available 4.92 GB
+2673/2673 - 29s - 11ms/step - accuracy: 0.9649 - loss: 0.0726 - val_accuracy: 0.9634 - val_loss: 0.1181 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 4/25
+2026-09-29 21:34:47,950 INFO    train: [RAM] epoch 4: RSS 2.63 GB | system used 3.27 / 8.18 GB, available 4.91 GB
+2673/2673 - 29s - 11ms/step - accuracy: 0.9659 - loss: 0.0704 - val_accuracy: 0.9714 - val_loss: 0.0795 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 5/25
+2026-09-29 21:35:21,641 INFO    train: [RAM] epoch 5: RSS 2.63 GB | system used 3.27 / 8.18 GB, available 4.91 GB
+2673/2673 - 34s - 13ms/step - accuracy: 0.9680 - loss: 0.0665 - val_accuracy: 0.9681 - val_loss: 0.0988 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 6/25
+
+Epoch 6: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+2026-09-29 21:35:50,333 INFO    train: [RAM] epoch 6: RSS 2.64 GB | system used 3.28 / 8.18 GB, available 4.90 GB
+2673/2673 - 29s - 11ms/step - accuracy: 0.9688 - loss: 0.0633 - val_accuracy: 0.9676 - val_loss: 0.0952 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 7/25
+2026-09-29 21:36:21,837 INFO    train: [RAM] epoch 7: RSS 2.64 GB | system used 3.29 / 8.18 GB, available 4.89 GB
+2673/2673 - 32s - 12ms/step - accuracy: 0.9695 - loss: 0.0602 - val_accuracy: 0.9686 - val_loss: 0.0932 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 8/25
+
+Epoch 8: ReduceLROnPlateau reducing learning rate to 0.0002500000118743628.
+2026-09-29 21:36:52,119 INFO    train: [RAM] epoch 8: RSS 2.65 GB | system used 3.30 / 8.18 GB, available 4.88 GB
+2673/2673 - 30s - 11ms/step - accuracy: 0.9698 - loss: 0.0593 - val_accuracy: 0.9706 - val_loss: 0.0900 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 9/25
+2026-09-29 21:37:20,659 INFO    train: [RAM] epoch 9: RSS 2.66 GB | system used 3.29 / 8.18 GB, available 4.88 GB
+2673/2673 - 29s - 11ms/step - accuracy: 0.9703 - loss: 0.0582 - val_accuracy: 0.9702 - val_loss: 0.0836 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 9: early stopping
+Restoring model weights from the end of the best epoch: 4.
+2026-09-29 21:37:20,802 INFO    train: LSTM: 9 epochs, best epoch 4, 272.3 s
+2026-09-29 21:37:22,251 INFO    main: LSTM         acc=0.9713 f1=0.9849 benign_recall=0.9929 mcc=0.7205
+2026-09-29 21:37:22,685 INFO    runtime: [RAM] after baseline LSTM: RSS 2.67 GB | system used 3.31 / 8.18 GB, available 4.87 GB
+2026-09-29 21:37:22,744 INFO    runtime: [RAM] MLP fit start: RSS 2.67 GB | system used 3.31 / 8.18 GB, available 4.87 GB
+Epoch 1/25
+2026-09-29 21:37:37,471 INFO    train: [RAM] epoch 1: RSS 2.98 GB | system used 3.61 / 8.18 GB, available 4.57 GB
+2673/2673 - 15s - 5ms/step - accuracy: 0.9686 - loss: 0.0675 - val_accuracy: 0.9677 - val_loss: 0.1074 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 2/25
+2026-09-29 21:37:44,251 INFO    train: [RAM] epoch 2: RSS 2.98 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9694 - loss: 0.0604 - val_accuracy: 0.9700 - val_loss: 0.0789 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 3/25
+2026-09-29 21:37:51,379 INFO    train: [RAM] epoch 3: RSS 2.98 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9698 - loss: 0.0590 - val_accuracy: 0.9707 - val_loss: 0.0851 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 4/25
+2026-09-29 21:37:57,907 INFO    train: [RAM] epoch 4: RSS 2.98 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2673/2673 - 7s - 2ms/step - accuracy: 0.9703 - loss: 0.0579 - val_accuracy: 0.9732 - val_loss: 0.0648 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 5/25
+2026-09-29 21:38:04,938 INFO    train: [RAM] epoch 5: RSS 2.98 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9706 - loss: 0.0571 - val_accuracy: 0.9694 - val_loss: 0.0988 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 6/25
+
+Epoch 6: ReduceLROnPlateau reducing learning rate to 0.0005000000237487257.
+2026-09-29 21:38:12,179 INFO    train: [RAM] epoch 6: RSS 2.98 GB | system used 3.61 / 8.18 GB, available 4.57 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9710 - loss: 0.0564 - val_accuracy: 0.9708 - val_loss: 0.0819 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 7/25
+2026-09-29 21:38:18,537 INFO    train: [RAM] epoch 7: RSS 2.98 GB | system used 3.61 / 8.18 GB, available 4.57 GB
+2673/2673 - 6s - 2ms/step - accuracy: 0.9716 - loss: 0.0552 - val_accuracy: 0.9717 - val_loss: 0.0862 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 8/25
+
+Epoch 8: ReduceLROnPlateau reducing learning rate to 0.0002500000118743628.
+2026-09-29 21:38:25,275 INFO    train: [RAM] epoch 8: RSS 2.99 GB | system used 3.62 / 8.18 GB, available 4.55 GB
+2673/2673 - 7s - 3ms/step - accuracy: 0.9718 - loss: 0.0549 - val_accuracy: 0.9724 - val_loss: 0.0817 - lr: 5.0000e-04 - learning_rate: 5.0000e-04
+Epoch 9/25
+2026-09-29 21:38:31,938 INFO    train: [RAM] epoch 9: RSS 2.99 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2673/2673 - 7s - 2ms/step - accuracy: 0.9724 - loss: 0.0541 - val_accuracy: 0.9724 - val_loss: 0.0792 - lr: 2.5000e-04 - learning_rate: 2.5000e-04
+Epoch 9: early stopping
+Restoring model weights from the end of the best epoch: 4.
+2026-09-29 21:38:32,055 INFO    train: MLP: 9 epochs, best epoch 4, 69.2 s
+2026-09-29 21:38:35,410 INFO    main: MLP          acc=0.9729 f1=0.9858 benign_recall=0.9945 mcc=0.7313
+2026-09-29 21:38:35,696 INFO    runtime: [RAM] after baseline MLP: RSS 3.05 GB | system used 3.68 / 8.18 GB, available 4.50 GB
+2026-09-29 21:38:35,835 INFO    train: RandomForest on 300,000 train rows, n_jobs=8
+/home/blackscythe/venvs/ids/lib/python3.12/site-packages/sklearn/metrics/_classification.py:304: UserWarning: The y_prob values do not sum to one. Make sure to pass probabilities.
+  warnings.warn(
+2026-09-29 21:38:40,501 INFO    main: RandomForest acc=0.9875 f1=0.9935 benign_recall=0.9331 mcc=0.8323
+2026-09-29 21:38:43,351 INFO    runtime: [RAM] baselines end: RSS 3.37 GB | system used 4.01 / 8.18 GB, available 4.17 GB
+2026-09-29 21:38:43,352 INFO    runtime: [RAM] baselines peak RSS 3.37 GB, min system available 4.07 GB, 433.8 s
+2026-09-29 21:38:43,504 INFO    runtime: ==================== STAGE cv ====================
+2026-09-29 21:38:43,506 INFO    runtime: [RAM] cv start: RSS 3.26 GB | system used 3.91 / 8.18 GB, available 4.27 GB
+CV folds:   0%|          | 0/5 [00:00<?, ?it/s]2026-09-29 21:39:45,105 INFO    train: CV fold 1: {"fold": 1, "accuracy": 0.9711, "precision": 0.9997, "recall": 0.9704, "f1": 0.9848, "benign_recall": 0.992} | RSS 2.99 GB | system used 3.61 / 8.18 GB, available 4.57 GB
+CV folds:  20%|██        | 1/5 [01:01<04:06, 61.71s/it]2026-09-29 21:40:44,759 INFO    train: CV fold 2: {"fold": 2, "accuracy": 0.9668, "precision": 1.0, "recall": 0.9656, "f1": 0.9825, "benign_recall": 1.0} | RSS 3.05 GB | system used 3.67 / 8.18 GB, available 4.51 GB
+CV folds:  40%|████      | 2/5 [02:01<03:01, 60.53s/it]WARNING:tensorflow:5 out of the last 17 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x78e00c18e160> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 21:41:49,063 WARNING tensorflow: 5 out of the last 17 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x78e00c18e160> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 21:41:49,438 INFO    train: CV fold 3: {"fold": 3, "accuracy": 0.9687, "precision": 1.0, "recall": 0.9676, "f1": 0.9836, "benign_recall": 1.0} | RSS 3.10 GB | system used 3.73 / 8.18 GB, available 4.45 GB
+CV folds:  60%|██████    | 3/5 [03:06<02:04, 62.41s/it]2026-09-29 21:42:52,714 INFO    train: CV fold 4: {"fold": 4, "accuracy": 0.9679, "precision": 1.0, "recall": 0.9668, "f1": 0.9831, "benign_recall": 1.0} | RSS 3.16 GB | system used 3.79 / 8.18 GB, available 4.39 GB
+CV folds:  80%|████████  | 4/5 [04:09<01:02, 62.78s/it]2026-09-29 21:43:53,018 INFO    train: CV fold 5: {"fold": 5, "accuracy": 0.9674, "precision": 1.0, "recall": 0.9663, "f1": 0.9829, "benign_recall": 1.0} | RSS 3.22 GB | system used 3.83 / 8.18 GB, available 4.34 GB
+CV folds: 100%|██████████| 5/5 [05:09<00:00, 61.91s/it]CV folds: 100%|██████████| 5/5 [05:09<00:00, 61.96s/it]
+2026-09-29 21:43:53,716 INFO    runtime: [RAM] cv end: RSS 3.21 GB | system used 3.85 / 8.18 GB, available 4.33 GB
+2026-09-29 21:43:53,717 INFO    runtime: [RAM] cv peak RSS 3.29 GB, min system available 4.17 GB, 310.2 s
+2026-09-29 21:43:53,924 INFO    runtime: ==================== STAGE compare ====================
+2026-09-29 21:43:53,930 INFO    runtime: [RAM] compare start: RSS 3.21 GB | system used 3.85 / 8.18 GB, available 4.33 GB
+2026-09-29 21:43:55,180 INFO    compare_with_paper: Paper comparison:
+                                metric   paper  ours_cnn_lstm  majority_baseline  abs_diff_vs_paper  rel_diff_vs_paper_%
+                          Accuracy (%) 98.4200        97.2248            96.6450            -1.1952               -1.214
+       Precision, support-weighted (%)     NaN        98.4738            93.4025                NaN                  NaN
+          Recall, support-weighted (%)     NaN        97.2248            96.6450                NaN                  NaN
+              F1, support-weighted (%) 98.5700        97.6092            94.9961            -0.9608               -0.975
+   Precision, malicious = positive (%)     NaN        99.9920            96.6450                NaN                  NaN
+Recall / detection rate, malicious (%)     NaN        97.1363           100.0000                NaN                  NaN
+                     F1, malicious (%)     NaN        98.5434            98.2939                NaN                  NaN
+                  Benign precision (%)     NaN        54.7412             0.0000                NaN                  NaN
+       Benign recall = specificity (%)     NaN        99.7763             0.0000                NaN                  NaN
+                         Benign F1 (%)     NaN        70.6959             0.0000                NaN                  NaN
+               False positive rate (%)  9.1700         0.2237           100.0000            -8.9463              -97.561
+               False negative rate (%)     NaN         2.8637             0.0000                NaN                  NaN
+                  Matthews corr. coef.     NaN         0.7283             0.0000                NaN                  NaN
+                               ROC-AUC     NaN         0.9950             0.5000                NaN                  NaN
+            PR-AUC (average precision)     NaN         0.9998             0.9664                NaN                  NaN
+                    Cross-entropy loss  0.0275         0.0744             0.5349             0.0469              170.545
+2026-09-29 21:43:55,181 INFO    runtime: [RAM] compare end: RSS 3.29 GB | system used 3.93 / 8.18 GB, available 4.25 GB
+2026-09-29 21:43:55,182 INFO    runtime: [RAM] compare peak RSS 3.29 GB, min system available 4.25 GB, 1.2 s
+2026-09-29 21:43:55,376 INFO    main: Done. Figures: outputs_merged/figures | metrics: outputs_merged/metrics
+===== 2026-09-29 21:44:00 exit=0

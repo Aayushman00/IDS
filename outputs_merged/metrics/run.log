@@ -1,0 +1,128 @@
+2026-09-29 18:10:38,208 INFO    main: Stages: ['prepare', 'train', 'baselines', 'cv', 'compare'] | output: outputs_merged
+2026-09-29 18:10:38,523 INFO    train: TensorFlow 2.20.0 | device: /physical_device:GPU:0 | mixed precision: False
+2026-09-29 18:10:38,524 INFO    runtime: ==================== STAGE prepare ====================
+2026-09-29 18:10:38,524 INFO    runtime: [RAM] prepare start: RSS 0.89 GB | system used 2.10 / 8.18 GB, available 6.08 GB
+2026-09-29 18:10:38,545 INFO    data_loader: Found 63 CSV files, label column 'Label'
+2026-09-29 18:11:45,580 INFO    data_loader: Total rows 45,019,234 -> keep fraction 0.03110
+2026-09-29 21:18:46,286 INFO    data_loader: Stratification check: max |sample share - population share| = 0.00059
+2026-09-29 21:18:46,410 INFO    data_loader: Loaded 1,400,246 rows x 40 columns (308.4 MB)
+2026-09-29 21:18:47,389 INFO    runtime: [RAM] after CSV load: RSS 1.52 GB | system used 2.71 / 8.18 GB, available 5.47 GB
+2026-09-29 21:18:47,852 INFO    preprocessing: Dropped 37 rows with NaN/inf (0.0026%)
+2026-09-29 21:18:48,925 INFO    preprocessing: Removed 422,975 exact duplicate rows
+2026-09-29 21:18:51,192 INFO    preprocessing: train n=684,063   Benign=22,951, Malicious=661,112
+2026-09-29 21:18:51,193 INFO    preprocessing: val   n=146,585   Benign=4,918, Malicious=141,667
+2026-09-29 21:18:51,193 INFO    preprocessing: test  n=146,586   Benign=4,918, Malicious=141,668
+2026-09-29 21:18:51,323 INFO    preprocessing: Leakage checks passed (disjoint splits, train-only scaler & class weights)
+2026-09-29 21:18:51,341 INFO    runtime: [RAM] after split + scale: RSS 1.86 GB | system used 3.05 / 8.18 GB, available 5.13 GB
+2026-09-29 21:18:56,000 INFO    preprocessing: Cached prepared arrays in outputs_merged/cache
+2026-09-29 21:18:56,175 INFO    runtime: [RAM] prepare end: RSS 1.28 GB | system used 2.47 / 8.18 GB, available 5.71 GB
+2026-09-29 21:18:56,176 INFO    runtime: [RAM] prepare peak RSS 2.42 GB, min system available 4.49 GB, 264.9 s
+2026-09-29 21:18:56,269 INFO    runtime: ==================== STAGE train ====================
+2026-09-29 21:18:56,270 INFO    runtime: [RAM] train start: RSS 1.28 GB | system used 2.47 / 8.18 GB, available 5.71 GB
+2026-09-29 21:18:57,804 INFO    main: CNN-LSTM params: {'total_params': 79902, 'trainable_params': 79774}
+2026-09-29 21:18:57,825 INFO    runtime: [RAM] CNN-LSTM fit start: RSS 1.43 GB | system used 2.56 / 8.18 GB, available 5.62 GB
+2026-09-29 21:19:36,096 INFO    train: [RAM] epoch 1: RSS 2.05 GB | system used 2.90 / 8.18 GB, available 5.28 GB
+2026-09-29 21:20:08,584 INFO    train: [RAM] epoch 2: RSS 2.06 GB | system used 2.91 / 8.18 GB, available 5.27 GB
+2026-09-29 21:20:40,919 INFO    train: [RAM] epoch 3: RSS 2.07 GB | system used 2.92 / 8.18 GB, available 5.26 GB
+2026-09-29 21:21:15,387 INFO    train: [RAM] epoch 4: RSS 2.08 GB | system used 2.92 / 8.18 GB, available 5.26 GB
+2026-09-29 21:21:51,041 INFO    train: [RAM] epoch 5: RSS 2.09 GB | system used 2.94 / 8.18 GB, available 5.24 GB
+2026-09-29 21:22:24,031 INFO    train: [RAM] epoch 6: RSS 2.10 GB | system used 2.95 / 8.18 GB, available 5.23 GB
+2026-09-29 21:22:56,852 INFO    train: [RAM] epoch 7: RSS 2.10 GB | system used 2.96 / 8.18 GB, available 5.22 GB
+2026-09-29 21:23:28,495 INFO    train: [RAM] epoch 8: RSS 2.11 GB | system used 2.96 / 8.18 GB, available 5.22 GB
+2026-09-29 21:23:59,726 INFO    train: [RAM] epoch 9: RSS 2.12 GB | system used 2.98 / 8.18 GB, available 5.20 GB
+2026-09-29 21:24:32,438 INFO    train: [RAM] epoch 10: RSS 2.13 GB | system used 2.98 / 8.18 GB, available 5.20 GB
+2026-09-29 21:25:04,109 INFO    train: [RAM] epoch 11: RSS 2.13 GB | system used 2.98 / 8.18 GB, available 5.20 GB
+2026-09-29 21:25:35,977 INFO    train: [RAM] epoch 12: RSS 2.14 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2026-09-29 21:26:07,285 INFO    train: [RAM] epoch 13: RSS 2.15 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2026-09-29 21:26:38,568 INFO    train: [RAM] epoch 14: RSS 2.15 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2026-09-29 21:27:10,928 INFO    train: [RAM] epoch 15: RSS 2.16 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2026-09-29 21:27:42,081 INFO    train: [RAM] epoch 16: RSS 2.16 GB | system used 3.09 / 8.18 GB, available 5.09 GB
+2026-09-29 21:28:15,120 INFO    train: [RAM] epoch 17: RSS 2.17 GB | system used 3.02 / 8.18 GB, available 5.16 GB
+2026-09-29 21:28:47,121 INFO    train: [RAM] epoch 18: RSS 2.17 GB | system used 3.02 / 8.18 GB, available 5.16 GB
+2026-09-29 21:29:19,504 INFO    train: [RAM] epoch 19: RSS 2.18 GB | system used 3.03 / 8.18 GB, available 5.15 GB
+2026-09-29 21:29:52,198 INFO    train: [RAM] epoch 20: RSS 2.19 GB | system used 3.04 / 8.18 GB, available 5.14 GB
+2026-09-29 21:30:24,333 INFO    train: [RAM] epoch 21: RSS 2.19 GB | system used 3.05 / 8.18 GB, available 5.13 GB
+2026-09-29 21:30:58,495 INFO    train: [RAM] epoch 22: RSS 2.20 GB | system used 3.04 / 8.18 GB, available 5.14 GB
+2026-09-29 21:30:58,826 INFO    train: CNN-LSTM: 22 epochs, best epoch 17, 720.7 s
+2026-09-29 21:31:00,778 INFO    main: CNN-LSTM     acc=0.9722 f1=0.9854 benign_recall=0.9978 mcc=0.7283
+2026-09-29 21:31:21,524 INFO    runtime: [RAM] train end: RSS 2.36 GB | system used 3.17 / 8.18 GB, available 5.01 GB
+2026-09-29 21:31:21,525 INFO    runtime: [RAM] train peak RSS 2.42 GB, min system available 4.85 GB, 745.3 s
+2026-09-29 21:31:21,691 INFO    runtime: ==================== STAGE baselines ====================
+2026-09-29 21:31:21,693 INFO    runtime: [RAM] baselines start: RSS 2.36 GB | system used 3.18 / 8.18 GB, available 5.00 GB
+2026-09-29 21:31:22,227 INFO    runtime: [RAM] CNN fit start: RSS 2.36 GB | system used 3.18 / 8.18 GB, available 5.00 GB
+2026-09-29 21:31:45,569 INFO    train: [RAM] epoch 1: RSS 2.69 GB | system used 3.34 / 8.18 GB, available 4.84 GB
+2026-09-29 21:31:52,492 INFO    train: [RAM] epoch 2: RSS 2.69 GB | system used 3.35 / 8.18 GB, available 4.83 GB
+2026-09-29 21:31:59,746 INFO    train: [RAM] epoch 3: RSS 2.69 GB | system used 3.35 / 8.18 GB, available 4.82 GB
+2026-09-29 21:32:07,459 INFO    train: [RAM] epoch 4: RSS 2.69 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2026-09-29 21:32:14,798 INFO    train: [RAM] epoch 5: RSS 2.69 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2026-09-29 21:32:22,183 INFO    train: [RAM] epoch 6: RSS 2.69 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2026-09-29 21:32:29,648 INFO    train: [RAM] epoch 7: RSS 2.70 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2026-09-29 21:32:37,299 INFO    train: [RAM] epoch 8: RSS 2.70 GB | system used 3.36 / 8.18 GB, available 4.82 GB
+2026-09-29 21:32:45,219 INFO    train: [RAM] epoch 9: RSS 2.70 GB | system used 3.54 / 8.18 GB, available 4.64 GB
+2026-09-29 21:32:45,335 INFO    train: CNN: 9 epochs, best epoch 4, 75.2 s
+2026-09-29 21:32:46,451 WARNING tensorflow: 5 out of the last 76 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x78e03c498860> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 21:32:47,803 INFO    main: CNN          acc=0.9728 f1=0.9857 benign_recall=0.9967 mcc=0.7313
+2026-09-29 21:32:48,045 INFO    runtime: [RAM] after baseline CNN: RSS 2.76 GB | system used 3.39 / 8.18 GB, available 4.79 GB
+2026-09-29 21:32:48,303 INFO    runtime: [RAM] LSTM fit start: RSS 2.76 GB | system used 3.48 / 8.18 GB, available 4.70 GB
+2026-09-29 21:33:17,436 INFO    train: [RAM] epoch 1: RSS 2.60 GB | system used 3.24 / 8.18 GB, available 4.94 GB
+2026-09-29 21:33:49,715 INFO    train: [RAM] epoch 2: RSS 2.60 GB | system used 3.25 / 8.18 GB, available 4.93 GB
+2026-09-29 21:34:18,966 INFO    train: [RAM] epoch 3: RSS 2.62 GB | system used 3.26 / 8.18 GB, available 4.92 GB
+2026-09-29 21:34:47,950 INFO    train: [RAM] epoch 4: RSS 2.63 GB | system used 3.27 / 8.18 GB, available 4.91 GB
+2026-09-29 21:35:21,641 INFO    train: [RAM] epoch 5: RSS 2.63 GB | system used 3.27 / 8.18 GB, available 4.91 GB
+2026-09-29 21:35:50,333 INFO    train: [RAM] epoch 6: RSS 2.64 GB | system used 3.28 / 8.18 GB, available 4.90 GB
+2026-09-29 21:36:21,837 INFO    train: [RAM] epoch 7: RSS 2.64 GB | system used 3.29 / 8.18 GB, available 4.89 GB
+2026-09-29 21:36:52,119 INFO    train: [RAM] epoch 8: RSS 2.65 GB | system used 3.30 / 8.18 GB, available 4.88 GB
+2026-09-29 21:37:20,659 INFO    train: [RAM] epoch 9: RSS 2.66 GB | system used 3.29 / 8.18 GB, available 4.88 GB
+2026-09-29 21:37:20,802 INFO    train: LSTM: 9 epochs, best epoch 4, 272.3 s
+2026-09-29 21:37:22,251 INFO    main: LSTM         acc=0.9713 f1=0.9849 benign_recall=0.9929 mcc=0.7205
+2026-09-29 21:37:22,685 INFO    runtime: [RAM] after baseline LSTM: RSS 2.67 GB | system used 3.31 / 8.18 GB, available 4.87 GB
+2026-09-29 21:37:22,744 INFO    runtime: [RAM] MLP fit start: RSS 2.67 GB | system used 3.31 / 8.18 GB, available 4.87 GB
+2026-09-29 21:37:37,471 INFO    train: [RAM] epoch 1: RSS 2.98 GB | system used 3.61 / 8.18 GB, available 4.57 GB
+2026-09-29 21:37:44,251 INFO    train: [RAM] epoch 2: RSS 2.98 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2026-09-29 21:37:51,379 INFO    train: [RAM] epoch 3: RSS 2.98 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2026-09-29 21:37:57,907 INFO    train: [RAM] epoch 4: RSS 2.98 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2026-09-29 21:38:04,938 INFO    train: [RAM] epoch 5: RSS 2.98 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2026-09-29 21:38:12,179 INFO    train: [RAM] epoch 6: RSS 2.98 GB | system used 3.61 / 8.18 GB, available 4.57 GB
+2026-09-29 21:38:18,537 INFO    train: [RAM] epoch 7: RSS 2.98 GB | system used 3.61 / 8.18 GB, available 4.57 GB
+2026-09-29 21:38:25,275 INFO    train: [RAM] epoch 8: RSS 2.99 GB | system used 3.62 / 8.18 GB, available 4.55 GB
+2026-09-29 21:38:31,938 INFO    train: [RAM] epoch 9: RSS 2.99 GB | system used 3.62 / 8.18 GB, available 4.56 GB
+2026-09-29 21:38:32,055 INFO    train: MLP: 9 epochs, best epoch 4, 69.2 s
+2026-09-29 21:38:35,410 INFO    main: MLP          acc=0.9729 f1=0.9858 benign_recall=0.9945 mcc=0.7313
+2026-09-29 21:38:35,696 INFO    runtime: [RAM] after baseline MLP: RSS 3.05 GB | system used 3.68 / 8.18 GB, available 4.50 GB
+2026-09-29 21:38:35,835 INFO    train: RandomForest on 300,000 train rows, n_jobs=8
+2026-09-29 21:38:40,501 INFO    main: RandomForest acc=0.9875 f1=0.9935 benign_recall=0.9331 mcc=0.8323
+2026-09-29 21:38:43,351 INFO    runtime: [RAM] baselines end: RSS 3.37 GB | system used 4.01 / 8.18 GB, available 4.17 GB
+2026-09-29 21:38:43,352 INFO    runtime: [RAM] baselines peak RSS 3.37 GB, min system available 4.07 GB, 433.8 s
+2026-09-29 21:38:43,504 INFO    runtime: ==================== STAGE cv ====================
+2026-09-29 21:38:43,506 INFO    runtime: [RAM] cv start: RSS 3.26 GB | system used 3.91 / 8.18 GB, available 4.27 GB
+2026-09-29 21:39:45,105 INFO    train: CV fold 1: {"fold": 1, "accuracy": 0.9711, "precision": 0.9997, "recall": 0.9704, "f1": 0.9848, "benign_recall": 0.992} | RSS 2.99 GB | system used 3.61 / 8.18 GB, available 4.57 GB
+2026-09-29 21:40:44,759 INFO    train: CV fold 2: {"fold": 2, "accuracy": 0.9668, "precision": 1.0, "recall": 0.9656, "f1": 0.9825, "benign_recall": 1.0} | RSS 3.05 GB | system used 3.67 / 8.18 GB, available 4.51 GB
+2026-09-29 21:41:49,063 WARNING tensorflow: 5 out of the last 17 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x78e00c18e160> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 21:41:49,438 INFO    train: CV fold 3: {"fold": 3, "accuracy": 0.9687, "precision": 1.0, "recall": 0.9676, "f1": 0.9836, "benign_recall": 1.0} | RSS 3.10 GB | system used 3.73 / 8.18 GB, available 4.45 GB
+2026-09-29 21:42:52,714 INFO    train: CV fold 4: {"fold": 4, "accuracy": 0.9679, "precision": 1.0, "recall": 0.9668, "f1": 0.9831, "benign_recall": 1.0} | RSS 3.16 GB | system used 3.79 / 8.18 GB, available 4.39 GB
+2026-09-29 21:43:53,018 INFO    train: CV fold 5: {"fold": 5, "accuracy": 0.9674, "precision": 1.0, "recall": 0.9663, "f1": 0.9829, "benign_recall": 1.0} | RSS 3.22 GB | system used 3.83 / 8.18 GB, available 4.34 GB
+2026-09-29 21:43:53,716 INFO    runtime: [RAM] cv end: RSS 3.21 GB | system used 3.85 / 8.18 GB, available 4.33 GB
+2026-09-29 21:43:53,717 INFO    runtime: [RAM] cv peak RSS 3.29 GB, min system available 4.17 GB, 310.2 s
+2026-09-29 21:43:53,924 INFO    runtime: ==================== STAGE compare ====================
+2026-09-29 21:43:53,930 INFO    runtime: [RAM] compare start: RSS 3.21 GB | system used 3.85 / 8.18 GB, available 4.33 GB
+2026-09-29 21:43:55,180 INFO    compare_with_paper: Paper comparison:
+                                metric   paper  ours_cnn_lstm  majority_baseline  abs_diff_vs_paper  rel_diff_vs_paper_%
+                          Accuracy (%) 98.4200        97.2248            96.6450            -1.1952               -1.214
+       Precision, support-weighted (%)     NaN        98.4738            93.4025                NaN                  NaN
+          Recall, support-weighted (%)     NaN        97.2248            96.6450                NaN                  NaN
+              F1, support-weighted (%) 98.5700        97.6092            94.9961            -0.9608               -0.975
+   Precision, malicious = positive (%)     NaN        99.9920            96.6450                NaN                  NaN
+Recall / detection rate, malicious (%)     NaN        97.1363           100.0000                NaN                  NaN
+                     F1, malicious (%)     NaN        98.5434            98.2939                NaN                  NaN
+                  Benign precision (%)     NaN        54.7412             0.0000                NaN                  NaN
+       Benign recall = specificity (%)     NaN        99.7763             0.0000                NaN                  NaN
+                         Benign F1 (%)     NaN        70.6959             0.0000                NaN                  NaN
+               False positive rate (%)  9.1700         0.2237           100.0000            -8.9463              -97.561
+               False negative rate (%)     NaN         2.8637             0.0000                NaN                  NaN
+                  Matthews corr. coef.     NaN         0.7283             0.0000                NaN                  NaN
+                               ROC-AUC     NaN         0.9950             0.5000                NaN                  NaN
+            PR-AUC (average precision)     NaN         0.9998             0.9664                NaN                  NaN
+                    Cross-entropy loss  0.0275         0.0744             0.5349             0.0469              170.545
+2026-09-29 21:43:55,181 INFO    runtime: [RAM] compare end: RSS 3.29 GB | system used 3.93 / 8.18 GB, available 4.25 GB
+2026-09-29 21:43:55,182 INFO    runtime: [RAM] compare peak RSS 3.29 GB, min system available 4.25 GB, 1.2 s
+2026-09-29 21:43:55,376 INFO    main: Done. Figures: outputs_merged/figures | metrics: outputs_merged/metrics

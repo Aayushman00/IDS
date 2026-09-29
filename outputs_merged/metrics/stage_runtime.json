@@ -1,0 +1,32 @@
+{
+  "prepare": {
+    "seconds": 264.9,
+    "peak_rss_gb": 2.417,
+    "min_system_available_gb": 4.495,
+    "finished": "2026-09-29 21:18:56"
+  },
+  "train": {
+    "seconds": 745.3,
+    "peak_rss_gb": 2.425,
+    "min_system_available_gb": 4.847,
+    "finished": "2026-09-29 21:31:21"
+  },
+  "baselines": {
+    "seconds": 433.8,
+    "peak_rss_gb": 3.368,
+    "min_system_available_gb": 4.068,
+    "finished": "2026-09-29 21:38:43"
+  },
+  "cv": {
+    "seconds": 310.2,
+    "peak_rss_gb": 3.288,
+    "min_system_available_gb": 4.174,
+    "finished": "2026-09-29 21:43:53"
+  },
+  "compare": {
+    "seconds": 1.2,
+    "peak_rss_gb": 3.289,
+    "min_system_available_gb": 4.248,
+    "finished": "2026-09-29 21:43:55"
+  }
+}

@@ -1,0 +1,39 @@
+DEVIATION ANALYSIS - CNN-LSTM reproduction of Gueriani, Kheddar & Mazari (IEEE PAIS 2024)
+========================================================================================
+Accuracy: ours 97.22% vs paper 98.42% -> -1.20 percentage points (-1.21% relative).
+Paper values used (published abstract, DOI 10.1109/PAIS62114.2024.10541178): accuracy=98.42, f1=98.57, fpr=9.17, loss=0.0275. Precision/recall appear only in the full-text Table IV and are left as None.
+FPR: ours 0.22% vs paper 9.17%; F1: ours 97.61% (weighted) / 98.54% (malicious) vs paper 98.57% (averaging not stated in the abstract).
+Context: always predicting 'malicious' already scores 96.64% accuracy on our test split (benign recall 0%, MCC 0). The model's real value shows in benign recall 99.78%, FPR 0.22%, MCC 0.7283.
+
+Comparison table:
+                                metric   paper  ours_cnn_lstm  majority_baseline  abs_diff_vs_paper  rel_diff_vs_paper_%
+                          Accuracy (%) 98.4200        97.2248            96.6450            -1.1952               -1.214
+       Precision, support-weighted (%)     NaN        98.4738            93.4025                NaN                  NaN
+          Recall, support-weighted (%)     NaN        97.2248            96.6450                NaN                  NaN
+              F1, support-weighted (%) 98.5700        97.6092            94.9961            -0.9608               -0.975
+   Precision, malicious = positive (%)     NaN        99.9920            96.6450                NaN                  NaN
+Recall / detection rate, malicious (%)     NaN        97.1363           100.0000                NaN                  NaN
+                     F1, malicious (%)     NaN        98.5434            98.2939                NaN                  NaN
+                  Benign precision (%)     NaN        54.7412             0.0000                NaN                  NaN
+       Benign recall = specificity (%)     NaN        99.7763             0.0000                NaN                  NaN
+                         Benign F1 (%)     NaN        70.6959             0.0000                NaN                  NaN
+               False positive rate (%)  9.1700         0.2237           100.0000            -8.9463              -97.561
+               False negative rate (%)     NaN         2.8637             0.0000                NaN                  NaN
+                  Matthews corr. coef.     NaN         0.7283             0.0000                NaN                  NaN
+                               ROC-AUC     NaN         0.9950             0.5000                NaN                  NaN
+            PR-AUC (average precision)     NaN         0.9998             0.9664                NaN                  NaN
+                    Cross-entropy loss  0.0275         0.0744             0.5349             0.0469              170.545
+
+Plausible causes of any gap (differences between the two setups):
+1. Sample size vs full dataset: we trained on a 1,400,246-row stratified random sample of the 45,019,234 rows available (977,234 after cleaning). The paper used about 1,191,264 train/val rows plus a separate 1,175,692-row test subset taken from other CSV files.
+2. Split ratio: ours 70%/15%/15% train/val/test (stratified); paper 80/20 train/validation plus a separate test subset. Different test sets mean the numbers are not strictly paired.
+3. Duplicates: we dropped 422,975 exact duplicate rows BEFORE splitting so no identical flow appears in both train and test; the paper does not mention de-duplication. Duplicates shared across splits usually inflate test accuracy.
+4. Hyperparameters assumed, not taken from the paper: batch size 256, learning rate 0.001, pooling size 2, ReLU activations, EarlyStopping(patience 5) + ReduceLROnPlateau. Paper: Adam, 25 epochs. We ran 22 epochs; best val_loss at epoch 17 (early stopping triggered).
+5. Class imbalance: 'class_weight' (weights {'0': 14.902683978911595, '1': 0.5173578758213434}). The paper does not mention re-balancing. Weighting the ~2-3% benign class trades some accuracy for much higher benign recall / lower FPR.
+6. Features: the paper states 45 inputs; our release has 39, 39 used after dropping train-constant columns (none).
+7. Scaling: minmax fitted on train only (paper: not stated).
+8. Task: binary (paper: binary benign vs malicious) - same task.
+9. Seed 42; cuDNN LSTM/conv kernels are not bit-exact between GPUs, so re-runs can differ slightly.
+10. Dataset release: 2024 re-release MERGED_CSV (39 features). Obtained from a public mirror of the official CIC files (train/validation/test CSVs pooled and re-split by us).
+11. Metric convention: the abstract does not say whether F1 is weighted or attack-positive (the preprint's Table IV implies weighted, since its recall equals its accuracy); we compare with our weighted F1 and report both.
+12. FPR gap: the paper's 9.17% FPR (about 1 in 11 benign flows flagged) suggests no class re-weighting; our class-weighted model trades that for missed attacks instead (see outputs_nobalance/ for the unweighted run and threshold_tuning.md).
