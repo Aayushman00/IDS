@@ -1,0 +1,13 @@
+===== 2026-09-29 02:16:55 launching: /home/blackscythe/venvs/ids/bin/python -u simulation.py --n_flows 600 --seed 42 --fps 30
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790648221.784968     411 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5560 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4060 Laptop GPU, pci bus id: 0000:01:00.0, compute capability: 8.9
+2026-09-29 02:17:04,157 INFO final confusion matrix matches sklearn: [[384, 1], [51, 164]]
+2026-09-29 02:17:04,189 INFO Demo-subset running metrics (NOT the reported test metrics): {'accuracy': 0.9133, 'precision': 0.9939, 'recall': 0.7628, 'f1': 0.8632, 'tp': 164, 'tn': 384, 'fp': 1, 'fn': 51}
+2026-09-29 02:17:04,370 INFO Animation.save using <class 'matplotlib.animation.FFMpegWriter'>
+2026-09-29 02:17:04,379 INFO MovieWriter._run: running command: /home/blackscythe/venvs/ids/lib/python3.12/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2 -f rawvideo -vcodec rawvideo -s 1920x1080 -pix_fmt rgba -framerate 30.0 -loglevel error -i pipe: -vcodec libx264 -pix_fmt yuv420p -crf 21 -preset medium -y outputs/animations/traffic_replay.mp4
+2026-09-29 02:22:12,650 INFO wrote outputs/animations/traffic_replay.mp4 (1200 frames)
+2026-09-29 02:22:12,878 INFO Animation.save using <class 'matplotlib.animation.PillowWriter'>
+2026-09-29 02:23:26,459 INFO wrote outputs/animations/traffic_replay.gif (288 frames)
+2026-09-29 02:23:27,436 INFO Animation.save using <class 'matplotlib.animation.PillowWriter'>
+2026-09-29 02:23:30,856 INFO render report: {"mp4": {"file": "traffic_replay.mp4", "size_mb": 3.15, "duration_s": 40.0, "codec": "h264", "width": 1920, "height": 1080, "fps": 30.0}, "gif": {"file": "traffic_replay.gif", "size_mb": 6.1}, "training_gif": {"file": "training_curves_animated.gif", "size_mb": 0.22}}
+===== 2026-09-29 02:23:31 exit=0

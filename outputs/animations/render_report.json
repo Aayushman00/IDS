@@ -1,0 +1,19 @@
+{
+  "mp4": {
+    "file": "traffic_replay.mp4",
+    "size_mb": 3.15,
+    "duration_s": 40.0,
+    "codec": "h264",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30.0
+  },
+  "gif": {
+    "file": "traffic_replay.gif",
+    "size_mb": 6.1
+  },
+  "training_gif": {
+    "file": "training_curves_animated.gif",
+    "size_mb": 0.22
+  }
+}

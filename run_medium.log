@@ -1,0 +1,150 @@
+===== 2026-09-29 01:16:53 launching: /home/blackscythe/venvs/ids/bin/python -u main.py --stage prepare,train,baselines,cv,compare,edge --sample 200000 --epochs 2 --output_dir outputs_medium
+2026-09-29 01:16:56,438 INFO    main: Stages: ['prepare', 'train', 'baselines', 'cv', 'compare', 'edge'] | output: outputs_medium
+2026-09-29 01:16:56,931 INFO    train: TensorFlow 2.20.0 | device: /physical_device:GPU:0 | mixed precision: False
+2026-09-29 01:16:56,933 INFO    runtime: ==================== STAGE prepare ====================
+2026-09-29 01:16:56,936 INFO    runtime: [RAM] prepare start: RSS 0.89 GB | system used 1.50 / 8.18 GB, available 6.68 GB
+2026-09-29 01:16:57,045 INFO    data_loader: Found 3 CSV files, label column 'label'
+Counting rows:   0%|          | 0/3 [00:00<?, ?file/s]Counting rows: 100%|██████████| 3/3 [00:00<00:00, 546.96file/s]
+2026-09-29 01:16:57,063 INFO    data_loader: Total rows 7,845,673 -> keep fraction 0.02549
+Reading CSVs:   0%|          | 0/3 [00:00<?, ?file/s]Reading CSVs:  33%|███▎      | 1/3 [00:06<00:12,  6.26s/file]Reading CSVs:  67%|██████▋   | 2/3 [00:37<00:20, 20.89s/file]Reading CSVs: 100%|██████████| 3/3 [00:43<00:00, 14.35s/file]Reading CSVs: 100%|██████████| 3/3 [00:43<00:00, 14.65s/file]
+2026-09-29 01:17:41,044 INFO    data_loader: Stratification check: max |sample share - population share| = 0.00101
+2026-09-29 01:17:41,061 INFO    data_loader: Loaded 199,699 rows x 47 columns (49.6 MB)
+2026-09-29 01:17:41,313 INFO    runtime: [RAM] after CSV load: RSS 1.04 GB | system used 1.68 / 8.18 GB, available 6.50 GB
+2026-09-29 01:17:41,507 INFO    preprocessing: Removed 6,677 exact duplicate rows
+2026-09-29 01:17:41,797 INFO    preprocessing: Dropping 6 constant columns: ['ece_flag_number', 'cwr_flag_number', 'Telnet', 'SMTP', 'IRC', 'DHCP']
+2026-09-29 01:17:41,851 INFO    preprocessing: train n=135,114   Benign=3,327, Malicious=131,787
+2026-09-29 01:17:41,852 INFO    preprocessing: val   n=28,954    Benign=713, Malicious=28,241
+2026-09-29 01:17:41,852 INFO    preprocessing: test  n=28,954    Benign=713, Malicious=28,241
+2026-09-29 01:17:41,869 INFO    preprocessing: Leakage checks passed (disjoint splits, train-only scaler & class weights)
+2026-09-29 01:17:41,874 INFO    runtime: [RAM] after split + scale: RSS 1.08 GB | system used 1.72 / 8.18 GB, available 6.46 GB
+2026-09-29 01:17:44,708 INFO    preprocessing: Cached prepared arrays in outputs_medium/cache
+2026-09-29 01:17:44,843 INFO    runtime: [RAM] prepare end: RSS 1.03 GB | system used 1.63 / 8.18 GB, available 6.55 GB
+2026-09-29 01:17:44,844 INFO    runtime: [RAM] prepare peak RSS 1.26 GB, min system available 6.28 GB, 45.2 s
+2026-09-29 01:17:44,930 INFO    runtime: ==================== STAGE train ====================
+2026-09-29 01:17:44,931 INFO    runtime: [RAM] train start: RSS 1.03 GB | system used 1.63 / 8.18 GB, available 6.55 GB
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1790644665.718602   14822 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 5560 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4060 Laptop GPU, pci bus id: 0000:01:00.0, compute capability: 8.9
+2026-09-29 01:17:46,451 INFO    main: CNN-LSTM params: {'total_params': 79902, 'trainable_params': 79774}
+2026-09-29 01:17:46,461 INFO    runtime: [RAM] CNN-LSTM fit start: RSS 1.18 GB | system used 1.73 / 8.18 GB, available 6.45 GB
+Epoch 1/2
+2026-09-29 01:17:59,804 INFO    train: [RAM] epoch 1: RSS 1.90 GB | system used 2.25 / 8.18 GB, available 5.93 GB
+528/528 - 13s - 25ms/step - accuracy: 0.8529 - loss: 0.3661 - val_accuracy: 0.9841 - val_loss: 0.1195 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 2/2
+2026-09-29 01:18:06,865 INFO    train: [RAM] epoch 2: RSS 1.90 GB | system used 2.26 / 8.18 GB, available 5.92 GB
+528/528 - 7s - 13ms/step - accuracy: 0.9824 - loss: 0.1308 - val_accuracy: 0.9837 - val_loss: 0.0825 - lr: 0.0010 - learning_rate: 0.0010
+Restoring model weights from the end of the best epoch: 2.
+2026-09-29 01:18:07,159 INFO    train: CNN-LSTM: 2 epochs, best epoch 2, 17.7 s
+2026-09-29 01:18:08,204 INFO    main: CNN-LSTM     acc=0.9821 f1=0.9907 benign_recall=0.9972 mcc=0.7528
+2026-09-29 01:18:19,135 INFO    runtime: [RAM] train end: RSS 2.07 GB | system used 2.43 / 8.18 GB, available 5.75 GB
+2026-09-29 01:18:19,137 INFO    runtime: [RAM] train peak RSS 2.11 GB, min system available 5.72 GB, 31.5 s
+2026-09-29 01:18:19,274 INFO    runtime: ==================== STAGE baselines ====================
+2026-09-29 01:18:19,277 INFO    runtime: [RAM] baselines start: RSS 2.02 GB | system used 2.38 / 8.18 GB, available 5.80 GB
+2026-09-29 01:18:19,455 INFO    runtime: [RAM] CNN fit start: RSS 2.02 GB | system used 2.38 / 8.18 GB, available 5.80 GB
+Epoch 1/2
+I0000 00:00:1790644702.448876   15010 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+2026-09-29 01:18:30,435 INFO    train: [RAM] epoch 1: RSS 2.16 GB | system used 2.47 / 8.18 GB, available 5.71 GB
+528/528 - 11s - 21ms/step - accuracy: 0.9789 - loss: 0.0692 - val_accuracy: 0.9853 - val_loss: 0.0480 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 2/2
+2026-09-29 01:18:31,858 INFO    train: [RAM] epoch 2: RSS 2.17 GB | system used 2.47 / 8.18 GB, available 5.71 GB
+528/528 - 1s - 3ms/step - accuracy: 0.9835 - loss: 0.0412 - val_accuracy: 0.9844 - val_loss: 0.0672 - lr: 0.0010 - learning_rate: 0.0010
+Restoring model weights from the end of the best epoch: 1.
+2026-09-29 01:18:32,071 INFO    train: CNN: 2 epochs, best epoch 1, 9.6 s
+WARNING:tensorflow:5 out of the last 20 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x7e9da8839f80> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 01:18:33,171 WARNING tensorflow: 5 out of the last 20 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x7e9da8839f80> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 01:18:33,618 INFO    main: CNN          acc=0.9833 f1=0.9914 benign_recall=1.0000 mcc=0.7655
+2026-09-29 01:18:33,828 INFO    runtime: [RAM] after baseline CNN: RSS 2.20 GB | system used 2.50 / 8.18 GB, available 5.68 GB
+2026-09-29 01:18:33,899 INFO    runtime: [RAM] LSTM fit start: RSS 2.20 GB | system used 2.50 / 8.18 GB, available 5.68 GB
+Epoch 1/2
+2026-09-29 01:18:39,951 INFO    train: [RAM] epoch 1: RSS 2.14 GB | system used 2.43 / 8.18 GB, available 5.75 GB
+528/528 - 6s - 11ms/step - accuracy: 0.8841 - loss: 0.2707 - val_accuracy: 0.9798 - val_loss: 0.0747 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 2/2
+2026-09-29 01:18:44,862 INFO    train: [RAM] epoch 2: RSS 2.14 GB | system used 2.44 / 8.18 GB, available 5.74 GB
+528/528 - 5s - 9ms/step - accuracy: 0.9754 - loss: 0.0651 - val_accuracy: 0.9796 - val_loss: 0.0806 - lr: 0.0010 - learning_rate: 0.0010
+Restoring model weights from the end of the best epoch: 1.
+2026-09-29 01:18:44,974 INFO    train: LSTM: 2 epochs, best epoch 1, 10.9 s
+2026-09-29 01:18:45,730 INFO    main: LSTM         acc=0.9785 f1=0.9889 benign_recall=0.9846 mcc=0.7173
+2026-09-29 01:18:45,939 INFO    runtime: [RAM] after baseline LSTM: RSS 2.15 GB | system used 2.44 / 8.18 GB, available 5.73 GB
+2026-09-29 01:18:45,986 INFO    runtime: [RAM] MLP fit start: RSS 2.15 GB | system used 2.44 / 8.18 GB, available 5.73 GB
+Epoch 1/2
+2026-09-29 01:18:53,764 INFO    train: [RAM] epoch 1: RSS 2.39 GB | system used 2.68 / 8.18 GB, available 5.50 GB
+528/528 - 8s - 15ms/step - accuracy: 0.9606 - loss: 0.0985 - val_accuracy: 0.9804 - val_loss: 0.0618 - lr: 0.0010 - learning_rate: 0.0010
+Epoch 2/2
+2026-09-29 01:18:55,280 INFO    train: [RAM] epoch 2: RSS 2.39 GB | system used 2.68 / 8.18 GB, available 5.50 GB
+528/528 - 2s - 3ms/step - accuracy: 0.9791 - loss: 0.0494 - val_accuracy: 0.9799 - val_loss: 0.0810 - lr: 0.0010 - learning_rate: 0.0010
+Restoring model weights from the end of the best epoch: 1.
+2026-09-29 01:18:55,406 INFO    train: MLP: 2 epochs, best epoch 1, 9.2 s
+2026-09-29 01:18:59,731 INFO    main: MLP          acc=0.9786 f1=0.9889 benign_recall=0.9944 mcc=0.7216
+2026-09-29 01:18:59,965 INFO    runtime: [RAM] after baseline MLP: RSS 2.42 GB | system used 2.72 / 8.18 GB, available 5.46 GB
+2026-09-29 01:18:59,974 INFO    train: RandomForest on 135,114 train rows, n_jobs=8
+/home/blackscythe/venvs/ids/lib/python3.12/site-packages/sklearn/metrics/_classification.py:304: UserWarning: The y_prob values do not sum to one. Make sure to pass probabilities.
+  warnings.warn(
+2026-09-29 01:19:01,067 INFO    main: RandomForest acc=0.9961 f1=0.9980 benign_recall=0.9649 mcc=0.9224
+2026-09-29 01:19:03,028 INFO    runtime: [RAM] baselines end: RSS 2.56 GB | system used 2.86 / 8.18 GB, available 5.32 GB
+2026-09-29 01:19:03,029 INFO    runtime: [RAM] baselines peak RSS 2.60 GB, min system available 5.28 GB, 38.3 s
+2026-09-29 01:19:03,134 INFO    runtime: ==================== STAGE cv ====================
+2026-09-29 01:19:03,140 INFO    runtime: [RAM] cv start: RSS 2.51 GB | system used 2.81 / 8.18 GB, available 5.37 GB
+CV folds:   0%|          | 0/5 [00:00<?, ?it/s]2026-09-29 01:19:51,165 INFO    train: CV fold 1: {"fold": 1, "accuracy": 0.9841, "precision": 1.0, "recall": 0.9837, "f1": 0.9918, "benign_recall": 0.9986} | RSS 2.37 GB | system used 2.64 / 8.18 GB, available 5.54 GB
+CV folds:  20%|██        | 1/5 [00:48<03:12, 48.16s/it]2026-09-29 01:20:42,221 INFO    train: CV fold 2: {"fold": 2, "accuracy": 0.9831, "precision": 1.0, "recall": 0.9826, "f1": 0.9912, "benign_recall": 1.0} | RSS 2.42 GB | system used 2.69 / 8.18 GB, available 5.48 GB
+CV folds:  40%|████      | 2/5 [01:39<02:29, 49.87s/it]WARNING:tensorflow:5 out of the last 17 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x7e9d9df668e0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 01:21:32,517 WARNING tensorflow: 5 out of the last 17 calls to <function TensorFlowTrainer.make_predict_function.<locals>.one_step_on_data_distributed at 0x7e9d9df668e0> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+2026-09-29 01:21:32,839 INFO    train: CV fold 3: {"fold": 3, "accuracy": 0.9831, "precision": 1.0, "recall": 0.9826, "f1": 0.9912, "benign_recall": 1.0} | RSS 2.48 GB | system used 2.76 / 8.18 GB, available 5.42 GB
+CV folds:  60%|██████    | 3/5 [02:29<01:40, 50.22s/it]2026-09-29 01:22:25,852 INFO    train: CV fold 4: {"fold": 4, "accuracy": 0.9843, "precision": 1.0, "recall": 0.9839, "f1": 0.9919, "benign_recall": 1.0} | RSS 2.54 GB | system used 2.81 / 8.18 GB, available 5.37 GB
+CV folds:  80%|████████  | 4/5 [03:22<00:51, 51.33s/it]2026-09-29 01:23:15,738 INFO    train: CV fold 5: {"fold": 5, "accuracy": 0.9832, "precision": 1.0, "recall": 0.9828, "f1": 0.9913, "benign_recall": 1.0} | RSS 2.59 GB | system used 2.87 / 8.18 GB, available 5.31 GB
+CV folds: 100%|██████████| 5/5 [04:12<00:00, 50.82s/it]CV folds: 100%|██████████| 5/5 [04:12<00:00, 50.56s/it]
+2026-09-29 01:23:16,251 INFO    runtime: [RAM] cv end: RSS 2.58 GB | system used 2.88 / 8.18 GB, available 5.30 GB
+2026-09-29 01:23:16,252 INFO    runtime: [RAM] cv peak RSS 2.61 GB, min system available 5.30 GB, 234.0 s
+2026-09-29 01:23:16,409 INFO    runtime: ==================== STAGE compare ====================
+2026-09-29 01:23:16,411 INFO    runtime: [RAM] compare start: RSS 2.58 GB | system used 2.88 / 8.18 GB, available 5.30 GB
+2026-09-29 01:23:17,088 INFO    compare_with_paper: Paper comparison:
+                                metric  paper  ours_cnn_lstm  majority_baseline  abs_diff_vs_paper  rel_diff_vs_paper_%
+                          Accuracy (%)  98.42        98.2075            97.5375            -0.2125               -0.216
+       Precision, support-weighted (%)    NaN        98.9562            95.1356                NaN                  NaN
+          Recall, support-weighted (%)    NaN        98.2075            97.5375                NaN                  NaN
+              F1, support-weighted (%)    NaN        98.4371            96.3216                NaN                  NaN
+   Precision, malicious = positive (%)    NaN        99.9928            97.5375                NaN                  NaN
+Recall / detection rate, malicious (%)    NaN        98.1693           100.0000                NaN                  NaN
+                     F1, malicious (%)    NaN        99.0727            98.7534                NaN                  NaN
+                  Benign precision (%)    NaN        57.8990             0.0000                NaN                  NaN
+       Benign recall = specificity (%)    NaN        99.7195             0.0000                NaN                  NaN
+                         Benign F1 (%)    NaN        73.2612             0.0000                NaN                  NaN
+               False positive rate (%)    NaN         0.2805           100.0000                NaN                  NaN
+               False negative rate (%)    NaN         1.8307             0.0000                NaN                  NaN
+                  Matthews corr. coef.    NaN         0.7528             0.0000                NaN                  NaN
+                               ROC-AUC    NaN         0.9942             0.5000                NaN                  NaN
+            PR-AUC (average precision)    NaN         0.9998             0.9754                NaN                  NaN
+                    Cross-entropy loss    NaN         0.0866             0.3926                NaN                  NaN
+2026-09-29 01:23:17,090 INFO    runtime: [RAM] compare end: RSS 2.65 GB | system used 2.95 / 8.18 GB, available 5.23 GB
+2026-09-29 01:23:17,090 INFO    runtime: [RAM] compare peak RSS 2.65 GB, min system available 5.23 GB, 0.7 s
+2026-09-29 01:23:17,261 INFO    runtime: ==================== STAGE edge ====================
+2026-09-29 01:23:17,262 INFO    runtime: [RAM] edge start: RSS 2.60 GB | system used 2.90 / 8.18 GB, available 5.28 GB
+INFO:tensorflow:Assets written to: /tmp/tmpcno8o0wq/assets
+2026-09-29 01:23:29,349 INFO    tensorflow: Assets written to: /tmp/tmpcno8o0wq/assets
+W0000 00:00:1790645009.740590   14822 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1790645009.740932   14822 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+I0000 00:00:1790645009.752634   14822 mlir_graph_optimization_pass.cc:437] MLIR V1 optimization pass is not enabled
+/home/blackscythe/venvs/ids/lib/python3.12/site-packages/tensorflow/lite/python/interpreter.py:457: UserWarning:     Warning: tf.lite.Interpreter is deprecated and is scheduled for deletion in
+    TF 2.20. Please use the LiteRT interpreter from the ai_edge_litert package.
+    See the [migration guide](https://ai.google.dev/edge/litert/migration)
+    for details.
+    
+  warnings.warn(_INTERPRETER_DELETION_WARNING)
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+INFO:tensorflow:Assets written to: /tmp/tmpc0r3h0nd/assets
+2026-09-29 01:23:32,655 INFO    tensorflow: Assets written to: /tmp/tmpc0r3h0nd/assets
+W0000 00:00:1790645013.088066   14822 tf_tfl_flatbuffer_helpers.cc:364] Ignored output_format.
+W0000 00:00:1790645013.088669   14822 tf_tfl_flatbuffer_helpers.cc:367] Ignored drop_control_dependency.
+/home/blackscythe/venvs/ids/lib/python3.12/site-packages/tensorflow/lite/python/interpreter.py:457: UserWarning:     Warning: tf.lite.Interpreter is deprecated and is scheduled for deletion in
+    TF 2.20. Please use the LiteRT interpreter from the ai_edge_litert package.
+    See the [migration guide](https://ai.google.dev/edge/litert/migration)
+    for details.
+    
+  warnings.warn(_INTERPRETER_DELETION_WARNING)
+2026-09-29 01:23:34,228 INFO    edge_deploy: Edge benchmark (20000 test samples, batch=1):
+                  variant  size_mb  ms_per_sample  accuracy  accuracy_drop_pp
+      Keras float32 (GPU) 1.042820      15.359371    0.9821               0.0
+           TFLite float32 0.419532       0.085039    0.9821               0.0
+TFLite dynamic-range int8 0.196728       0.035149    0.9821               0.0
+2026-09-29 01:23:34,503 INFO    runtime: [RAM] edge end: RSS 2.67 GB | system used 2.96 / 8.18 GB, available 5.22 GB
+2026-09-29 01:23:34,504 INFO    runtime: [RAM] edge peak RSS 2.67 GB, min system available 5.22 GB, 14.5 s
+2026-09-29 01:23:34,671 INFO    main: Done. Figures: outputs_medium/figures | metrics: outputs_medium/metrics
+===== 2026-09-29 01:23:36 exit=0

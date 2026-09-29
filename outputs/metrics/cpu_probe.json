@@ -1,0 +1,7 @@
+{
+ "device": "CPU only",
+ "cpu_threads": 24,
+ "batch": 256,
+ "ms_per_step": 21.39280559332595,
+ "steps_full": 3352
+}

@@ -1,0 +1,4 @@
+variant,size_mb,ms_per_sample,accuracy,accuracy_drop_pp
+Keras float32 (GPU),1.04282,15.26245664999442,0.9875,0.0
+TFLite float32,0.419532,0.08439510554999288,0.9875,0.0
+TFLite dynamic-range int8,0.196728,0.03743545939996693,0.98755,-0.004999999999999449

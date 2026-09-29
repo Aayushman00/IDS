@@ -1,0 +1,38 @@
+{
+  "prepare": {
+    "seconds": 17.2,
+    "peak_rss_gb": 2.053,
+    "min_system_available_gb": 4.638,
+    "finished": "2026-09-29 01:24:33"
+  },
+  "train": {
+    "seconds": 1016.5,
+    "peak_rss_gb": 2.496,
+    "min_system_available_gb": 3.743,
+    "finished": "2026-09-29 01:42:52"
+  },
+  "baselines": {
+    "seconds": 1071.2,
+    "peak_rss_gb": 2.875,
+    "min_system_available_gb": 5.143,
+    "finished": "2026-09-29 02:02:41"
+  },
+  "cv": {
+    "seconds": 232.4,
+    "peak_rss_gb": 2.187,
+    "min_system_available_gb": 5.651,
+    "finished": "2026-09-29 02:07:03"
+  },
+  "compare": {
+    "seconds": 0.8,
+    "peak_rss_gb": 0.953,
+    "min_system_available_gb": 6.652,
+    "finished": "2026-09-29 02:07:11"
+  },
+  "edge": {
+    "seconds": 16.0,
+    "peak_rss_gb": 1.719,
+    "min_system_available_gb": 5.887,
+    "finished": "2026-09-29 02:07:30"
+  }
+}

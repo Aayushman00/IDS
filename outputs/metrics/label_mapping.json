@@ -1,0 +1,172 @@
+{
+  "Backdoor_Malware": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Web"
+  },
+  "BenignTraffic": {
+    "binary": "Benign",
+    "binary_id": 0,
+    "family": "Benign"
+  },
+  "BrowserHijacking": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Web"
+  },
+  "CommandInjection": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Web"
+  },
+  "DDoS-ACK_Fragmentation": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-HTTP_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-ICMP_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-ICMP_Fragmentation": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-PSHACK_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-RSTFINFlood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-SYN_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-SlowLoris": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-SynonymousIP_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-TCP_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-UDP_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DDoS-UDP_Fragmentation": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DDoS"
+  },
+  "DNS_Spoofing": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Spoofing"
+  },
+  "DictionaryBruteForce": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "BruteForce"
+  },
+  "DoS-HTTP_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DoS"
+  },
+  "DoS-SYN_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DoS"
+  },
+  "DoS-TCP_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DoS"
+  },
+  "DoS-UDP_Flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "DoS"
+  },
+  "MITM-ArpSpoofing": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Spoofing"
+  },
+  "Mirai-greeth_flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Mirai"
+  },
+  "Mirai-greip_flood": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Mirai"
+  },
+  "Mirai-udpplain": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Mirai"
+  },
+  "Recon-HostDiscovery": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Recon"
+  },
+  "Recon-OSScan": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Recon"
+  },
+  "Recon-PingSweep": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Recon"
+  },
+  "Recon-PortScan": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Recon"
+  },
+  "SqlInjection": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Web"
+  },
+  "Uploading_Attack": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Web"
+  },
+  "VulnerabilityScan": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Recon"
+  },
+  "XSS": {
+    "binary": "Malicious",
+    "binary_id": 1,
+    "family": "Web"
+  }
+}

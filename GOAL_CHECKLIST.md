@@ -1,0 +1,9 @@
+# Goal checklist
+
+| Goal | Evidence (file / figure) | Status | Note |
+|---|---|---|---|
+| Methodology reproduction of the CNN-LSTM architecture | `model.py` ✅<br>`outputs/metrics/model_summary.txt` ✅<br>`config.py` ✅<br>`README.md` ✅ | ✅ | `build_paper_cnn_lstm` follows the paper's Fig. 2 (two Conv1D-64 blocks, Dense 32/16, two LSTM-64 layers, two heads concatenated); assumptions tagged `[assumed]` in config.py / README §1. |
+| Model training on CICIoT2023 | `outputs/models/CNN-LSTM.keras` ✅<br>`outputs/metrics/history_CNN-LSTM.csv` ✅<br>`outputs/figures/06_training_accuracy.png` ✅<br>`outputs/figures/07_training_loss.png` ✅<br>`outputs/metrics/stage_runtime.json` ✅ | ✅ | 25 epochs on 857,995 real training flows (best epoch 23). |
+| A working pipeline distinguishing benign from malicious traffic | `main.py` ✅<br>`data_loader.py` ✅<br>`preprocessing.py` ✅<br>`train.py` ✅<br>`evaluate.py` ✅<br>`outputs/figures/09_confusion_matrix_counts.png` ✅<br>`outputs/figures/10_confusion_matrix_normalized.png` ✅<br>`test_leakage.py` ✅<br>`test_pipeline.py` ✅<br>`outputs/animations/traffic_replay.gif` ✅ | ✅ | Test accuracy 98.74%, benign recall 99.84%, MCC 0.8184. |
+| Comparison of Accuracy, Precision, Recall and F1 against the paper (~98.42%) | `compare_with_paper.py` ✅<br>`outputs/metrics/paper_comparison.csv` ✅<br>`outputs/metrics/paper_comparison.md` ✅<br>`outputs/figures/18_paper_comparison.png` ✅<br>`outputs/figures/13_metric_bars.png` ✅<br>`outputs/figures/17_model_comparison.png` ✅ | ✅ | Only the paper accuracy is confirmed; P/R/F1 are reported for our model (weighted and attack-positive) and left n/a for the paper. |
+| Documentation of deviations | `outputs/metrics/deviation_analysis.txt` ✅<br>`README.md` ✅<br>`RUNTIME_NOTES.md` ✅ | ✅ | Accuracy gap +0.32 pp; causes listed (sample size, split, duplicates, assumed hyperparameters, class weights, seed, dataset release). |

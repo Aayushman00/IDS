@@ -1,0 +1,33 @@
+{
+  "NOTE": "DEMO SUBSET (re-sampled replay stream), NOT the reported test-set metrics",
+  "n_flows": 600,
+  "seed": 42,
+  "benign_flows": 385,
+  "attack_flows": 215,
+  "bursts": [
+    {
+      "sub_label": "DDoS-UDP_Flood",
+      "flows": 70
+    },
+    {
+      "sub_label": "Recon-PortScan",
+      "flows": 45
+    },
+    {
+      "sub_label": "Mirai-udpplain",
+      "flows": 60
+    },
+    {
+      "sub_label": "MITM-ArpSpoofing",
+      "flows": 40
+    }
+  ],
+  "tn": 384,
+  "fp": 1,
+  "fn": 51,
+  "tp": 164,
+  "accuracy": 0.9133,
+  "precision": 0.9939,
+  "recall": 0.7628,
+  "f1": 0.8632
+}

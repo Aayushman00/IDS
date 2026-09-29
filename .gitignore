@@ -1,0 +1,12 @@
+# raw dataset (12 GB) - re-download with download_data.py
+data/
+# large / regenerable pipeline artefacts
+outputs*/cache/
+outputs*/models/*_last.keras
+outputs*/models/*_state.json
+# test-only runs (smoke / medium), not results
+outputs_smoke/
+outputs_medium/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
