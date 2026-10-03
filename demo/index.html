@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IoT IDS Simulation</title>
+<style>
+:root{--bg:#0b1220;--panel:#121b2e;--panel2:#18243d;--line:#26344f;--tx:#d7e1f5;--dim:#7f90b3;--ok:#38d39f;--bad:#ff5470;--warn:#ffb454;--acc:#5aa9ff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:13px/1.4 system-ui,Segoe UI,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+header{display:flex;gap:18px;align-items:center;padding:8px 14px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+header h1{font-size:15px;margin:0;font-weight:600}
+header .sp{flex:1}
+label{color:var(--dim)}
+button,select{background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:6px;padding:5px 10px;font:inherit;cursor:pointer}
+button:hover{border-color:var(--acc)}
+button.on{background:#0f3d2e;border-color:var(--ok);color:var(--ok)}
+button.off{background:#4a1522;border-color:var(--bad);color:var(--bad)}
+button.atk{border-color:#5b2b3a}button.atk:hover{background:#3a1a26;border-color:var(--bad)}
+main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:10px;padding:10px;min-height:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;min-height:0}
+.card h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:0 0 8px;font-weight:600}
+#topo{display:flex;flex-direction:column}
+#topo svg{flex:1;width:100%;min-height:0}
+.side{display:flex;flex-direction:column;gap:10px;min-height:0;overflow:auto}
+.node{cursor:pointer}
+.node rect{fill:var(--panel2);stroke:var(--line);stroke-width:1.5;transition:fill .2s,stroke .2s}
+.node:hover rect{stroke:var(--acc)}
+.node.sel rect{stroke:var(--acc);stroke-width:2.5}
+.node.hit rect{stroke:var(--warn)}
+.node.comp rect{fill:#4a1522;stroke:var(--bad)}
+.node.blk rect{stroke:var(--bad);stroke-dasharray:4 3}
+.node text{fill:var(--tx);pointer-events:none}
+.node .sub{fill:var(--dim);font-size:9px}
+.link{stroke:var(--line);stroke-width:1.5}
+.link.flood{stroke:var(--bad);stroke-width:4;stroke-dasharray:8 6;animation:dash .6s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-14}}
+.legend{display:flex;gap:14px;color:var(--dim);font-size:11px;margin-top:4px;flex-wrap:wrap}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-family:ui-monospace,Consolas,monospace;font-size:11.5px}
+.kv span:nth-child(odd){color:var(--dim)}
+.verdict{font-weight:700;font-size:14px;margin:6px 0}
+.v-ok{color:var(--ok)}.v-bad{color:var(--bad)}.v-warn{color:var(--warn)}
+.bar{position:relative;height:12px;background:var(--panel2);border-radius:6px;margin:6px 0}
+.bar i{display:block;height:100%;border-radius:6px;background:var(--acc)}
+.bar b{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--warn)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.stat{background:var(--panel2);border-radius:8px;padding:6px 8px}
+.stat div{font-size:18px;font-weight:700}.stat small{color:var(--dim)}
+.atkrow{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+#feed{height:150px;overflow:auto;font-family:ui-monospace,Consolas,monospace;font-size:11px}
+#feed div{padding:2px 0;border-bottom:1px solid var(--line)}
+table{border-collapse:collapse;width:100%}
+td,th{padding:2px 6px;text-align:right;font-size:11.5px}th{color:var(--dim);font-weight:500}
+td:first-child,th:first-child{text-align:left}
+.fam{display:grid;grid-template-columns:78px 1fr 44px;gap:6px;align-items:center;font-size:11px;margin:2px 0}
+.fam .bar{margin:0;height:8px}
+.note{color:var(--dim);font-size:10.5px;margin-top:6px}
+#insp{position:fixed;left:0;right:0;bottom:0;height:46vh;background:var(--panel);border-top:2px solid var(--acc);display:none;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:10px;padding:10px;z-index:5}
+#insp.open{display:grid}
+#insp .l,#insp .r{overflow:auto;min-height:0}
+#insp h2{display:flex;justify-content:space-between}
+#insp th{text-align:left}
+#plist tr{cursor:pointer;font-family:ui-monospace,Consolas,monospace;border-bottom:1px solid var(--line)}
+#plist tr:hover,#plist tr.sel{background:var(--panel2)}
+#plist td{text-align:left;white-space:nowrap}
+.tag{padding:0 5px;border-radius:4px;font-size:10.5px}
+.t-ok{background:#0f3d2e;color:var(--ok)}.t-bad{background:#4a1522;color:var(--bad)}.t-warn{background:#4a3410;color:var(--warn)}
+.layer{border-left:3px solid var(--acc);padding:2px 8px;margin:6px 0;background:var(--panel2);border-radius:0 6px 6px 0}
+.layer b{font-size:11.5px}
+pre{margin:6px 0;font:11px/1.45 ui-monospace,Consolas,monospace;color:#b8c7e6;white-space:pre-wrap}
+@media(max-width:1000px){main{grid-template-columns:1fr;overflow:auto}body{overflow:auto;height:auto}}
+</style>
+</head>
+<body>
+<header>
+  <h1>IoT IDS &mdash; CNN-LSTM at the gateway</h1>
+  <span><label>IDS </label><button id="idsBtn" class="on">ON</button></span>
+  <span><label>Threshold </label><input id="thr" type="range" min="0.05" max="0.95" step="0.05" value="0.5"> <b id="thrV">0.50</b></span>
+  <span><label>Target </label><select id="tgt"></select></span>
+  <button id="pauseBtn">Pause</button>
+  <button id="resetBtn">Reset</button>
+  <span class="sp"></span>
+  <span style="color:var(--dim)">click any device / the attacker to inspect its packets</span>
+</header>
+<main>
+  <section class="card" id="topo">
+    <h2>Network &mdash; devices &rarr; router (IDS) &rarr; internet</h2>
+    <svg id="svg" viewBox="0 0 900 620" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--acc)"></i>device frame</span>
+      <span><i class="dot" style="background:var(--bad)"></i>attacker frame</span>
+      <span><i class="dot" style="background:var(--ok)"></i>forwarded by IDS</span>
+      <span>Device&harr;flow mapping is cosmetic (CICIoT2023 has no per-device field). Frames are illustrative; verdicts are real CNN-LSTM scores on held-out flow rows.</span>
+    </div>
+  </section>
+  <aside class="side">
+    <div class="card" id="routerCard">
+      <h2>Router &middot; IDS decision</h2>
+      <div id="rtr" style="color:var(--dim)">waiting for first frame&hellip;</div>
+    </div>
+    <div class="card">
+      <h2>Launch attack from ATTACKER</h2>
+      <div class="atkrow" id="atkBtns"></div>
+      <div class="note">Each attack runs a ~10 s burst at the selected target.</div>
+    </div>
+    <div class="card">
+      <h2>Counters <span style="text-transform:none;letter-spacing:0">&mdash; demo stream, not reported test metrics</span></h2>
+      <div class="grid2">
+        <div class="stat"><small>flows seen</small><div id="cFlows">0</div></div>
+        <div class="stat"><small>blocked</small><div id="cBlocked">0</div></div>
+        <div class="stat"><small>false alarms</small><div id="cFA">0</div></div>
+        <div class="stat"><small>missed attacks</small><div id="cMiss">0</div></div>
+      </div>
+      <table style="margin-top:8px"><tr><th></th><th>pred benign</th><th>pred malicious</th></tr>
+        <tr><td>actual benign</td><td id="mTN">0</td><td id="mFP">0</td></tr>
+        <tr><td>actual malicious</td><td id="mFN">0</td><td id="mTP">0</td></tr></table>
+      <div id="famRates" style="margin-top:8px"></div>
+    </div>
+    <div class="card"><h2>Alert feed</h2><div id="feed"></div></div>
+  </aside>
+</main>
+
+<section id="insp">
+  <div class="l"><h2><span id="inspTitle"></span><button id="inspClose">close &times;</button></h2>
+    <table><thead><tr><th>#</th><th>time</th><th>dir</th><th>proto</th><th>src &rarr; dst</th><th>len</th><th>info</th><th>verdict</th></tr></thead><tbody id="plist"></tbody></table></div>
+  <div class="r" id="pdetail"><div style="color:var(--dim)">select a packet</div></div>
+</section>
+
+<script src="flows.js"></script>
+<script>
+/* ---------- helpers ---------- */
+const $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)), pick=a=>a[rnd(0,a.length-1)];
+const enc=s=>[...s].map(c=>c.charCodeAt(0)&255), u16=n=>[n>>8&255,n&255], u32=n=>[n>>>24&255,n>>>16&255,n>>>8&255,n&255];
+const ipb=s=>s.split('.').map(Number), macb=s=>s.split(':').map(h=>parseInt(h,16));
+const rb=n=>Array.from({length:n},()=>rnd(0,255)), hx=(n,w=2)=>n.toString(16).padStart(w,'0');
+const el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e};
+function csum(b){let s=0;for(let i=0;i<b.length;i+=2)s+=(b[i]<<8)+(b[i+1]||0);while(s>>16)s=(s&0xffff)+(s>>16);return ~s&0xffff}
+const FL={F:1,S:2,R:4,P:8,A:16,U:32};
+const flagStr=f=>Object.entries(FL).filter(([,v])=>f&v).map(([k])=>k).join('')||'-';
+
+/* ---------- frame builder (real Ethernet/IPv4/L4 bytes) ---------- */
+let ipid=rnd(1000,60000);
+function build(s){
+  const L=[]; let l4=[], proto=s.proto, ipProto={tcp:6,udp:17,icmp:1,gre:47}[proto], payload=s.payload||[];
+  const ethType=proto==='arp'?0x0806:0x0800;
+  const eth=[...macb(s.dmac),...macb(s.smac),...u16(ethType)];
+  L.push({name:'Ethernet II',f:[['dst',s.dmac],['src',s.smac],['type','0x'+hx(ethType,4)+(proto==='arp'?' (ARP)':' (IPv4)')]]});
+  let body;
+  if(proto==='arp'){
+    const a=s.arp; body=[0,1,8,0,6,4,...u16(a.op),...macb(a.sha),...ipb(a.spa),...macb(a.tha),...ipb(a.tpa)];
+    L.push({name:'ARP',f:[['opcode',a.op===1?'1 (request)':'2 (reply)'],['sender',a.sha+' / '+a.spa],['target',a.tha+' / '+a.tpa]]});
+  }else{
+    if(proto==='tcp'){
+      const ph=s.flags;
+      const h=[...u16(s.sp),...u16(s.dp),...u32(s.seq??rnd(0,2**31)),...u32(s.ack??0),0x50,ph,...u16(s.win??64240),0,0,0,0];
+      const pseudo=[...ipb(s.sip),...ipb(s.dip),0,6,...u16(h.length+payload.length)];
+      const c=csum([...pseudo,...h,...payload]); h[16]=c>>8;h[17]=c&255; l4=h;
+      L.push({name:'TCP',f:[['src port',s.sp],['dst port',s.dp],['flags',flagStr(ph)+' (0x'+hx(ph)+')'],['seq',(s.seq??'rand')],['window',s.win??64240],['checksum','0x'+hx(c,4)]]});
+    }else if(proto==='udp'){
+      const h=[...u16(s.sp),...u16(s.dp),...u16(8+payload.length),0,0];
+      const pseudo=[...ipb(s.sip),...ipb(s.dip),0,17,...u16(h.length+payload.length)];
+      const c=csum([...pseudo,...h,...payload])||0xffff; h[6]=c>>8;h[7]=c&255; l4=h;
+      L.push({name:'UDP',f:[['src port',s.sp],['dst port',s.dp],['length',8+payload.length],['checksum','0x'+hx(c,4)]]});
+    }else if(proto==='icmp'){
+      const id=rnd(1,65000),sq=rnd(1,999),h=[8,0,0,0,...u16(id),...u16(sq)];
+      const c=csum([...h,...payload]); h[2]=c>>8;h[3]=c&255; l4=h;
+      L.push({name:'ICMP',f:[['type','8 (echo request)'],['id',id],['seq',sq],['checksum','0x'+hx(c,4)]]});
+    }else if(proto==='gre'){
+      l4=[0,0,...u16(s.greType)]; L.push({name:'GRE',f:[['protocol','0x'+hx(s.greType,4)]]});
+    }
+    const total=20+l4.length+payload.length, frag=s.ipflags||0;
+    const ih=[0x45,0,...u16(total),...u16(s.ipid??(ipid=(ipid+1)&0xffff)),...u16(frag),s.ttl,ipProto,0,0,...ipb(s.sip),...ipb(s.dip)];
+    const ic=csum(ih); ih[10]=ic>>8; ih[11]=ic&255;
+    L.splice(1,0,{name:'IPv4',f:[['src',s.sip],['dst',s.dip],['proto',ipProto+' ('+proto.toUpperCase()+')'],['ttl',s.ttl],['total len',total],['id',ipid],['flags/frag',(frag&0x2000?'MF ':'')+'off='+(frag&0x1fff)],['hdr checksum','0x'+hx(ic,4)]]});
+    body=[...ih,...l4,...payload];
+    if(s.app) L.push({name:s.app,f:s.appF||[]});
+  }
+  const bytes=[...eth,...body]; while(bytes.length<60)bytes.push(0); // Ethernet min frame (pad)
+  return {layers:L,bytes,proto:(s.app||proto).toUpperCase(),info:s.info,len:bytes.length};
+}
+
+/* ---------- application payloads ---------- */
+const mqtt=(topic,msg)=>{const v=[...u16(topic.length),...enc(topic),...enc(msg)];return [0x30,v.length,...v]};
+const coap=(path,msg)=>[0x50,0x02,...u16(rnd(1,65000)),(11<<4)|path.length,...enc(path),0xff,...enc(msg)];
+const dnsq=name=>[...u16(rnd(1,65000)),1,0,0,1,0,0,0,0,0,0,...name.split('.').flatMap(l=>[l.length,...enc(l)]),0,0,1,0,1];
+const tls=n=>[0x17,3,3,...u16(n),...rb(n)];
+const ntp=()=>[0x23,0,6,0xec,...Array(11*4).fill(0)].slice(0,48);
+const http=(m,p,extra='',body='')=>enc(`${m} ${p} HTTP/1.1\r\nHost: iot-hub.local\r\nUser-Agent: curl/7.88\r\n${extra}${body?`Content-Length: ${body.length}\r\n`:''}\r\n${body}`);
+
+/* ---------- topology ---------- */
+const ROUTER={id:'router',ip:'192.168.1.1',mac:'02:1a:2b:3c:4d:5e',x:450,y:310};
+const CLOUD={ip:'52.94.236.12',x:810,y:150};
+const ATK={id:'atk',name:'ATTACKER',ip:'203.0.113.66',mac:'66:6f:0d:ba:d0:01',x:810,y:480,icon:'☠️',log:[]};
+const DEV=[
+ ['IP camera','📷','a4:cf:12','rtp'],['Thermostat','🌡️','b8:27:eb','mqtt:home/thermostat/temp:{"t":21.5,"h":41}'],
+ ['Smart plug','🔌','50:02:91','coap:state'],['Motion sensor','🚶','7c:df:a1','mqtt:home/hall/motion:{"m":1}'],
+ ['Smart speaker','🔊','f0:d2:f1','tls'],['Smart bulb','💡','d8:a0:1d','coap:light'],
+ ['Door lock','🔒','24:6f:28','mqtt:home/door/lock:{"locked":true}'],['Smart TV','📺','2c:54:91','tls'],
+ ['Smoke detector','🔥','cc:50:e3','mqtt:home/kitchen/smoke:{"ppm":3}'],['Doorbell','🔔','30:ae:a4','rtp'],
+ ['Smart fridge','🧊','e8:9f:6d','http'],['Weather station','🌦️','ac:67:b2','mqtt:home/roof/weather:{"p":1013,"w":4.2}']
+].map(([name,icon,oui,prof],i)=>({id:'d'+i,name,icon,prof,ip:'192.168.1.'+(11+i),mac:`${oui}:${hx(rnd(0,255))}:${hx(rnd(0,255))}:${hx(rnd(0,255))}`,
+  x:i<6?70:200,y:55+(i%6)*100,log:[],hits:0,comp:false,blockedUntil:0}));
+const byIp=Object.fromEntries([...DEV,ATK].map(n=>[n.ip,n])); ROUTER.log=[];
+const NODES=Object.fromEntries([...DEV,ATK,ROUTER].map(n=>[n.id,n]));
+
+function benignSpec(d){
+  const r=Math.random(), base={smac:d.mac,dmac:ROUTER.mac,sip:d.ip,ttl:64};
+  const [kind,a,b]=d.prof.split(':');
+  const tcp=(dp,flags,payload,app,appF,info)=>({...base,dip:CLOUD.ip,proto:'tcp',sp:rnd(32768,60999),dp,flags,payload,app,appF,info});
+  if(r<.12) return {...base,dip:ROUTER.ip,proto:'udp',sp:rnd(32768,60999),dp:53,payload:dnsq(pick(['pool.ntp.org','cloud.iot-vendor.com','api.smarthome.io'])),app:'DNS',appF:[['query','A cloud service lookup']],info:'DNS standard query'};
+  if(r<.18) return {...base,dip:'162.159.200.1',proto:'udp',sp:123,dp:123,payload:ntp(),app:'NTP',appF:[['mode','3 (client)']],info:'NTP time sync'};
+  if(kind==='mqtt') return tcp(1883,FL.P|FL.A,mqtt(a,b),'MQTT',[['type','PUBLISH QoS0'],['topic',a],['payload',b]],`MQTT PUBLISH ${a}`);
+  if(kind==='coap') return {...base,dip:CLOUD.ip,proto:'udp',sp:rnd(49152,65000),dp:5683,payload:coap(a,'{"on":'+rnd(0,1)+'}'),app:'CoAP',appF:[['type','NON'],['code','0.02 POST'],['uri-path','/'+a]],info:`CoAP POST /${a}`};
+  if(kind==='rtp'){const n=rnd(90,110);return {...base,dip:CLOUD.ip,proto:'udp',sp:rnd(16384,32000),dp:5004,payload:[0x80,96,...u16(rnd(1,65000)),...u32(rnd(1,2**31)),...u32(0xdeadbeef),...rb(n)],app:'RTP',appF:[['version',2],['payload type','96 (H.264)'],['ssrc','0xdeadbeef']],info:'RTP video stream'}}
+  if(kind==='tls'){const n=rnd(40,100);return tcp(443,FL.P|FL.A,tls(n),'TLS 1.2',[['content type','23 (application data)'],['length',n]],'TLS application data')}
+  return tcp(443,FL.P|FL.A,http('POST','/v1/inventory','Content-Type: application/json\r\n','{"door":0,"temp":4}'),'HTTP',[['method','POST'],['uri','/v1/inventory']],'HTTP POST /v1/inventory');
+}
+
+function attackSpec(sub,tgt){
+  const b={smac:ATK.mac,dmac:ROUTER.mac,sip:ATK.ip,dip:tgt.ip,ttl:rnd(40,60),sp:rnd(1024,65000)};
+  const T=(o)=>({...b,proto:'tcp',...o}), U=o=>({...b,proto:'udp',...o});
+  const web=(m,p,body,info,x='')=>T({dp:80,flags:FL.P|FL.A,payload:http(m,p,x,body),app:'HTTP',appF:[['method',m],['uri',p],['body',body||'-']],info});
+  if(/ICMP_Flood/.test(sub))return {...b,proto:'icmp',payload:rb(56),info:'ICMP echo request (flood)'};
+  if(/ICMP_Frag/.test(sub))return {...b,proto:'icmp',payload:rb(80),ipflags:0x2000,info:'ICMP fragment MF (flood)'};
+  if(/UDP_Frag/.test(sub))return U({dp:rnd(1,65000),payload:rb(100),ipflags:0x2000,info:'UDP fragment MF'});
+  if(/UDP_Flood|udpplain/.test(sub))return U({dp:rnd(1,65000),payload:rb(rnd(40,110)),info:'UDP junk flood'});
+  if(/ACK_Frag/.test(sub))return T({dp:80,flags:FL.A,payload:rb(80),ipflags:0x2000,info:'TCP ACK fragment'});
+  if(/Synonymous/.test(sub))return T({sip:tgt.ip,dp:80,flags:FL.S,payload:[],info:'SYN with src=dst (land)'});
+  if(/SYN_Flood/.test(sub))return T({dp:pick([80,443,8883]),flags:FL.S,payload:[],info:'TCP SYN flood'});
+  if(/RSTFIN/.test(sub))return T({dp:80,flags:FL.R|FL.F,payload:[],info:'TCP RST+FIN flood'});
+  if(/PSHACK/.test(sub))return T({dp:80,flags:FL.P|FL.A,payload:rb(60),info:'TCP PSH+ACK flood'});
+  if(/TCP_Flood/.test(sub))return T({dp:rnd(1,65000),flags:FL.A,payload:rb(60),info:'TCP ACK flood'});
+  if(/HTTP_Flood/.test(sub))return web('GET','/','','HTTP GET flood');
+  if(/SlowLoris/.test(sub))return T({dp:80,flags:FL.P|FL.A,payload:enc('GET / HTTP/1.1\r\nHost: iot-hub.local\r\nX-a: b\r\n'),app:'HTTP',appF:[['note','headers never terminated']],info:'SlowLoris partial request'});
+  if(/greeth/.test(sub))return {...b,proto:'gre',greType:0x6558,payload:rb(60),info:'GRE ethernet flood'};
+  if(/greip/.test(sub))return {...b,proto:'gre',greType:0x0800,payload:rb(60),info:'GRE IP flood'};
+  if(/PortScan/.test(sub))return T({dp:rnd(1,1024),flags:FL.S,payload:[],info:'SYN probe (port scan)'});
+  if(/HostDiscovery/.test(sub))return {...b,proto:'arp',dmac:'ff:ff:ff:ff:ff:ff',arp:{op:1,sha:ATK.mac,spa:ATK.ip,tha:'00:00:00:00:00:00',tpa:'192.168.1.'+rnd(2,254)},info:'ARP who-has sweep'};
+  if(/PingSweep/.test(sub))return {...b,proto:'icmp',dip:'192.168.1.'+rnd(2,254),payload:rb(32),info:'ICMP echo (ping sweep)'};
+  if(/OSScan/.test(sub))return T({dp:rnd(1,1024),flags:FL.F|FL.P|FL.U,payload:[],info:'FIN+PSH+URG (OS fingerprint)'});
+  if(/Vulnerability/.test(sub))return web('GET','/cgi-bin/../../etc/passwd','','HTTP vuln probe');
+  if(/ArpSpoof/.test(sub))return {...b,proto:'arp',arp:{op:2,sha:ATK.mac,spa:ROUTER.ip,tha:tgt.mac,tpa:tgt.ip},info:'gratuitous ARP reply: router IP is-at attacker'};
+  if(/DNS_Spoof/.test(sub))return U({sip:ROUTER.ip,sp:53,dp:rnd(32768,60999),payload:[...dnsq('cloud.iot-vendor.com').slice(0,2),0x81,0x80,...dnsq('cloud.iot-vendor.com').slice(4),0xc0,0x0c,0,1,0,1,0,0,0,60,0,4,...ipb(ATK.ip)],app:'DNS',appF:[['answer','cloud.iot-vendor.com → '+ATK.ip],['note','forged response']],info:'forged DNS response'});
+  if(/Sql/.test(sub))return web('GET',"/item?id=1' OR '1'='1",'','HTTP SQL injection');
+  if(/XSS/.test(sub))return web('GET','/search?q=<'+'script>alert(1)<'+'/script>','','HTTP XSS');
+  if(/Command/.test(sub))return web('POST','/ping','host=127.0.0.1;cat /etc/passwd','HTTP command injection','Content-Type: application/x-www-form-urlencoded\r\n');
+  if(/Browser/.test(sub))return web('GET','/config?next=http://203.0.113.66/hijack.js','','HTTP browser hijack redirect');
+  if(/Upload/.test(sub))return web('POST','/upload','<?php system($_GET[c]); ?>','HTTP malicious upload (shell.php)','Content-Type: multipart/form-data\r\n');
+  if(/Brute/.test(sub))return T({dp:23,flags:FL.P|FL.A,payload:enc(pick(['admin\r\n','root\r\n','admin:123456\r\n','root:xc3511\r\n','user:password\r\n'])),app:'Telnet',appF:[['note','credential guess']],info:'telnet login guess'});
+  if(/Backdoor/.test(sub))return T({dp:4444,flags:FL.P|FL.A,payload:enc('BEACON id='+rnd(1000,9999)+' cmd=poll'),info:'backdoor C2 beacon :4444'});
+  return T({dp:23,flags:FL.S,payload:[],info:'SYN to telnet (Mirai-style)'});
+}
+
+/* ---------- simulation state ---------- */
+const FAMS=['DDoS','DoS','Mirai','Recon','Spoofing','Web','BruteForce','Backdoor'];
+const pool={}; FLOWS.forEach(f=>(pool[f.fam]??=[]).push(f));
+const S={ids:true,thr:.5,paused:false};
+const svg=$('svg'), tokens=[], linkEl={}, fx=[];
+function resetState(){
+  Object.assign(S,{t:0,flows:0,blocked:0,fa:0,miss:0,tn:0,fp:0,fn:0,tp:0,
+    fam:Object.fromEntries(FAMS.map(f=>[f,{tp:0,fn:0}])),burst:null,sel:S.sel||null,selFrame:null,fid:0});
+  tokens.forEach(k=>k.e.remove()); tokens.length=0;
+  [...DEV,ATK,ROUTER].forEach(n=>{n.log=[];n.hits=0;n.comp=false;n.blockedUntil=0;n.next=rnd(200,1500)});
+  $('feed').innerHTML=''; $('rtr').innerHTML='<span style="color:var(--dim)">waiting for first frame…</span>';
+  refresh(); paintNodes(); renderInsp();
+}
+
+/* ---------- svg ---------- */
+const gl=el('g',{},svg), gt=el('g',{},svg), gn=el('g',{},svg), gx=el('g',{},svg);
+function link(id,a,b){linkEl[id]=el('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,class:'link'},gl)}
+DEV.forEach(d=>link(d.id,d,ROUTER)); link('wan',ROUTER,CLOUD); link('atk',ATK,ROUTER);
+function drawNode(n,w,h,label,sub){
+  const g=el('g',{class:'node',transform:`translate(${n.x-w/2},${n.y-h/2})`},gn);
+  el('rect',{width:w,height:h,rx:9},g);
+  const t=el('text',{x:w/2,y:h/2-1,'text-anchor':'middle','font-size':12},g); t.textContent=(n.icon?n.icon+' ':'')+label;
+  const s=el('text',{x:w/2,y:h/2+12,'text-anchor':'middle',class:'sub'},g); s.textContent=sub;
+  n.g=g; g.addEventListener('click',()=>openInsp(n));
+}
+DEV.forEach(d=>drawNode(d,118,46,d.name,d.ip));
+drawNode(ATK,130,50,'ATTACKER',ATK.ip);
+drawNode(ROUTER,160,64,'🛡️ ROUTER + IDS','CNN-LSTM · '+ROUTER.ip);
+{const c=el('g',{transform:`translate(${CLOUD.x-60},${CLOUD.y-25})`},gn);
+ el('rect',{width:120,height:50,rx:25,fill:'#18243d',stroke:'#26344f','stroke-width':1.5},c);
+ const t=el('text',{x:60,y:30,'text-anchor':'middle',fill:'#d7e1f5','font-size':12},c);t.textContent='☁️ INTERNET'}
+function paintNodes(){
+  [...DEV,ATK,ROUTER].forEach(n=>{
+    n.g.classList.toggle('sel',S.sel===n);n.g.classList.toggle('comp',n.comp);
+    n.g.classList.toggle('blk',n.blockedUntil>S.t);n.g.classList.toggle('hit',!n.comp&&n.hits>0);
+  });
+  linkEl.wan.classList.toggle('flood',DEV.some(d=>d.comp));
+}
+
+/* ---------- animated tokens ---------- */
+function spawn(a,b,color,dur,cb){tokens.push({e:el('circle',{r:5,fill:color,cx:a.x,cy:a.y},gt),a,b,t0:S.t,dur,cb})}
+function dropFx(){const t=el('text',{x:ROUTER.x,y:ROUTER.y-42,'text-anchor':'middle','font-size':16,fill:'#ff5470'},gx);t.textContent='✖ DROP';fx.push({e:t,t0:S.t})}
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(now-last,100);last=now;
+  if(!S.paused){
+    S.t+=dt;
+    for(const d of DEV) if(S.t>=d.next){d.next=S.t+rnd(1500,3500);emit(d,benignSpec(d),pick(pool.Benign),null)}
+    if(S.burst){ if(S.t>S.burst.until)S.burst=null; else if(S.t>=S.burst.next){S.burst.next=S.t+350;
+      const f=pick(pool[S.burst.fam]),tg=NODES[$('tgt').value]; emit(ATK,attackSpec(f.sub,tg),f,tg)}}
+    for(let i=tokens.length-1;i>=0;i--){const k=tokens[i],u=Math.min(1,(S.t-k.t0)/k.dur);
+      k.e.setAttribute('cx',k.a.x+(k.b.x-k.a.x)*u);k.e.setAttribute('cy',k.a.y+(k.b.y-k.a.y)*u);
+      if(u>=1){k.e.remove();tokens.splice(i,1);k.cb&&k.cb()}}
+    for(let i=fx.length-1;i>=0;i--) if(S.t-fx[i].t0>700){fx[i].e.remove();fx.splice(i,1)}
+    paintNodes();
+  }
+  requestAnimationFrame(loop);
+}
+
+/* ---------- frame lifecycle ---------- */
+function emit(node,spec,flow,tgt){
+  const fr={...build(spec),id:++S.fid,t:S.t,node,tgt,flow,attack:flow.y===1,sip:spec.sip,dip:spec.dip,verdict:null};
+  fr.entry={...fr,dir:'out'}; node.log.unshift(fr.entry); node.log.length=Math.min(node.log.length,60);
+  if(tgt){fr.entry2={...fr,dir:'in'};tgt.log.unshift(fr.entry2);tgt.log.length=Math.min(tgt.log.length,60)}
+  spawn(node,ROUTER,node===ATK?'#ff5470':'#5aa9ff',650,()=>route(fr));
+  if(S.sel===node||S.sel===tgt) renderInsp();
+}
+function setVerdict(fr,v){
+  fr.verdict=v; for(const e of [fr.entry,fr.entry2]) if(e)e.verdict=v;
+  renderInsp(); showRouter(fr);
+}
+function route(fr){
+  const src=fr.node, p=fr.flow.p, dst=fr.attack?fr.tgt:CLOUD; S.flows++;
+  const forward=v=>{setVerdict(fr,v);
+    spawn(ROUTER,dst,'#38d39f',600,()=>{ if(fr.attack){fr.tgt.hits++;if(fr.tgt.hits>=8)fr.tgt.comp=true} })};
+  const drop=v=>{setVerdict(fr,v);dropFx()};
+  if(src.blockedUntil>S.t){S.blocked++;drop({txt:'ACL DROP (source blocked)',cls:'warn',acl:true});return refresh()}
+  if(!S.ids){forward({txt:'FORWARD (IDS off)',cls:'warn',off:true});return refresh()}
+  const mal=p>=S.thr;
+  if(fr.attack){ if(mal){S.tp++;S.fam[fr.flow.fam].tp++}else{S.fn++;S.miss++;S.fam[fr.flow.fam].fn++} }
+  else if(mal){S.fp++;S.fa++} else S.tn++;
+  if(mal){
+    S.blocked++; src.blockedUntil=S.t+2500; drop({txt:'MALICIOUS → DROP',cls:'bad'});
+    log(`<span class="v-bad">ALERT</span> ${fr.attack?fr.flow.sub:'benign flow'} from ${fr.sip} p=${p.toFixed(3)} → blocked ${src.name}${fr.attack?'':' <span class="v-warn">(false alarm)</span>'}`);
+  }else{
+    forward({txt:'BENIGN → FORWARD',cls:'ok'});
+    if(fr.attack) log(`<span class="v-warn">MISSED</span> ${fr.flow.sub} p=${p.toFixed(3)} reached ${fr.tgt.name}`);
+  }
+  refresh();
+}
+function log(h){const d=document.createElement('div');d.innerHTML=`<span style="color:var(--dim)">${(S.t/1000).toFixed(1)}s</span> ${h}`;const f=$('feed');f.prepend(d);while(f.children.length>60)f.lastChild.remove()}
+
+/* ---------- panels ---------- */
+function showRouter(fr){
+  const v=fr.verdict, fl=fr.flow;
+  $('rtr').innerHTML=`<div class="kv"><span>frame</span><span>#${fr.id} ${fr.proto} · ${fr.len} B</span><span>src → dst</span><span>${fr.sip} → ${fr.dip}</span><span>info</span><span>${fr.info}</span><span>origin</span><span>${fr.attack?'ATTACKER':fr.node.name}</span></div>
+  <div class="verdict v-${v.cls}">${v.txt}</div>
+  ${v.acl||v.off?'':`<div style="color:var(--dim);font-size:11px">CNN-LSTM p(malicious)</div>
+  <div class="bar"><i style="width:${fl.p*100}%;background:${fl.p>=S.thr?'var(--bad)':'var(--ok)'}"></i><b style="left:${S.thr*100}%"></b></div>
+  <div class="kv"><span>p(malicious)</span><span>${fl.p.toFixed(4)} (threshold ${S.thr.toFixed(2)})</span><span>flow label</span><span>${fl.sub}</span></div>
+  <div class="note">model input = 41 flow features, e.g. ${['Rate','Header_Length','Protocol Type','syn_flag_number','Tot size','IAT'].map(k=>k+'='+fl.f[k]).join(', ')} …</div>`}`;
+}
+function refresh(){
+  $('cFlows').textContent=S.flows;$('cBlocked').textContent=S.blocked;$('cFA').textContent=S.fa;$('cMiss').textContent=S.miss;
+  $('mTN').textContent=S.tn;$('mFP').textContent=S.fp;$('mFN').textContent=S.fn;$('mTP').textContent=S.tp;
+  $('famRates').innerHTML='<h2 style="margin-top:4px">Detection rate per family</h2>'+FAMS.map(f=>{const {tp,fn}=S.fam[f],n=tp+fn,r=n?tp/n:0;
+    return `<div class="fam"><span>${f}</span><div class="bar"><i style="width:${r*100}%;background:var(--ok)"></i></div><span>${n?(r*100).toFixed(0)+'%':'–'} <small style="color:var(--dim)">${n}</small></span></div>`}).join('');
+}
+
+/* ---------- inspector ---------- */
+const hexdump=b=>{let o='';for(let i=0;i<b.length;i+=16){const r=b.slice(i,i+16);
+  o+=hx(i,4)+'  '+r.map(x=>hx(x)).join(' ').padEnd(47)+'  '+r.map(x=>x>31&&x<127?String.fromCharCode(x):'.').join('')+'\n'}return o.replace(/</g,'&lt;')};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function openInsp(n){S.sel=n;S.selFrame=null;$('insp').classList.add('open');$('pdetail').innerHTML='<div style="color:var(--dim)">select a packet</div>';renderInsp();paintNodes()}
+$('inspClose').onclick=()=>{S.sel=null;$('insp').classList.remove('open');paintNodes()};
+function renderInsp(){
+  const n=S.sel; if(!n)return;
+  $('inspTitle').textContent=(n.name||'ROUTER')+' · '+n.ip+' · '+n.mac+(n.prof?'  (profile: '+n.prof.split(':')[0].toUpperCase()+')':'');
+  $('plist').innerHTML=n.log.map(e=>{const v=e.verdict,k=e.id+'-'+e.dir;
+    return `<tr data-id="${k}" class="${S.selFrame===k?'sel':''}"><td>${e.id}</td><td>${(e.t/1000).toFixed(1)}s</td><td>${e.dir==='in'?'▼ in':'▲ out'}</td><td>${e.proto}</td><td>${e.sip} → ${e.dip}</td><td>${e.len}</td><td>${esc(e.info)}</td>
+    <td>${v?`<span class="tag t-${v.cls}">${v.txt}</span>`:'<span style="color:var(--dim)">in flight…</span>'}</td></tr>`}).join('');
+  const cur=n.log.find(e=>S.selFrame===e.id+'-'+e.dir); if(cur)detail(cur);
+}
+$('plist').onclick=ev=>{const tr=ev.target.closest('tr');if(!tr)return;S.selFrame=tr.dataset.id;renderInsp()};
+function detail(e){
+  const fl=e.flow, v=e.verdict;
+  $('pdetail').innerHTML=`<h2>Frame #${e.id} · ${e.len} bytes on wire</h2>
+  ${e.layers.map(l=>`<div class="layer"><b>${l.name}</b><div class="kv">${l.f.map(([k,x])=>`<span>${k}</span><span>${esc(x)}</span>`).join('')}</div></div>`).join('')}
+  <pre>${hexdump(e.bytes)}</pre>
+  <h2>Router verdict</h2>
+  ${v?`<div class="verdict v-${v.cls}">${v.txt}</div>`:'in flight…'}
+  ${v&&!v.acl&&!v.off?`<div class="kv"><span>p(malicious)</span><span>${fl.p.toFixed(4)}</span><span>flow label</span><span>${fl.sub}</span>${Object.entries(fl.f).map(([k,x])=>`<span>${k}</span><span>${x}</span>`).join('')}</div>`:''}`;
+}
+
+/* ---------- controls ---------- */
+$('atkBtns').innerHTML=FAMS.map(f=>`<button class="atk" data-f="${f}">${f}</button>`).join('');
+$('atkBtns').onclick=e=>{const f=e.target.dataset.f;if(f){S.burst={fam:f,until:S.t+10000,next:S.t};log(`<b>ATTACKER</b> starts ${f} burst → ${NODES[$('tgt').value].name}`)}};
+$('tgt').innerHTML=DEV.map(d=>`<option value="${d.id}">${d.name} (${d.ip})</option>`).join('');
+$('idsBtn').onclick=e=>{S.ids=!S.ids;e.target.textContent=S.ids?'ON':'OFF';e.target.className=S.ids?'on':'off'};
+$('thr').oninput=e=>{S.thr=+e.target.value;$('thrV').textContent=S.thr.toFixed(2)};
+$('pauseBtn').onclick=e=>{S.paused=!S.paused;e.target.textContent=S.paused?'Resume':'Pause'};
+$('resetBtn').onclick=resetState;
+resetState(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>
