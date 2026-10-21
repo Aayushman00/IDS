@@ -39,15 +39,13 @@ class PeakRSS:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--sample", type=int, default=200_000)
-    ap.add_argument("--legacy", action="store_true", help="profile the pre-fix code path")
     args = ap.parse_args()
 
-    import numpy as np
     from config import Config
     import data_loader
     import preprocessing
     import train
-    from model import build_main_model, BASELINE_BUILDERS
+    from model import build_main_model
 
     mon = PeakRSS()
     rows = []
@@ -74,7 +72,7 @@ def main() -> None:
     df_clean, rep = stage("clean (dedup/inf)", lambda: preprocessing.clean(df, cfg))
     del df
     data = stage("split+scale (prepare)", lambda: preprocessing.prepare(df_clean, cfg, rep))
-    Xtr = stage("reshape to (n,f,1)", lambda: data.as_seq(data.X_train))
+    stage("reshape to (n,f,1)", lambda: data.as_seq(data.X_train))
     model = build_main_model(data.X_train.shape[1], data.n_classes, cfg)
     stage("train CNN-LSTM 1 epoch", lambda: train.fit_keras(model, data, cfg, "CNN-LSTM", epochs=1))
     stage("predict test", lambda: model.predict(data.as_seq(data.X_test), batch_size=4096, verbose=0))

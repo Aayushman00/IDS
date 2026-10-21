@@ -1,7 +1,7 @@
-"""Build README results block, RESULTS_SUMMARY.md, RUNTIME_NOTES.md and
-GOAL_CHECKLIST.md from the files written by the pipeline (no hand-typed numbers).
+"""Build README results block, docs/RESULTS_SUMMARY.md, docs/RUNTIME_NOTES.md and
+docs/GOAL_CHECKLIST.md from the files written by the pipeline (no hand-typed numbers).
 
-usage: python tools/make_reports.py [--output_dir outputs] [--log run_main.log ...]
+usage: python tools/make_reports.py [--output_dir outputs] [--log logs/run_main.log ...]
 """
 from __future__ import annotations
 
@@ -381,7 +381,7 @@ def goal_checklist(res: dict, out: Path) -> str:
         ("A working pipeline distinguishing benign from malicious traffic",
          ["main.py", "data_loader.py", "preprocessing.py", "train.py", "evaluate.py",
           f"{out.name}/figures/09_confusion_matrix_counts.png", f"{out.name}/figures/10_confusion_matrix_normalized.png",
-          "test_leakage.py", "test_pipeline.py", f"{out.name}/animations/traffic_replay.gif"],
+          "tests/test_leakage.py", "tests/test_pipeline.py", f"{out.name}/animations/traffic_replay.gif"],
          f"Test accuracy {100 * res['models']['CNN-LSTM']['accuracy']:.2f}%, benign recall "
          f"{100 * res['models']['CNN-LSTM']['benign_recall']:.2f}%, MCC {res['models']['CNN-LSTM']['mcc']:.4f}."),
         ("Comparison of Accuracy, Precision, Recall and F1 against the paper (~98.42%)",
@@ -391,7 +391,7 @@ def goal_checklist(res: dict, out: Path) -> str:
          "Only the paper accuracy is confirmed; P/R/F1 are reported for our model (weighted and "
          "attack-positive) and left n/a for the paper."),
         ("Documentation of deviations",
-         [f"{out.name}/metrics/deviation_analysis.txt", "README.md", "RUNTIME_NOTES.md"],
+         [f"{out.name}/metrics/deviation_analysis.txt", "README.md", "docs/RUNTIME_NOTES.md"],
          f"Accuracy gap {100 * res['models']['CNN-LSTM']['accuracy'] - PAPER_RESULTS['accuracy']:+.2f} pp; causes listed "
          "(sample size, split, duplicates, assumed hyperparameters, class weights, seed, dataset release)."),
     ]
@@ -406,7 +406,7 @@ def goal_checklist(res: dict, out: Path) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--output_dir", type=Path, default=ROOT / "outputs")
-    ap.add_argument("--log", type=Path, nargs="*", default=[ROOT / "run_main.log", ROOT / "run_stages.log"])
+    ap.add_argument("--log", type=Path, nargs="*", default=[ROOT / "logs" / "run_main.log", ROOT / "logs" / "run_stages.log"])
     args = ap.parse_args()
     out = args.output_dir
     res = json.loads((out / "metrics" / "results.json").read_text())
@@ -423,9 +423,9 @@ def main() -> None:
     else:
         readme = readme.replace("<!-- RESULTS -->", f"{start}\n{block}\n{end}")
     (ROOT / "README.md").write_text(readme, encoding="utf-8")
-    (ROOT / "RESULTS_SUMMARY.md").write_text(results_summary(res, out), encoding="utf-8")
-    (ROOT / "RUNTIME_NOTES.md").write_text(runtime_notes(res, out, args.log, cpu), encoding="utf-8")
-    (ROOT / "GOAL_CHECKLIST.md").write_text(goal_checklist(res, out), encoding="utf-8")
+    (ROOT / "docs" / "RESULTS_SUMMARY.md").write_text(results_summary(res, out), encoding="utf-8")
+    (ROOT / "docs" / "RUNTIME_NOTES.md").write_text(runtime_notes(res, out, args.log, cpu), encoding="utf-8")
+    (ROOT / "docs" / "GOAL_CHECKLIST.md").write_text(goal_checklist(res, out), encoding="utf-8")
     print("reports written")
 
 

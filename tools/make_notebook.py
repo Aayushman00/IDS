@@ -67,7 +67,7 @@ cells = [
     M("## 4. Data exploration (Figs 1–5)\n"
       "Leakage-safe preprocessing: exact duplicates dropped *before* splitting; inf→NaN; NaN rows dropped "
       "(<1 %) or train-median imputed; constant columns found on train only; MinMax scaler, imputer and "
-      "class weights fitted on train only; stratified 70/15/15 split (`test_leakage.py` asserts this). "
+      "class weights fitted on train only; stratified 70/15/15 split (`tests/test_leakage.py` asserts this). "
       "About 97 % of traffic is malicious (Fig 1), which is why accuracy alone is misleading."),
     figs("01_class_distribution", "02_top15_attack_types", "03_feature_correlation",
          "04_feature_boxplots", "05_missing_inf_summary"),

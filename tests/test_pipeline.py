@@ -1,4 +1,4 @@
-"""Cache round-trip and training-resume checks. Run: python -m pytest -q test_pipeline.py"""
+"""Cache round-trip and training-resume checks. Run: python -m pytest -q tests/test_pipeline.py"""
 from __future__ import annotations
 
 import json
@@ -6,7 +6,6 @@ import tempfile
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import pytest
 
 from config import Config
@@ -52,7 +51,7 @@ def test_training_resumes_from_last_epoch():
     from train import fit_keras
 
     cfg = _cfg(epochs=1, batch_size=128, early_stop_patience=10)
-    p = _prepared(cfg)
+    _prepared(cfg)
     data, _ = load_cache(cfg)
     fit_keras(build_main_model(data.X_train.shape[1], 2, cfg), data, cfg, "T")
     state = json.loads((cfg.model_dir / "T_state.json").read_text())

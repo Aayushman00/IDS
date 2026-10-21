@@ -53,15 +53,22 @@ iot_ids_cnn_lstm/
 ├── main.py              staged, resumable CLI (prepare / train / baselines / cv / compare / edge)
 ├── runtime.py           RAM + wall-time logging per stage (stage_runtime.json)
 ├── simulation.py        live traffic-replay animation of the trained model (MP4 / GIF)
-├── test_leakage.py      pytest: disjoint splits, train-only scaler, class weights, undersampling, labels
-├── test_pipeline.py     pytest: .npy cache round-trip, cache-signature check, training resume
+├── tests/               pytest: leakage/label checks, .npy cache round-trip, training resume, ns-3 feature extractor
 ├── tools/detach.sh      launch long jobs detached (setsid) with a log file
-├── tools/make_reports.py  README results, RESULTS_SUMMARY / RUNTIME_NOTES / GOAL_CHECKLIST from metrics files
+├── tools/make_reports.py  README results, docs/{RESULTS_SUMMARY,RUNTIME_NOTES,GOAL_CHECKLIST}.md from metrics files
 ├── tools/make_notebook.py regenerates the notebook
 ├── tools/profile_memory.py per-stage peak-RAM profiler
+├── ns3_sim/             ns-3 IoT network simulation: attacks -> pcap -> features -> IDS (own README, PRESENTATION.md, demo/)
+├── demo/                CICIoT2023 test-flow dashboard (static HTML)
+├── report/              report + slide builders (node) and the built .docx / .pptx
+├── docs/                generated: RESULTS_SUMMARY, RUNTIME_NOTES, GOAL_CHECKLIST (tools/make_reports.py)
+├── logs/                run_main.log / run_stages.log (read by tools/make_reports.py for epoch timings)
 ├── IoT_IDS_CNN_LSTM.ipynb   Colab-friendly walkthrough (calls main.py, then explains every result)
-└── outputs/{figures,figures/slides,metrics,models}
+└── outputs*/{figures,figures/slides,metrics,models}   main run, merged-2024 release, no-balance, no-IAT/Number/Weight
 ```
+
+**Artifact-ablation run:** `python main.py --stage prepare,train --output_dir outputs_noartifact --drop_features IAT Number Weight`
+retrains without three CICIoT2023 capture-artifact columns (see `ns3_sim/README.md` for why).
 
 ## 3. Setup
 
@@ -93,7 +100,7 @@ because the label column (`label` or `Label`) and the label casing are detected 
 ## 5. Run
 
 ```bash
-python -m pytest -q test_leakage.py test_pipeline.py        # leakage, cache and resume tests (~15 s)
+python -m pytest -q                                          # leakage, cache, resume and ns-3 extractor tests (~15 s)
 python main.py --smoke_test --stage all --run_baselines --cv --edge   # 5k rows, 2 epochs, all stages (~1 min)
 ```
 
@@ -113,9 +120,9 @@ early-stopping counters) and **resumes automatically** after an interruption.
 Launch long jobs **detached**, so a closed terminal, IDE or agent session cannot kill them:
 
 ```bash
-tools/detach.sh run_main.log 'python main.py --stage prepare --sample 1400000 && python main.py --stage train --sample 1400000 --epochs 25'
-tail -f run_main.log                  # poll; re-running the same command resumes if it died
-tools/detach.sh run_stages.log 'python main.py --stage baselines,cv,compare,edge --sample 1400000'
+tools/detach.sh logs/run_main.log 'python main.py --stage prepare --sample 1400000 && python main.py --stage train --sample 1400000 --epochs 25'
+tail -f logs/run_main.log                  # poll; re-running the same command resumes if it died
+tools/detach.sh logs/run_stages.log 'python main.py --stage baselines,cv,compare,edge --sample 1400000'
 python tools/make_reports.py          # fills the results section below from the metrics files
 ```
 

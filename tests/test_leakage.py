@@ -1,4 +1,4 @@
-"""Leakage / label-mapping checks. Run: python -m pytest -q test_leakage.py  (or python test_leakage.py)"""
+"""Leakage / label-mapping checks. Run: python -m pytest -q tests/test_leakage.py  (or python tests/test_leakage.py)"""
 from __future__ import annotations
 
 import tempfile
