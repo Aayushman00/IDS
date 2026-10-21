@@ -1,6 +1,6 @@
 """Cleaning, label mapping, splitting, scaling, balancing and reshaping.
 
-Leakage rules enforced here (and checked by ``test_leakage.py``):
+Leakage rules enforced here (and checked by ``tests/test_leakage.py``):
   * rows are de-duplicated BEFORE splitting, so no identical row sits in
     both train and test;
   * constant-column detection, imputation medians, the scaler and the class
@@ -166,7 +166,7 @@ def prepare(df: pd.DataFrame, cfg: Config, clean_report: dict) -> Prepared:
     train_idx, val_idx = train_test_split(trval_idx, test_size=rel_val,
                                           stratify=strat[trval_idx], random_state=cfg.seed)
 
-    features = [c for c in df.columns if c != "label"]
+    features = [c for c in df.columns if c != "label" and c not in cfg.drop_features]
     X = df[features].to_numpy(dtype=np.float32)
     X_train, X_val, X_test = X[train_idx], X[val_idx], X[test_idx]
 
@@ -255,7 +255,8 @@ def cache_signature(cfg: Config) -> dict:
             "max_files": cfg.max_files, "task": cfg.task, "seed": cfg.seed,
             "val_size": cfg.val_size, "test_size": cfg.test_size, "scaler": cfg.scaler,
             "balance": cfg.balance, "drop_duplicates": cfg.drop_duplicates,
-            "cv_max_rows": cfg.cv_max_rows}
+            "cv_max_rows": cfg.cv_max_rows,
+            **({"drop_features": list(cfg.drop_features)} if cfg.drop_features else {})}  # key only when used: old caches stay valid
 
 
 def save_cache(p: Prepared, cfg: Config, meta: dict,

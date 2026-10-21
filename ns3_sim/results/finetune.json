@@ -1,0 +1,50 @@
+{
+  "zero_shot": {
+    "accuracy": 0.04234933409983712,
+    "precision": 0.417793069550258,
+    "recall": 0.03447856244676104,
+    "f1": 0.06370023419203748,
+    "benign_recall": 0.17714484195901353,
+    "roc_auc": 0.14423085092145319,
+    "detected_share_by_label": {
+      "Benign": 0.8228551580409864,
+      "DDoS-ICMP_Flood": 1.0,
+      "DDoS-SYN_Flood": 1.0,
+      "DDoS-UDP_Flood": 0.0,
+      "Recon-PortScan": 1.0
+    },
+    "macro_recall": 0.6354289683918027
+  },
+  "fine_tuned": {
+    "accuracy": 0.9884066302577369,
+    "precision": 0.9878784235939974,
+    "recall": 1.0,
+    "f1": 0.9939022546539403,
+    "benign_recall": 0.789857589440778,
+    "roc_auc": 0.9968181985267779,
+    "detected_share_by_label": {
+      "Benign": 0.21014241055922195,
+      "DDoS-ICMP_Flood": 1.0,
+      "DDoS-SYN_Flood": 1.0,
+      "DDoS-UDP_Flood": 1.0,
+      "Recon-PortScan": 1.0
+    },
+    "macro_recall": 0.9579715178881557
+  },
+  "setup": {
+    "train": [
+      1,
+      2,
+      3
+    ],
+    "test": [
+      4,
+      5
+    ],
+    "epochs": 30,
+    "lr": 0.0003,
+    "n_train": 53056,
+    "n_val": 26435,
+    "n_test": 52185
+  }
+}

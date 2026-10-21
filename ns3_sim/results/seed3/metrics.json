@@ -1,0 +1,23 @@
+{
+  "n": 26435,
+  "accuracy": 0.037412521278607905,
+  "precision": 0.3209125475285171,
+  "recall": 0.034443356186745024,
+  "f1": 0.06220977371563352,
+  "fpr": 0.9249093733816676,
+  "roc_auc": 0.05653476205620177,
+  "confusion": {
+    "tn": 145,
+    "fp": 1786,
+    "fn": 23660,
+    "tp": 844
+  },
+  "out_of_range_share": 0.03415925855872896,
+  "detected_share_by_label": {
+    "Benign": 0.9249093733816676,
+    "DDoS-ICMP_Flood": 1.0,
+    "DDoS-SYN_Flood": 1.0,
+    "DDoS-UDP_Flood": 0.0,
+    "Recon-PortScan": 1.0
+  }
+}

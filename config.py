@@ -90,6 +90,7 @@ class Config:
     scaler: str = "minmax"                   # minmax | standard   [assumed]
     balance: str = "class_weight"            # none | class_weight | undersample
     drop_duplicates: bool = True
+    drop_features: tuple[str, ...] = ()      # columns removed before the split (artifact-ablation runs)
     nan_drop_threshold: float = 0.01         # drop NaN rows if < 1 %, else impute
 
     # ---- model --------------------------------------------------------------

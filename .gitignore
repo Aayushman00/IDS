@@ -9,4 +9,19 @@ outputs_smoke/
 outputs_medium/
 __pycache__/
 *.pyc
+.pytest_cache/
 .ipynb_checkpoints/
+
+# run logs (logs/ keeps the two that tools/make_reports.py reads)
+*.log
+!logs/run_main.log
+!logs/run_stages.log
+
+# ns-3 simulation: regenerable bulk (ns3_sim/run_sim.sh, run_anim.sh). Small metrics, labels, model C and the demo data stay tracked.
+ns3_sim/results/**/*.pcap
+ns3_sim/results/**/anim.xml
+ns3_sim/results/**/features.csv
+ns3_sim/results/**/predictions*.csv
+
+# slide-preview renders
+report/preview_iot/

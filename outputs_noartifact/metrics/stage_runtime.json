@@ -1,0 +1,14 @@
+{
+  "prepare": {
+    "seconds": 14.0,
+    "peak_rss_gb": 2.06,
+    "min_system_available_gb": 5.38,
+    "finished": "2026-10-21 19:56:49"
+  },
+  "train": {
+    "seconds": 1103.0,
+    "peak_rss_gb": 2.564,
+    "min_system_available_gb": 5.717,
+    "finished": "2026-10-21 20:15:12"
+  }
+}

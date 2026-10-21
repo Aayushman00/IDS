@@ -1,0 +1,23 @@
+{
+  "n": 26368,
+  "accuracy": 0.9290807038834952,
+  "precision": 0.9290807038834952,
+  "recall": 1.0,
+  "f1": 0.9632367396689341,
+  "fpr": 1.0,
+  "roc_auc": 0.6507085594240367,
+  "confusion": {
+    "tn": 0,
+    "fp": 1870,
+    "fn": 0,
+    "tp": 24498
+  },
+  "out_of_range_share": 0.031098300970873786,
+  "detected_share_by_label": {
+    "Benign": 1.0,
+    "DDoS-ICMP_Flood": 1.0,
+    "DDoS-SYN_Flood": 1.0,
+    "DDoS-UDP_Flood": 1.0,
+    "Recon-PortScan": 1.0
+  }
+}

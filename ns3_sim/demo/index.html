@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IoT IDS on ns-3: live replay</title>
+<style>
+  :root {
+    --bg: #0b1020; --panel: #121a33; --panel2: #18224a; --line: #263159; --text: #e8ecf8; --mute: #93a0c4;
+    --green: #2fd16b; --blue: #3b82f6; --purple: #a56bff; --red: #ff4d4d; --amber: #ffb020;
+    --udp: #ff8c00; --icmp: #ebc800; --syn: #ff4d4d; --scan: #d95bff; --idle: #8a93a8;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { padding: 18px 24px 6px; max-width: 1400px; margin: 0 auto; }
+  h1 { margin: 0; font-size: 22px; letter-spacing: .2px; }
+  header p { margin: 4px 0 0; color: var(--mute); }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; padding: 12px 24px 24px; max-width: 1400px; margin: 0 auto; align-items: start; }
+  @media (max-width: 1000px) { main { grid-template-columns: 1fr; padding: 12px 16px 24px; } header { padding: 16px 16px 4px; } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+  #stage { padding: 10px; }
+  canvas { width: 100%; display: block; border-radius: 10px; background: #0e1530; }
+  .controls { display: flex; gap: 10px; align-items: center; padding: 12px 6px 4px; flex-wrap: wrap; }
+  button, select { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; font: inherit; cursor: pointer; }
+  button:hover, select:hover { border-color: var(--blue); }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  #time { font-variant-numeric: tabular-nums; color: var(--mute); min-width: 82px; }
+  .track { position: relative; flex: 1 1 260px; height: 34px; }
+  .slots { position: absolute; inset: 9px 0 auto 0; height: 16px; display: flex; border-radius: 8px; overflow: hidden; }
+  .slots span { flex: 1; font-size: 10px; text-align: center; line-height: 16px; color: #0b1020; font-weight: 700; }
+  #scrub { position: absolute; inset: 0; width: 100%; margin: 0; background: transparent; -webkit-appearance: none; appearance: none; }
+  #scrub::-webkit-slider-runnable-track { background: transparent; height: 34px; }
+  #scrub::-webkit-slider-thumb { -webkit-appearance: none; width: 6px; height: 34px; border-radius: 3px; background: #fff; box-shadow: 0 0 0 2px #0b1020; }
+  #scrub::-moz-range-track { background: transparent; height: 34px; }
+  #scrub::-moz-range-thumb { width: 6px; height: 34px; border-radius: 3px; background: #fff; border: 2px solid #0b1020; }
+  aside { display: flex; flex-direction: column; gap: 14px; }
+  aside .card { padding: 14px 16px; }
+  h2 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .9px; color: var(--mute); font-weight: 600; }
+  .models { display: grid; gap: 8px; }
+  .model { text-align: left; padding: 10px 12px; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: center; }
+  .model b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--line); }
+  .model small { display: block; color: var(--mute); }
+  .model[aria-pressed="true"] { border-color: var(--blue); background: #1b2a5c; }
+  .model[aria-pressed="true"] b { background: var(--blue); }
+  #caption { font-size: 15px; min-height: 66px; }
+  #caption strong { display: block; margin-bottom: 2px; }
+  .kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .kpi { background: var(--panel2); border-radius: 10px; padding: 8px 10px; }
+  .kpi span { display: block; font-size: 12px; color: var(--mute); }
+  .kpi b { font-size: 21px; font-variant-numeric: tabular-nums; }
+  .good b { color: var(--green); } .bad b { color: var(--red); } .warn b { color: var(--amber); }
+  .bars { display: grid; gap: 7px; font-size: 13px; }
+  .bar { display: grid; grid-template-columns: 92px 1fr 40px; gap: 8px; align-items: center; }
+  .bar i { display: block; height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; }
+  .bar i u { display: block; height: 100%; border-radius: 5px; }
+  .note { color: var(--mute); font-size: 12.5px; margin: 8px 0 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--mute); font-size: 12.5px; padding: 8px 6px 2px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; vertical-align: -2px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>CNN-LSTM intrusion detection on a simulated ns-3 IoT network</h1>
+  <p>Replay of one ns-3 run (seed <span id="seed"></span>, never seen during fine-tuning). Switch the model on the right to see what each one would have flagged.</p>
+</header>
+<main>
+  <section class="card" id="stage">
+    <canvas id="cv" width="1000" height="600" role="img" aria-label="Animated network: IoT devices and attackers connected through a gateway with an IDS to a server"></canvas>
+    <div class="controls">
+      <button id="play" aria-label="Play or pause">Pause</button>
+      <button id="restart" aria-label="Restart">Restart</button>
+      <select id="speed" aria-label="Playback speed">
+        <option value="2">2x</option><option value="4" selected>4x</option><option value="8">8x</option><option value="1">1x</option>
+      </select>
+      <span id="time">0 s</span>
+      <div class="track"><div class="slots" id="slots"></div><input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Simulation time"></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--green)"></i>benign IoT device</span>
+      <span><i style="background:var(--udp)"></i>UDP flood</span><span><i style="background:var(--icmp)"></i>ICMP flood</span>
+      <span><i style="background:var(--syn)"></i>SYN flood</span><span><i style="background:var(--scan)"></i>port scan</span>
+      <span><i style="background:var(--idle)"></i>attacker idle</span>
+      <span>solid red ring = flagged by the IDS &middot; dashed ring = attack not flagged (missed) &middot; amber ring = false alarm</span>
+    </div>
+  </section>
+  <aside>
+    <div class="card"><h2>Model under test</h2><div class="models" id="models"></div></div>
+    <div class="card"><h2>What is happening</h2><div id="caption"></div></div>
+    <div class="card"><h2>IDS verdicts so far (10-packet windows)</h2>
+      <div class="kpis">
+        <div class="kpi good"><span>Attacks caught</span><b id="k-tp">0</b></div>
+        <div class="kpi bad"><span>Attacks missed</span><b id="k-fn">0</b></div>
+        <div class="kpi warn"><span>False alarms</span><b id="k-fp">0</b></div>
+        <div class="kpi good"><span>Benign passed</span><b id="k-tn">0</b></div>
+      </div>
+      <p class="note" id="rates"></p>
+    </div>
+    <div class="card"><h2>Share flagged as attack, whole run</h2><div class="bars" id="bars"></div>
+      <p class="note">Benign should be near 0 %, every attack near 100 %.</p></div>
+  </aside>
+</main>
+<script src="sim_data.js"></script>
+<script>
+"use strict";
+const S = window.SIM, H = S.hosts, T = S.T - 1, SLOT = T / 6;
+const COL = { benign: "#2fd16b", udp: "#ff8c00", icmp: "#ebc800", syn: "#ff4d4d", scan: "#d95bff", idle: "#8a93a8", red: "#ff4d4d", amber: "#ffb020", blue: "#3b82f6", purple: "#a56bff" };
+const KIND = l => l === "Benign" ? "benign" : l.includes("UDP") ? "udp" : l.includes("ICMP") ? "icmp" : l.includes("SYN") ? "syn" : "scan";
+const NAME = { udp: "UDP flood", icmp: "ICMP flood", syn: "SYN flood", scan: "Port scan" };
+const PHASES = [
+  ["Normal operation", "20 sensors send small, irregular telemetry to the server. A good IDS stays quiet."],
+  ["UDP flood", "Three attackers send tiny packets at thousands per second to overload the server."],
+  ["ICMP flood", "A ping flood: echo requests at a steady, high rate."],
+  ["SYN flood", "Connection requests to a closed port, one after another, never completing a handshake."],
+  ["Port scan", "An attacker probes ports in sequence to find open services."],
+  ["Back to normal", "Attacks stop. Does the IDS go quiet again, or keep raising false alarms?"]];
+
+// ---- layout (logical 1000x600) -------------------------------------------------
+const GW = { x: 650, y: 330 }, SRV = { x: 905, y: 330 }, HUB_D = { x: 470, y: 420 }, HUB_A = { x: 650, y: 190 };
+const pos = [], path = [];
+H.forEach((h, i) => {
+  if (h.label === "Benign") { const c = i % 5, r = Math.floor(i / 5); pos[i] = { x: 70 + c * 72, y: 330 + r * 62 }; path[i] = [pos[i], HUB_D, GW, SRV]; }
+  else { const j = i - 20, g = Math.floor(j / 3), k = j % 3; pos[i] = { x: 130 + g * 150 + (k - 1) * 40, y: 95 + (k % 2) * 8 }; path[i] = [pos[i], HUB_A, GW, SRV]; }
+});
+const plen = p => p.slice(1).reduce((s, q, i) => s + Math.hypot(q.x - p[i].x, q.y - p[i].y), 0);
+const pathLen = path.map(plen);
+const at = (p, f) => { let d = f * plen(p); for (let i = 1; i < p.length; i++) { const L = Math.hypot(p[i].x - p[i - 1].x, p[i].y - p[i - 1].y); if (d <= L) return { x: p[i - 1].x + (p[i].x - p[i - 1].x) * d / L, y: p[i - 1].y + (p[i].y - p[i - 1].y) * d / L }; d -= L; } return p[p.length - 1]; };
+
+// ---- state ----------------------------------------------------------------------
+const $ = id => document.getElementById(id);
+const cv = $("cv"), ctx = cv.getContext("2d");
+let M = 2, t = 0, playing = true, speed = 4, last = performance.now(), parts = [], acc = H.map(() => 0);
+const cum = S.models.map((_, m) => { // cumulative [tp,fn,fp,tn] after each simulated second
+  let a = [0, 0, 0, 0]; const out = [[0, 0, 0, 0]];
+  for (let s = 0; s < S.T; s++) { H.forEach((_, h) => { const c = S.cells[s][h]; a[0] += c[2 + 2 * m]; a[1] += c[0] - c[2 + 2 * m]; a[2] += c[3 + 2 * m]; a[3] += c[1] - c[3 + 2 * m]; }); out.push(a.slice()); }
+  return out;
+});
+function verdict(h, s, m) { // -> {state, kind, pps}
+  const c = S.cells[Math.min(s, S.T - 1)][h], n = c[0] + c[1];
+  if (!n) return { state: "idle", n: 0 };
+  const attack = c[0] >= c[1], flagged = (c[2 + 2 * m] + c[3 + 2 * m]) / n >= 0.5;
+  return { state: attack ? (flagged ? "caught" : "missed") : (flagged ? "false" : "ok"), attack, n };
+}
+
+// ---- UI wiring --------------------------------------------------------------------
+$("seed").textContent = S.seed;
+$("models").innerHTML = S.models.map((n, i) => `<button class="model" data-m="${i}" aria-pressed="${i === M}"><b>${"ABC"[i]}</b><span>${n}<small>${["Trained on real CICIoT2023 only", "Same, 3 dataset-artifact columns removed", "Starts from A, fine-tuned on simulated traffic"][i]}</small></span></button>`).join("");
+$("models").onclick = e => { const b = e.target.closest(".model"); if (!b) return; M = +b.dataset.m; document.querySelectorAll(".model").forEach(x => x.setAttribute("aria-pressed", x === b)); parts = []; renderBars(); };
+const SL = [["benign", "#2fd16b"], ["UDP", "#ff8c00"], ["ICMP", "#ebc800"], ["SYN", "#ff4d4d"], ["scan", "#d95bff"], ["benign", "#2fd16b"]];
+$("slots").innerHTML = SL.map(([n, c]) => `<span style="background:${c}">${n}</span>`).join("");
+$("play").onclick = () => { playing = !playing; $("play").textContent = playing ? "Pause" : "Play"; };
+$("restart").onclick = () => { t = 0; parts = []; };
+$("speed").onchange = e => speed = +e.target.value;
+$("scrub").oninput = e => { t = e.target.value / 1000 * T; parts = []; };
+addEventListener("keydown", e => { if (e.code === "Space" && e.target.tagName !== "BUTTON") { e.preventDefault(); $("play").click(); } });
+function renderBars() {
+  const L = S.by_label["ABC"[M]], order = ["Benign", "DDoS-UDP_Flood", "DDoS-ICMP_Flood", "DDoS-SYN_Flood", "Recon-PortScan"];
+  $("bars").innerHTML = order.filter(k => k in L).map(k => { const v = L[k], kd = KIND(k), good = kd === "benign" ? 1 - v : v; return `<div class="bar"><span>${kd === "benign" ? "Benign" : NAME[kd]}</span><i><u style="width:${(v * 100).toFixed(0)}%;background:${kd === "benign" ? (v < .15 ? COL.benign : COL.amber) : (v > .85 ? COL.benign : COL.red)}"></u></i><b>${(v * 100).toFixed(0)}%</b></div>`; }).join("");
+}
+renderBars();
+
+// ---- drawing ------------------------------------------------------------------------
+function resize() { const w = cv.clientWidth, d = devicePixelRatio || 1; cv.width = w * d; cv.height = w * .6 * d; }
+addEventListener("resize", resize); resize();
+function ring(p, r, color, dashed, pulse) { ctx.beginPath(); ctx.arc(p.x, p.y, r + 5 + pulse, 0, 7); ctx.setLineDash(dashed ? [4, 4] : []); ctx.lineWidth = 2.5; ctx.strokeStyle = color; ctx.stroke(); ctx.setLineDash([]); }
+function label(txt, x, y, color = "#93a0c4", size = 12, align = "center", bold = false) { ctx.fillStyle = color; ctx.font = `${bold ? "700 " : ""}${size}px system-ui, sans-serif`; ctx.textAlign = align; ctx.fillText(txt, x, y); }
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  if (playing) { t += dt * speed; if (t >= T) t = 0, parts = []; }
+  $("scrub").value = t / T * 1000;
+  const s = Math.floor(t), d = devicePixelRatio || 1, k = cv.width / 1000;
+  ctx.setTransform(k, 0, 0, k, 0, 0); ctx.clearRect(0, 0, 1000, 600);
+  // links
+  ctx.lineWidth = 2; ctx.strokeStyle = "#233062";
+  const seen = new Set();
+  path.forEach(p => p.slice(0, -1).forEach((a, i) => { const b = p[i + 1], key = [a.x, a.y, b.x, b.y].join(); if (!seen.has(key)) { seen.add(key); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); } }));
+  // group captions
+  label("ATTACKERS", 70, 30, "#93a0c4", 15, "left", true);
+  ["udp", "icmp", "syn", "scan"].forEach((kd, g) => label(NAME[kd], 130 + g * 150, 62, COL[kd], 15, "center", true));
+  label("IoT DEVICES (benign sensors)", 46, 296, "#93a0c4", 15, "left", true);
+  // verdicts + spawn
+  const V = H.map((_, h) => verdict(h, s, M)); let alerts = 0, missedPps = 0;
+  H.forEach((hh, h) => {
+    const v = V[h]; if (!v.n) return;
+    const pps = v.n * S.window_packets, rate = Math.min(30, 2 * Math.log2(1 + pps / 4));
+    if (playing) { acc[h] += rate * dt; while (acc[h] >= 1) { acc[h]--; parts.push({ h, f: 0, c: v.attack ? COL[KIND(hh.label)] : COL.benign, miss: v.state === "missed" }); } }
+    if (v.state === "caught" || v.state === "false") alerts++;
+    if (v.state === "missed") missedPps += pps;
+  });
+  // particles
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const p = parts[i]; if (playing) p.f += dt / 1.5; if (p.f >= 1) { parts.splice(i, 1); continue; }
+    const q = at(path[p.h], p.f), fl = V[p.h].state === "caught" && p.f > .62;
+    ctx.beginPath(); ctx.arc(q.x, q.y, 2.8, 0, 7); ctx.fillStyle = fl ? "#ff4d4d55" : p.c; ctx.fill();
+  }
+  // gateway + server
+  const pulse = (Math.sin(performance.now() / 160) + 1) * 3;
+  ctx.beginPath(); ctx.arc(GW.x, GW.y, 30 + (alerts ? pulse : 0), 0, 7); ctx.fillStyle = alerts ? "#ff4d4d33" : "#3b82f633"; ctx.fill();
+  ctx.beginPath(); ctx.arc(GW.x, GW.y, 26, 0, 7); ctx.fillStyle = COL.blue; ctx.fill();
+  label("IDS", GW.x, GW.y + 5, "#fff", 15, "center", true);
+  label("GATEWAY", GW.x, GW.y + 54, "#93a0c4", 14, "center", true);
+  label(alerts ? `ALERT: ${alerts} host${alerts > 1 ? "s" : ""}` : "monitoring", GW.x, GW.y + 72, alerts ? COL.red : COL.benign, 14, "center", true);
+  ctx.fillStyle = COL.purple; ctx.beginPath(); ctx.roundRect(SRV.x - 26, SRV.y - 26, 52, 52, 10); ctx.fill();
+  label("SRV", SRV.x, SRV.y + 5, "#fff", 14, "center", true);
+  label("SERVER", SRV.x, SRV.y + 54, "#93a0c4", 14, "center", true);
+  if (missedPps) label(`unflagged attack: ${Math.round(missedPps)} pkt/s`, SRV.x, SRV.y + 72, COL.red, 14, "center", true);
+  // hosts
+  H.forEach((hh, h) => {
+    const v = V[h], kd = KIND(hh.label), p = pos[h], active = v.n && v.attack;
+    ctx.beginPath(); ctx.arc(p.x, p.y, 12, 0, 7);
+    ctx.fillStyle = hh.label === "Benign" ? COL.benign : (active ? COL[kd] : COL.idle); ctx.globalAlpha = v.n || hh.label !== "Benign" ? 1 : .55; ctx.fill(); ctx.globalAlpha = 1;
+    if (v.state === "caught") ring(p, 11, COL.red, false, pulse * .5);
+    else if (v.state === "missed") ring(p, 11, COL.red, true, 0);
+    else if (v.state === "false") ring(p, 11, COL.amber, false, 0);
+    label("." + hh.ip.split(".").slice(2).join("."), p.x, p.y + 29, "#7f8cb3", 12);
+  });
+  // verdict summary line in canvas
+  label(`t = ${t.toFixed(0)} s`, 990, 30, "#93a0c4", 16, "right", true);
+  // side panel
+  const c = cum[M][Math.min(s, S.T)], ph = Math.min(5, Math.floor(t / SLOT));
+  [["tp", 0], ["fn", 1], ["fp", 2], ["tn", 3]].forEach(([n, i]) => $("k-" + n).textContent = c[i].toLocaleString());
+  const rec = c[0] + c[1] ? c[0] / (c[0] + c[1]) : 0, fpr = c[2] + c[3] ? c[2] / (c[2] + c[3]) : 0;
+  $("rates").textContent = `Detection rate ${(rec * 100).toFixed(1)} %  ·  false-alarm rate ${(fpr * 100).toFixed(1)} %`;
+  $("caption").innerHTML = `<strong>${PHASES[ph][0]}</strong>${PHASES[ph][1]}`;
+  $("time").textContent = `${t.toFixed(0)} / ${T} s`;
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

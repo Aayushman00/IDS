@@ -68,6 +68,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--scaler", choices=["minmax", "standard"])
     p.add_argument("--threshold", type=float)
     p.add_argument("--seed", type=int)
+    p.add_argument("--drop_features", nargs="+", help="feature columns to exclude, e.g. IAT Number Weight")
     p.add_argument("--rf_max_rows", type=int)
     p.add_argument("--cv_max_rows", type=int)
     p.add_argument("--run_baselines", action="store_true", default=None)
@@ -90,6 +91,8 @@ def build_config(args: argparse.Namespace) -> tuple[Config, list[str], bool]:
             continue
         if key == "sample":
             cfg.sample_rows = val or None
+        elif key == "drop_features":
+            cfg.drop_features = tuple(val)
         else:
             setattr(cfg, key, val)
     cfg.refresh_paths()
